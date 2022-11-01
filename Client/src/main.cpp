@@ -11,7 +11,6 @@
 #include <iostream>
 #include <istream>
 #include <ostream>
-#include <string>
 #include <cstring>
 #include <asio.hpp>
 #include <nlohmann/json.hpp>
@@ -21,6 +20,38 @@ void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
 {
     std::cout << std::setw(tabs) << obj;
     return;
+}
+
+void httpGetRequest(asio::streambuf &request, const char *HOST, const char *PATH)
+{
+    std::ostream request_stream(&request);
+    request_stream << "GET " << PATH << " HTTP/1.1\r\n";
+    request_stream << "User-Agent: Tanja84dkDockerClient/0.1.0\r\n";
+    request_stream << "Host: " << HOST << "\r\n";
+    request_stream << "Accept: application/json\r\n";
+    request_stream << "Connection: close\r\n\r\n";
+}
+
+void httpPostRequest(asio::streambuf &request, const char *HOST, const char *PATH, const std::string data = "")
+{
+    std::ostream request_stream(&request);
+    request_stream << "POST " << PATH << " HTTP/1.1\r\n";
+    request_stream << "User-Agent: Tanja84dkDockerClient/0.1.0\r\n";
+    request_stream << "Host: " << HOST << "\r\n";
+    if (data.length() > 0)
+    {
+        request_stream << "Content-Length: " << data.length() << "\r\n";
+    }
+    else
+    {
+        request_stream << "Content-Length: 0\r\n";
+    }
+    request_stream << "Accept: application/json\r\n";
+    request_stream << "Connection: close\r\n\r\n";
+    if (data.length() > 0)
+    {
+        request_stream << data;
+    }
 }
 
 using asio::ip::tcp;
@@ -82,11 +113,16 @@ int main(int argc, char *argv[])
         // server will close the socket after transmitting the response. This will
         // allow us to treat all data up until the EOF as the content.
         asio::streambuf request;
-        std::ostream request_stream(&request);
-        request_stream << "GET " << PATH << " HTTP/1.0\r\n";
-        request_stream << "Host: " << HOST << "\r\n";
-        request_stream << "Accept: */*\r\n";
-        request_stream << "Connection: close\r\n\r\n";
+        // std::ostream request_stream(&request);
+        // request_stream << "GET " << PATH << " HTTP/1.0\r\n";
+        // request_stream << "Host: " << HOST << "\r\n";
+        // request_stream << "Accept: */*\r\n";
+        // request_stream << "Connection: close\r\n\r\n";
+
+        // My test of GET function
+
+        // httpGetRequest(request, HOST, PATH);
+        httpPostRequest(request, HOST, PATH);
 
         // Send the request.
         asio::write(socket, request);
@@ -130,10 +166,6 @@ int main(int argc, char *argv[])
         webdata.clear();
         if (response.size() > 0)
             webdata << &response;
-
-        // std::cout << webdata.str();
-        // nlohmann::json j_complete = nlohmann::json::parse(webdata);
-        // std::cout << std::setw(4) << j_complete << "\n\n";
 
         // Read until EOF, writing data to output as we go.
         asio::error_code error;
