@@ -113,11 +113,6 @@ int main(int argc, char *argv[])
         // server will close the socket after transmitting the response. This will
         // allow us to treat all data up until the EOF as the content.
         asio::streambuf request;
-        // std::ostream request_stream(&request);
-        // request_stream << "GET " << PATH << " HTTP/1.0\r\n";
-        // request_stream << "Host: " << HOST << "\r\n";
-        // request_stream << "Accept: */*\r\n";
-        // request_stream << "Connection: close\r\n\r\n";
 
         // My test of GET function
 
