@@ -1,20 +1,21 @@
-//
-// sync_client.cpp
-// ~~~~~~~~~~~~~~~
-//
-// Copyright (c) 2003-2015 Christopher M. Kohlhoff (chris at kohlhoff dot com)
-//
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-//
-
 #include <iostream>
-#include <istream>
-#include <ostream>
-#include <cstring>
+#include <Tanja84dk/Settings.h>
+#include <Tanja84dk/WebRequests.h>
+#include <string>
+#include <fmt/core.h>
 #include <asio.hpp>
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <map>
+
+struct webDataObj
+{
+    int length{};
+    std::string data{};
+    int returnCode{};
+
+    nlohmann::ordered_json jsonOrdered{};
+}; // webDataObj
 
 void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
 {
@@ -22,78 +23,109 @@ void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
     return;
 }
 
-void httpGetRequest(asio::streambuf &request, const char *HOST, const char *PATH)
+int main(void)
 {
-    std::ostream request_stream(&request);
-    request_stream << "GET " << PATH << " HTTP/1.1\r\n";
-    request_stream << "User-Agent: Tanja84dkDockerClient/0.1.0\r\n";
-    request_stream << "Host: " << HOST << "\r\n";
-    request_stream << "Accept: application/json\r\n";
-    request_stream << "Connection: close\r\n\r\n";
-}
+    auto &configuration = Tanja84dk::Dockerlib::ConfigClass::GetInstance();
+    std::string httpPath = "";
+    std::string httpType = "";
 
-void httpPostRequest(asio::streambuf &request, const char *HOST, const char *PATH, const std::string data = "")
-{
-    std::ostream request_stream(&request);
-    request_stream << "POST " << PATH << " HTTP/1.1\r\n";
-    request_stream << "User-Agent: Tanja84dkDockerClient/0.1.0\r\n";
-    request_stream << "Host: " << HOST << "\r\n";
-    if (data.length() > 0)
+    if (configuration.getHostnameLenght() <= 2)
     {
-        request_stream << "Content-Length: " << data.length() << "\r\n";
-    }
-    else
-    {
-        request_stream << "Content-Length: 0\r\n";
-    }
-    request_stream << "Accept: application/json\r\n";
-    request_stream << "Connection: close\r\n\r\n";
-    if (data.length() > 0)
-    {
-        request_stream << data;
-    }
-}
-
-using asio::ip::tcp;
-
-int main(int argc, char *argv[])
-{
-    bool inputflag = false;
-    char *PROGRAMNAME = argv[0] + '\0';
-    char *HOST = nullptr;
-    char *PORT = nullptr;
-    char *PATH = nullptr;
-
-    if (argc <= 1)
-    {
-        std::string manualHost = "";
-        std::string manualPort = "";
-        std::string manualPath = "";
-        printf("Enter the server address: ");
-        std::cin >> manualHost;
-        printf("Enter the server port: ");
-        std::cin >> manualPort;
-        printf("Enter the path: ");
-        std::cin >> manualPath;
-
-        HOST = manualHost.data() + '\0';
-        PORT = manualPort.data() + '\0';
-        PATH = manualPath.data() + '\0';
-        inputflag = true;
-    }
-    else
-    {
-        if (argc != 4 || inputflag == true)
+        std::string tmpHostname;
+        fmt::print("Enter the hostname (Default 192.168.196.1): ");
+        getline(std::cin, tmpHostname);
+        if (tmpHostname.empty())
         {
-            std::cout << "Usage: " << PROGRAMNAME << " <server> <portnumber> <path>\n";
-            std::cout << "Example:\n";
-            std::cout << "  " << PROGRAMNAME << " www.boost.org portnumber /LICENSE_1_0.txt\n";
-            return 1;
-        }
+            tmpHostname = "192.168.196.1";
+        };
+        configuration.setHost(tmpHostname);
+    }
+    if (configuration.getPortLenght() <= 1)
+    {
+        std::string tmpPort;
+        fmt::print("Enter the port (Default 2375): ");
+        getline(std::cin, tmpPort);
+        if (tmpPort.empty())
+        {
+            tmpPort = "2375";
+        };
+        configuration.setPort(tmpPort);
+    }
 
-        HOST = argv[1] + '\0';
-        PORT = argv[2] + '\0';
-        PATH = argv[3] + '\0';
+    fmt::print("\n"
+               "------------------------------\n"
+               "        Select Menu\n"
+               "------------------------------\n"
+               "\n"
+               "[1] List Containers\n"
+               "[2] Inspect Container\n"
+               "[3] Get container logs\n"
+               "[4] Start a Container\n"
+               "[5] Stop a container\n"
+               "[6] Restart a Container\n"
+               "[7] Kill a Container\n"
+               "[9] Info\n"
+               "[0] Exit\n");
+
+    if (httpType == "" || httpPath == "")
+    {
+        int choice{};
+        std::string containerName{};
+        fmt::print("Choose a number or enter to exit: ");
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            httpType = "GET";
+            httpPath = "/containers/json?all=true";
+            break;
+        case 2:
+            httpType = "GET";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/json";
+            break;
+        case 3:
+            httpType = "GET";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
+            break;
+        case 4:
+            httpType = "POST";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/start";
+            break;
+        case 5:
+            httpType = "POST";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/stop";
+            break;
+        case 6:
+            httpType = "POST";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/restart";
+            break;
+        case 7:
+            httpType = "POST";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpPath = "/containers/" + containerName + "/kill";
+            break;
+        case 9:
+            httpType = "GET";
+            httpPath = "/info";
+            break;
+        case 0:
+            return 0;
+        default:
+            return EXIT_FAILURE;
+        }
+        containerName = "";
     }
 
     try
@@ -101,12 +133,12 @@ int main(int argc, char *argv[])
         asio::io_service io_service;
 
         // Get a list of endpoints corresponding to the server name.
-        tcp::resolver resolver(io_service);
-        tcp::resolver::query query(HOST, PORT);
-        tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+        asio::ip::tcp::resolver resolver(io_service);
+        asio::ip::tcp::resolver::query query(configuration.getHost(), configuration.getPort());
+        asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
 
         // Try each endpoint until we successfully establish a connection.
-        tcp::socket socket(io_service);
+        asio::ip::tcp::socket socket(io_service);
         asio::connect(socket, endpoint_iterator);
 
         // Form the request. We specify the "Connection: close" header so that the
@@ -116,8 +148,31 @@ int main(int argc, char *argv[])
 
         // My test of GET function
 
-        // httpGetRequest(request, HOST, PATH);
-        httpPostRequest(request, HOST, PATH);
+        if (httpType == "GET")
+        {
+            Tanja84dk::Dockerlib::httpGetRequest(request, configuration.getHost(), httpPath.data());
+        }
+        else if (httpType == "POST")
+        {
+            Tanja84dk::Dockerlib::httpPostRequest(request, configuration.getHost(), httpPath.data());
+        }
+        else if (httpType == "DELETE")
+        {
+            Tanja84dk::Dockerlib::httpDeleteRequest(request, configuration.getHost(), httpPath.data());
+        }
+        else if (httpType == "HEAD")
+        {
+            Tanja84dk::Dockerlib::httpHeadRequest(request, configuration.getHost(), httpPath.data());
+        }
+        else if (httpType == "PUT")
+        {
+            Tanja84dk::Dockerlib::httpPutRequest(request, configuration.getHost(), httpPath.data());
+        }
+        else
+        {
+            std::cerr << "[ERROR]: " << httpType << " is a unknown HTTP Type.\n";
+            return -1;
+        }
 
         // Send the request.
         asio::write(socket, request);
@@ -138,12 +193,12 @@ int main(int argc, char *argv[])
         std::getline(response_stream, status_message);
         if (!response_stream || http_version.substr(0, 5) != "HTTP/")
         {
-            std::cout << "Invalid response\n";
+            std::cerr << "[ERROR]: Invalid response\n";
             return 1;
         }
-        if (status_code != 200)
+        if (status_code != 200 && status_code != 204)
         {
-            std::cout << "Response returned with status code " << status_code << "\n";
+            std::cerr << "[ERROR]: Response returned with status code " << status_code << "\n";
             return 1;
         }
 
@@ -157,25 +212,61 @@ int main(int argc, char *argv[])
         std::cout << "\n";
 
         // Write whatever content we already have to output.
-        std::stringstream webdata;
+        std::stringstream webdata{};
         webdata.clear();
         if (response.size() > 0)
+        {
             webdata << &response;
+        }
 
         // Read until EOF, writing data to output as we go.
         asio::error_code error;
         while (asio::read(socket, response,
                           asio::transfer_at_least(1), error))
+        {
             webdata << &response;
+        }
         if (error != asio::error::eof)
+        {
             std::cerr << "[ERROR]: ..\n";
+        }
 
-        nlohmann::ordered_json j_complete = nlohmann::ordered_json::parse(webdata);
-        printJsonPretty(4, j_complete);
+        // std::cout << webdata.str();
+        //  return 0;
+
+        webDataObj wb1;
+        std::string tmpBuffer;
+        std::getline(webdata, tmpBuffer, '\r');
+        wb1.length = stoi(tmpBuffer, nullptr, 16);
+        tmpBuffer = "";
+        std::getline(webdata, wb1.data, '\r');
+        std::getline(webdata, tmpBuffer, '\r');
+        wb1.returnCode = stoi(tmpBuffer);
+
+        try
+        {
+            wb1.jsonOrdered = nlohmann::ordered_json::parse(wb1.data);
+            // printJsonPretty(4, wb1.jsonOrdered);
+        }
+        catch (std::exception &e)
+        {
+            fmt::print("[JSON ERROR]: {}", e.what());
+        }
+
+        for (auto &element : wb1.jsonOrdered)
+        {
+            // std::string Id = element["Id"];
+            // std::string Name = (std::string)element["Names"];
+            std::cout << "Container ID: " << element["Id"] << "\tContainer Name: " << element["Names"] << "\tState: " << element["State"] << "\tStatus: " << element["Status"] << "\tCommand: " << element["Command"] << '\n';
+
+            std::cout << "Ports: " << element["Ports"] << '\n'
+                      << '\n';
+        }
     }
     catch (std::exception &e)
     {
-        std::cout << "Exception: " << e.what() << "\n";
+        std::cerr << "Exception: " << e.what() << "\n";
+        return 1;
     }
 
     return 0;

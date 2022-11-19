@@ -8,13 +8,11 @@ set(Sources
 )
 
 set(Libraries
-    nlohmann_json
     Tanja84dk::Docker)
 
 find_package(asio REQUIRED)
 find_package(gflags REQUIRED)
 find_package(glog REQUIRED)
-find_package(nlohmann_json REQUIRED)
 
 add_executable(${PROJECT_NAME} ${Sources})
 set_target_properties(${PROJECT_NAME} PROPERTIES
