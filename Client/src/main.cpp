@@ -34,7 +34,7 @@ struct webDataObj
     int returnCode{};
 
     nlohmann::ordered_json jsonOrdered{};
-}; // webDataObj
+}; // struct webDataObj
 
 void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
 {
@@ -45,29 +45,36 @@ void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
 int main(int argc, const char *argv[])
 {
     auto &configuration = Tanja84dk::Dockerlib::ConfigClass::GetInstance();
-    std::string httpPath = "";
-    std::string httpType = "";
+    std::string httpPath = {};
+    std::string httpType = {};
     std::unordered_map<std::string, std::string> containersLocalMap = {};
 
     if (argc > 1)
     {
-        cxxopts::Options options("test", "A brief description");
+        cxxopts::Options options("Tanja84dkDockerClient", "A small scraped docker client from Tanja84dk using web api\n"
+                                                          "If none arguments are given then you would be able to set it in the program\n");
         options.add_options()("H,Host", "Setting the Host", cxxopts::value<std::string>())("P,Port", "Setting the Port", cxxopts::value<std::string>())("h,help", "Print Usage");
-
+        options.allow_unrecognised_options();
         auto result = options.parse(argc, argv);
-
-        if (result.count("help"))
+        try
         {
-            std::cout << options.help() << std::endl;
-            exit(0);
+            if (result.count("help"))
+            {
+                fmt::print("{}\n", options.help());
+                exit(0);
+            }
+            if (result.count("Host"))
+            {
+                configuration.setHost(result["Host"].as<std::string>());
+            }
+            if (result.count("Port"))
+            {
+                configuration.setPort(result["Port"].as<std::string>());
+            }
         }
-        if (result.count("Host"))
+        catch (const std::exception &e)
         {
-            configuration.setHost(result["Host"].as<std::string>());
-        }
-        if (result.count("Port"))
-        {
-            configuration.setPort(result["Port"].as<std::string>());
+            fmt::print("{}\n", options.help());
         }
     }
 
