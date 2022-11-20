@@ -165,7 +165,6 @@ int main(int argc, const char *argv[])
             break;
         case 99:
             return EXIT_SUCCESS;
-            break;
         default:
             return EXIT_FAILURE;
         }
