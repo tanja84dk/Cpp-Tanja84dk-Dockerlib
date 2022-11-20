@@ -97,5 +97,4 @@ set_target_properties(${PROJECT_NAME}
     FOLDER Libraries
 )
 
-#add_subdirectory(Client)
 add_subdirectory(Client)
