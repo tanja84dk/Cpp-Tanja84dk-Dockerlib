@@ -7,6 +7,25 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <map>
+#include <cxxopts.hpp>
+#include <memory>
+
+inline std::string getStringData(const nlohmann::ordered_json &j)
+{
+    std::string tmp{};
+    tmp = j.dump().substr(3, (j.dump().length() - 5));
+    return tmp;
+}
+
+std::string traverseArrayToString(nlohmann::ordered_json arr, int N)
+{
+    std::string tmp = {};
+    for (int i = 0; i < N; i++)
+    {
+        tmp = arr[i];
+    }
+    return tmp;
+}
 
 struct webDataObj
 {
@@ -23,11 +42,34 @@ void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
     return;
 }
 
-int main(void)
+int main(int argc, const char *argv[])
 {
     auto &configuration = Tanja84dk::Dockerlib::ConfigClass::GetInstance();
     std::string httpPath = "";
     std::string httpType = "";
+    std::unordered_map<std::string, std::string> containersLocalMap = {};
+
+    if (argc > 1)
+    {
+        cxxopts::Options options("test", "A brief description");
+        options.add_options()("H,Host", "Setting the Host", cxxopts::value<std::string>())("P,Port", "Setting the Port", cxxopts::value<std::string>())("h,help", "Print Usage");
+
+        auto result = options.parse(argc, argv);
+
+        if (result.count("help"))
+        {
+            std::cout << options.help() << std::endl;
+            exit(0);
+        }
+        if (result.count("Host"))
+        {
+            configuration.setHost(result["Host"].as<std::string>());
+        }
+        if (result.count("Port"))
+        {
+            configuration.setPort(result["Port"].as<std::string>());
+        }
+    }
 
     if (configuration.getHostnameLenght() <= 2)
     {
@@ -65,13 +107,13 @@ int main(void)
                "[6] Restart a Container\n"
                "[7] Kill a Container\n"
                "[9] Info\n"
-               "[0] Exit\n");
+               "[99] Exit\n");
 
     if (httpType == "" || httpPath == "")
     {
-        int choice{};
+        int choice = 0;
         std::string containerName{};
-        fmt::print("Choose a number or enter to exit: ");
+        fmt::print("Enter the menu number: ");
         std::cin >> choice;
 
         switch (choice)
@@ -79,6 +121,7 @@ int main(void)
         case 1:
             httpType = "GET";
             httpPath = "/containers/json?all=true";
+            containersLocalMap.clear();
             break;
         case 2:
             httpType = "GET";
@@ -120,12 +163,14 @@ int main(void)
             httpType = "GET";
             httpPath = "/info";
             break;
-        case 0:
-            return 0;
+        case 99:
+            return EXIT_SUCCESS;
+            break;
         default:
             return EXIT_FAILURE;
         }
         containerName = "";
+        choice = 0;
     }
 
     try
@@ -255,12 +300,25 @@ int main(void)
 
         for (auto &element : wb1.jsonOrdered)
         {
-            // std::string Id = element["Id"];
-            // std::string Name = (std::string)element["Names"];
-            std::cout << "Container ID: " << element["Id"] << "\tContainer Name: " << element["Names"] << "\tState: " << element["State"] << "\tStatus: " << element["Status"] << "\tCommand: " << element["Command"] << '\n';
 
-            std::cout << "Ports: " << element["Ports"] << '\n'
-                      << '\n';
+            std::string e_Name = {traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1)};
+            std::string e_Id = {element.at("Id")};
+            std::string e_State = {element.at("State")};
+            std::string e_Status = {element.at("Status")};
+            std::string e_Command = {element.at("Command")};
+
+            containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
+
+            // std::cout << "Container ID: " << element["Id"] << "\tContainer Name: " << element["Names"] << "\tState: " << element["State"] << "\tStatus: " << element["Status"] << "\tCommand: " << element["Command"] << '\n';
+
+            fmt::print("Container Name: {}\n", e_Name);
+            std::cout << " - Raw Name: " << element.at("Names") << '\n';
+            fmt::print(" - ID: {}\n", e_Id);
+            fmt::print(" - Command: {}\n", e_Command);
+            fmt::print(" - State: {}\n", e_State);
+            fmt::print(" - Status: {}\n", e_Status);
+            std::cout << " - Ports: " << element.at("Ports") << '\n';
+            fmt::print("\n");
         }
     }
     catch (std::exception &e)
