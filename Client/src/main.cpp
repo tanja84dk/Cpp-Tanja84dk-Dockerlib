@@ -111,7 +111,7 @@ int main(int argc, const char *argv[])
 
     if (httpType == "" || httpPath == "")
     {
-        int choice = 0;
+        int choice = {};
         std::string containerName{};
         fmt::print("Enter the menu number: ");
         std::cin >> choice;
@@ -250,13 +250,15 @@ int main(int argc, const char *argv[])
         asio::read_until(socket, response, "\r\n\r\n");
 
         // Process the response headers.
-        std::string header;
+        std::string header = {};
+        std::stringstream headerStream = {};
         while (std::getline(response_stream, header) && header != "\r")
-            std::cout << header << "\n";
-        std::cout << "\n";
+            headerStream << header;
+        // std::cout << header << "\n";
+        fmt::print("\n");
 
         // Write whatever content we already have to output.
-        std::stringstream webdata{};
+        std::stringstream webdata = {};
         webdata.clear();
         if (response.size() > 0)
         {
@@ -311,7 +313,6 @@ int main(int argc, const char *argv[])
             // std::cout << "Container ID: " << element["Id"] << "\tContainer Name: " << element["Names"] << "\tState: " << element["State"] << "\tStatus: " << element["Status"] << "\tCommand: " << element["Command"] << '\n';
 
             fmt::print("Container Name: {}\n", e_Name);
-            std::cout << " - Raw Name: " << element.at("Names") << '\n';
             fmt::print(" - ID: {}\n", e_Id);
             fmt::print(" - Command: {}\n", e_Command);
             fmt::print(" - State: {}\n", e_State);
