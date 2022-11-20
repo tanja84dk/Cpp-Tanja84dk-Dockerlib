@@ -19,8 +19,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(BUILD_SHARED_LIBS OFF)
-set(BUILD_TESTING ON)
-enable_testing()
+set(BUILD_TESTING OFF)
+#enable_testing()
 
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
 
@@ -48,11 +48,11 @@ set(Libraries
     nlohmann_json
     )
 
-find_package(CPMLicenses.cmake QUIET REQUIRED)
-find_package(Threads QUIET REQUIRED)
-find_package(asio QUIET REQUIRED)
+find_package(CPMLicenses.cmake REQUIRED)
+find_package(Threads REQUIRED)
+find_package(asio REQUIRED)
 find_package(nlohmann_json REQUIRED)
-find_package(fmt QUIET REQUIRED)
+find_package(fmt REQUIRED)
 
 configure_file(${PROJECT_NAME}Config.h.in Configs/${PROJECT_NAME}Config.h)
 
@@ -99,7 +99,3 @@ set_target_properties(${PROJECT_NAME}
 
 #add_subdirectory(Client)
 add_subdirectory(Client)
-
-if(BUILD_TESTING)
-    add_subdirectory(test)
-endif()
