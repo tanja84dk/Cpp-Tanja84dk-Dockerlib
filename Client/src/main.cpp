@@ -309,11 +309,11 @@ int main(int argc, const char *argv[])
         for (auto &element : wb1.jsonOrdered)
         {
 
-            std::string e_Name = {traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1)};
-            std::string e_Id = {element.at("Id")};
-            std::string e_State = {element.at("State")};
-            std::string e_Status = {element.at("Status")};
-            std::string e_Command = {element.at("Command")};
+            std::string e_Name = traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1);
+            std::string e_Id = element.at("Id");
+            std::string e_State = element.at("State");
+            std::string e_Status = element.at("Status");
+            std::string e_Command = element.at("Command");
 
             containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
 
