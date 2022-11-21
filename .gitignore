@@ -4,3 +4,4 @@
 *.tmp
 *.sh
 .vscode/
+.vs/
