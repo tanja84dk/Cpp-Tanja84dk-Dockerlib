@@ -7,15 +7,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(POSITION_INDEPENDENT_CODE True)
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 set(CMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
 # Removed -Wconversion thanks to google
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-
-## Removed -Wextra because unused warnings are in there
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 set(BUILD_SHARED_LIBS OFF)
