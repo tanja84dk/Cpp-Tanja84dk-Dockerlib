@@ -118,8 +118,8 @@ int main(int argc, const char *argv[])
 
     if (httpType == "" || httpPath == "")
     {
-        int choice = {};
-        std::string containerName{};
+        int choice = 0;
+        std::string containerName = "";
         fmt::print("Enter the menu number: ");
         std::cin >> choice;
 
@@ -196,8 +196,6 @@ int main(int argc, const char *argv[])
         // server will close the socket after transmitting the response. This will
         // allow us to treat all data up until the EOF as the content.
         asio::streambuf request;
-
-        // My test of GET function
 
         if (httpType == "GET")
         {
@@ -283,9 +281,6 @@ int main(int argc, const char *argv[])
         {
             std::cerr << "[ERROR]: ..\n";
         }
-
-        // std::cout << webdata.str();
-        //  return 0;
 
         webDataObj wb1;
         std::string tmpBuffer;
