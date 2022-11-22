@@ -46,11 +46,11 @@ set(Libraries
     nlohmann_json
     )
 
-find_package(CPMLicenses.cmake REQUIRED)
-find_package(Threads REQUIRED)
-find_package(asio REQUIRED)
-find_package(nlohmann_json REQUIRED)
-find_package(fmt REQUIRED)
+find_package(CPMLicenses.cmake QUIET REQUIRED)
+find_package(Threads QUIET REQUIRED)
+find_package(asio QUIET REQUIRED)
+find_package(nlohmann_json QUIET REQUIRED)
+find_package(fmt QUIET REQUIRED)
 
 configure_file(${PROJECT_NAME}Config.h.in Configs/${PROJECT_NAME}Config.h)
 
