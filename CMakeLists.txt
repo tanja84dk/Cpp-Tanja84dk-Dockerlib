@@ -22,6 +22,7 @@ set(BUILD_TESTING OFF)
 
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
 
+option(BUILD_CLIENT "Flag to build the test client" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -96,6 +97,6 @@ set_target_properties(${PROJECT_NAME}
     FOLDER Libraries
 )
 
-if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR BUILD_CLIENT STREQUAL ON )
     add_subdirectory(Client)
 endif()
