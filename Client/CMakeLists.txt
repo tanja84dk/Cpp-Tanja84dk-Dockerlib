@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(${CMAKE_PROJECT_NAME}Client
+project(Tanja84dkDockerClient
     VERSION ${Tanja84dkDocker_VERSION}
     LANGUAGES CXX
 )
