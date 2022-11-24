@@ -1,7 +1,6 @@
 #ifndef TANJA84DK_DOCKERLIB_WEBREQUESTS_H
 #define TANJA84DK_DOCKERLIB_WEBREQUESTS_H
 
-#include "Tanja84dkDocker_pch.h"
 #include "Settings.h"
 
 namespace Tanja84dk
