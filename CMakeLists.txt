@@ -52,7 +52,7 @@ find_package(asio QUIET REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
 
-configure_file(${PROJECT_NAME}Config.h.in Configs/${PROJECT_NAME}Config.h)
+configure_file(${PROJECT_NAME}Config.h.in include/Tanja84dk/${PROJECT_NAME}Config.h)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/Configs)
 
@@ -66,6 +66,7 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
@@ -95,4 +96,6 @@ set_target_properties(${PROJECT_NAME}
     FOLDER Libraries
 )
 
-add_subdirectory(Client)
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
+    add_subdirectory(Client)
+endif()
