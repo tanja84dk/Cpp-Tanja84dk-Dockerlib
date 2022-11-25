@@ -17,12 +17,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 option(BUILD_SHARED_LIBS OFF)
-option(BUILD_TESTING OFF)
-#enable_testing()
 
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 option(BUILD_CLIENT "Flag to build the test client" OFF)
+option(Tanja84dkDocker_BUILD_TESTS "Set to ON to build tests" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -99,4 +98,9 @@ set_target_properties(${PROJECT_NAME}
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR BUILD_CLIENT STREQUAL ON )
     add_subdirectory(Client)
+endif()
+
+if( Tanja84dkDocker_BUILD_TESTS )
+    enable_testing()
+    add_subdirectory(test)
 endif()
