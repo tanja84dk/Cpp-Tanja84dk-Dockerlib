@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(Tanja84dkDocker VERSION 0.1.0)
 
+include(CTest)
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 17)
 
 set(POSITION_INDEPENDENT_CODE True)
@@ -20,7 +23,7 @@ option(BUILD_SHARED_LIBS OFF)
 
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
 
-option(BUILD_CLIENT "Flag to build the test client" OFF)
+option(BUILD_CLIENT "Flag to build the test client" ON)
 option(Tanja84dkDocker_BUILD_TESTS "Set to ON to build tests" OFF)
 
 
@@ -104,3 +107,9 @@ if( Tanja84dkDocker_BUILD_TESTS )
     enable_testing()
     add_subdirectory(test)
 endif()
+
+add_subdirectory(ClientTest)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)

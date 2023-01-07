@@ -29,12 +29,40 @@ std::string traverseArrayToString(nlohmann::ordered_json arr, int N)
 
 struct webDataObj
 {
-    int length{};
-    std::string data{};
-    int returnCode{};
+    int length = {};
+    std::string header = {};
+    std::string data = {};
+    int returnCode = {};
 
     nlohmann::ordered_json jsonOrdered{};
+
+    void clear()
+    {
+        this->length = {};
+        this->header.clear();
+        this->data.clear();
+        this->returnCode = {};
+        this->jsonOrdered.clear();
+    }
 }; // struct webDataObj
+
+struct WebCacheClient
+{
+    std::string tmpBuffer = {};
+    std::stringstream header{};
+    std::stringstream body{};
+    std::errc ec;
+    std::string dataType{};
+
+    void clear()
+    {
+        this->tmpBuffer.clear();
+        this->header.clear();
+        this->body.clear();
+        this->ec = {};
+        this->dataType.clear();
+    }
+};
 
 void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
 {
@@ -122,6 +150,7 @@ int main(int argc, const char *argv[])
         std::string containerName = "";
         fmt::print("Enter the menu number: ");
         std::cin >> choice;
+        fmt::print("\n");
 
         switch (choice)
         {
@@ -254,20 +283,25 @@ int main(int argc, const char *argv[])
         // Read the response headers, which are terminated by a blank line.
         asio::read_until(socket, response, "\r\n\r\n");
 
+        WebCacheClient WebCache;
+        WebCache.clear();
+        webDataObj Client;
+        Client.clear();
+
         // Process the response headers.
         std::string header = {};
-        std::stringstream headerStream = {};
         while (std::getline(response_stream, header) && header != "\r")
-            headerStream << header;
-        // std::cout << header << "\n";
-        fmt::print("\n");
+        {
+            WebCache.header << header;
+        };
 
         // Write whatever content we already have to output.
-        std::stringstream webdata = {};
-        webdata.clear();
+        WebCache.body.clear();
+        // webdata.clear();
         if (response.size() > 0)
         {
-            webdata << &response;
+            // webdata << &response;
+            WebCache.body << &response;
         }
 
         // Read until EOF, writing data to output as we go.
@@ -275,53 +309,67 @@ int main(int argc, const char *argv[])
         while (asio::read(socket, response,
                           asio::transfer_at_least(1), error))
         {
-            webdata << &response;
+            // webdata << &response;
+            WebCache.body << &response;
         }
         if (error != asio::error::eof)
         {
             std::cerr << "[ERROR]: ..\n";
         }
 
-        webDataObj wb1;
-        std::string tmpBuffer;
-        std::getline(webdata, tmpBuffer, '\r');
-        wb1.length = stoi(tmpBuffer, nullptr, 16);
-        tmpBuffer = "";
-        std::getline(webdata, wb1.data, '\r');
-        std::getline(webdata, tmpBuffer, '\r');
-        wb1.returnCode = stoi(tmpBuffer);
+        Client.header = WebCache.header.str();
+        std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
+        Client.length = stoi(WebCache.tmpBuffer, 0, 16);
+        WebCache.tmpBuffer.clear();
+        std::getline(WebCache.body, Client.data, '\r');
+        std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
+        Client.returnCode = stoi(WebCache.tmpBuffer);
+        WebCache.tmpBuffer.clear();
+
+        // fmt::print("{}\n", Client.data);
 
         try
         {
-            wb1.jsonOrdered = nlohmann::ordered_json::parse(wb1.data);
-            // printJsonPretty(4, wb1.jsonOrdered);
+            Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
+            // printJsonPretty(4, Client.jsonOrdered);
         }
-        catch (std::exception &e)
+        catch (const std::exception &e)
         {
-            fmt::print("[JSON ERROR]: {}", e.what());
+            std::cerr << "[JSON ERROR]:" << e.what() << '\n'
+                      << '\n';
         }
 
-        for (auto &element : wb1.jsonOrdered)
+        if (!Client.jsonOrdered.empty())
         {
+            for (auto &element : Client.jsonOrdered)
+            {
 
-            std::string e_Name = traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1);
-            std::string e_Id = element.at("Id");
-            std::string e_State = element.at("State");
-            std::string e_Status = element.at("Status");
-            std::string e_Command = element.at("Command");
+                std::string e_Name = traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1);
+                std::string e_Id = element.at("Id");
+                std::string e_Image = element.at("Image");
+                std::string e_State = element.at("State");
+                std::string e_Status = element.at("Status");
+                std::string e_Command = element.at("Command");
 
-            containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
+                containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
 
-            // std::cout << "Container ID: " << element["Id"] << "\tContainer Name: " << element["Names"] << "\tState: " << element["State"] << "\tStatus: " << element["Status"] << "\tCommand: " << element["Command"] << '\n';
-
-            fmt::print("Container Name: {}\n", e_Name);
-            fmt::print(" - ID: {}\n", e_Id);
-            fmt::print(" - Command: {}\n", e_Command);
-            fmt::print(" - State: {}\n", e_State);
-            fmt::print(" - Status: {}\n", e_Status);
-            std::cout << " - Ports: " << element.at("Ports") << '\n';
-            fmt::print("\n");
+                fmt::print("Container Name: {}\n", e_Name);
+                fmt::print(" - ID: {}\n", e_Id);
+                fmt::print(" - Image: {}\n", e_Image);
+                fmt::print(" - Command: {}\n", e_Command);
+                fmt::print(" - State: {}\n", e_State);
+                fmt::print(" - Status: {}\n", e_Status);
+                std::cout << " - Ports: " << element.at("Ports") << '\n';
+                printJsonPretty(4, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                fmt::print("\n");
+            }
         }
+        else
+        {
+            fmt::print("{}\n", Client.data);
+        }
+        WebCache.clear();
+        Client.clear();
     }
     catch (std::exception &e)
     {
