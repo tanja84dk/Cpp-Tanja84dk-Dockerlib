@@ -47,9 +47,8 @@ set(Libraries
     fmt
     asio
     nlohmann_json
-    )
+)
 
-find_package(CPMLicenses.cmake QUIET REQUIRED)
 find_package(Threads QUIET REQUIRED)
 find_package(asio QUIET REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
@@ -107,8 +106,6 @@ if( Tanja84dkDocker_BUILD_TESTS )
     enable_testing()
     add_subdirectory(test)
 endif()
-
-add_subdirectory(ClientTest)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -360,7 +360,7 @@ int main(int argc, const char *argv[])
                 fmt::print(" - State: {}\n", e_State);
                 fmt::print(" - Status: {}\n", e_Status);
                 std::cout << " - Ports: " << element.at("Ports") << '\n';
-                printJsonPretty(4, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
                 fmt::print("\n");
             }
         }
