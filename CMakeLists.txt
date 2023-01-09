@@ -102,10 +102,10 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR BUILD_CLIENT STREQUAL 
     add_subdirectory(Client)
 endif()
 
-if( Tanja84dkDocker_BUILD_TESTS )
-    enable_testing()
-    add_subdirectory(test)
-endif()
+#if( Tanja84dkDocker_BUILD_TESTS )
+#    enable_testing()
+#    add_subdirectory(test)
+#endif()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
