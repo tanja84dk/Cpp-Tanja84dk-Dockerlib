@@ -2,6 +2,8 @@
 
 ## 1. Introduction
 
+![Screenshot](/screenshot/img01.png?raw=true){ width=50% }
+
 ### 1.1 Background
 
 I had several times needed a small docker client to check if containers were running in a remote server, and often I actually did'nt need the complete docker install or if on linux then the full docker-cli package
