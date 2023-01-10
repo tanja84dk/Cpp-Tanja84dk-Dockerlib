@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-![Screenshot](/screenshot/img01.png?raw=true){ width=50% }
+![Screenshot](/screenshot/img01.png?raw=true)
 
 ### 1.1 Background
 
