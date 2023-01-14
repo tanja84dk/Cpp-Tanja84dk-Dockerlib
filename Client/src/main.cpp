@@ -18,10 +18,10 @@ inline std::string getStringData(const nlohmann::ordered_json &j)
     return tmp;
 }
 
-std::string traverseArrayToString(nlohmann::ordered_json arr, int N)
+std::string traverseArrayToString(nlohmann::ordered_json arr, const u_int64_t &N)
 {
     std::string tmp = {};
-    for (int i = 0; i < N; i++)
+    for (u_int64_t i = 0; i < N; i++)
     {
         tmp = arr[i];
     }
