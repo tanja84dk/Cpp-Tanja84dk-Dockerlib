@@ -17,11 +17,11 @@ namespace Tanja84dk
 
             static void setHost(std::string const &host) { GetInstance().setHostImpl(host); };
             static char const *getHost() { return GetInstance().m_Host.data(); };
-            static uint8_t getHostnameLenght() { return GetInstance().getHostnameLenghtImpl(); };
+            static std::size_t getHostnameLenght() { return GetInstance().getHostnameLenghtImpl(); };
 
             static void setPort(std::string const &port) { GetInstance().setPortImpl(port); };
             static char const *getPort() { return GetInstance().m_Port.data(); };
-            static uint8_t getPortLenght() { return GetInstance().getPortLengthImpl(); };
+            static std::size_t getPortLenght() { return GetInstance().getPortLengthImpl(); };
 
             ConfigClass(const ConfigClass &) = delete;
             ConfigClass(ConfigClass &&) = delete;
@@ -33,8 +33,8 @@ namespace Tanja84dk
 
         private:
             // getter impl
-            uint8_t getHostnameLenghtImpl() { return m_Host.length(); };
-            uint8_t getPortLengthImpl() { return m_Port.length(); };
+            std::size_t getHostnameLenghtImpl() { return m_Host.length(); };
+            std::size_t getPortLengthImpl() { return m_Port.length(); };
 
             // setter impl
             void setHostImpl(std::string const &host) { m_Host = host; };

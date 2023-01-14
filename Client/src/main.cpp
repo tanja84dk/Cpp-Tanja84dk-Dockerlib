@@ -18,10 +18,10 @@ inline std::string getStringData(const nlohmann::ordered_json &j)
     return tmp;
 }
 
-std::string traverseArrayToString(nlohmann::ordered_json arr, int N)
+std::string traverseArrayToString(nlohmann::ordered_json arr, const u_int64_t &N)
 {
     std::string tmp = {};
-    for (int i = 0; i < N; i++)
+    for (u_int64_t i = 0; i < N; i++)
     {
         tmp = arr[i];
     }
@@ -320,7 +320,7 @@ int main(int argc, const char *argv[])
 
         Client.header = WebCache.header.str();
         std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
-        Client.length = stoi(WebCache.tmpBuffer, 0, 16);
+        Client.length = stoi(WebCache.tmpBuffer, nullptr, 16);
         WebCache.tmpBuffer.clear();
         std::getline(WebCache.body, Client.data, '\r');
         std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
