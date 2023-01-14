@@ -31,6 +31,12 @@ namespace Tanja84dk::DockerLib::API
     {
       return "/containers/" + containerName + "/kill";
     }
+
+    std::string pause(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/pause";
+    }
+
   }
 }
 
