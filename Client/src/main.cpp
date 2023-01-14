@@ -194,7 +194,7 @@ int main(int argc, const char *argv[])
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/kill";
+            httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName);
             break;
         case 9:
             httpType = "GET";
