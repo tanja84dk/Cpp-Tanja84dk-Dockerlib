@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Tanja84dk/Settings.h>
 #include <Tanja84dk/WebRequests.h>
+#include <Tanja84dk/api.h>
 #include <string>
 #include <fmt/core.h>
 #include <asio.hpp>
@@ -156,7 +157,7 @@ int main(int argc, const char *argv[])
         {
         case 1:
             httpType = "GET";
-            httpPath = "/containers/json?all=true";
+            httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
             containersLocalMap.clear();
             break;
         case 2:
@@ -175,25 +176,25 @@ int main(int argc, const char *argv[])
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/start";
+            httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
             break;
         case 5:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/stop";
+            httpPath = Tanja84dk::DockerLib::API::Containers::stop(containerName);
             break;
         case 6:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/restart";
+            httpPath = Tanja84dk::DockerLib::API::Containers::restart(containerName);
             break;
         case 7:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/kill";
+            httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName);
             break;
         case 9:
             httpType = "GET";

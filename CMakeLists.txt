@@ -40,6 +40,7 @@ set(Headers
     include/Tanja84dk/DockerLib.h
     include/Tanja84dk/Settings.h
     include/Tanja84dk/WebRequests.h
+    include/Tanja84dk/api.h
 )
 
 set(Sources

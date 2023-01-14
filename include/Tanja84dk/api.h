@@ -1,14 +1,37 @@
 #ifndef TANJA84DK_DOCKERLIB_API_H
 #define TANJA84DK_DOCKERLIB_API_H
 
+#include <string>
+
 namespace Tanja84dk::DockerLib::API
 {
-    namespace Containers
+  namespace Containers
+  {
+    std::string listAll()
     {
-        void list()
-        {
-        }
+      return "/containers/json?all=true";
     }
+
+    std::string start(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/start";
+    }
+
+    std::string stop(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/stop";
+    }
+
+    std::string restart(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/restart";
+    }
+
+    std::string kill(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/kill";
+    }
+  }
 }
 
 /*
@@ -72,16 +95,4 @@ Routes:
   - Remove an image (/v1.41/images/{name})
 */
 
-namespace Dockerlib
-{
-    namespace API
-    {
-        namespace containers
-        {
-            void listContains();
-            void getLog();
-        } // namespace containers
-    }     // namespace API
-} // namespace Dockerlib
-
-#endif TANJA84DK_DOCKERLIB_API_H
+#endif // TANJA84DK_DOCKERLIB_API_H
