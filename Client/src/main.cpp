@@ -320,7 +320,7 @@ int main(int argc, const char *argv[])
 
         Client.header = WebCache.header.str();
         std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
-        Client.length = stoi(WebCache.tmpBuffer, 0, 16);
+        Client.length = stoi(WebCache.tmpBuffer, nullptr, 16);
         WebCache.tmpBuffer.clear();
         std::getline(WebCache.body, Client.data, '\r');
         std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
