@@ -16,6 +16,11 @@ namespace Tanja84dk::DockerLib::API
     {
       return "/containers/" + containerName + "/start";
     }
+
+    std::string stop(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/stop";
+    }
   }
 }
 
