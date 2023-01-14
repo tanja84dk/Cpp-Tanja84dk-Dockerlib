@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Tanja84dk/Settings.h>
 #include <Tanja84dk/WebRequests.h>
+#include <Tanja84dk/api.h>
 #include <string>
 #include <fmt/core.h>
 #include <asio.hpp>
@@ -156,7 +157,7 @@ int main(int argc, const char *argv[])
         {
         case 1:
             httpType = "GET";
-            httpPath = "/containers/json?all=true";
+            httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
             containersLocalMap.clear();
             break;
         case 2:
