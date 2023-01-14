@@ -96,8 +96,6 @@ find_package(fmt QUIET REQUIRED)
 
 configure_file(${PROJECT_NAME}Config.h.in include/Tanja84dk/${PROJECT_NAME}Config.h)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/Configs)
-
 add_library(${PROJECT_NAME} ${Sources} ${Headers})
 
 add_library(Tanja84dk::Docker ALIAS ${PROJECT_NAME})
