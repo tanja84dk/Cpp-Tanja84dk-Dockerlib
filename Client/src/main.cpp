@@ -11,13 +11,6 @@
 #include <cxxopts.hpp>
 #include <memory>
 
-inline std::string getStringData(const nlohmann::ordered_json &j)
-{
-    std::string tmp{};
-    tmp = j.dump().substr(3, (j.dump().length() - 5));
-    return tmp;
-}
-
 inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayObj, const std::string &searchString)
 {
     std::string tmp = jsonArrayObj.at(searchString).dump();
@@ -26,16 +19,6 @@ inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayO
     size_t pos2 = name.find('"');
     name = name.substr(0, pos2);
     return name;
-}
-
-std::string traverseArrayToString(nlohmann::ordered_json arr, const u_int64_t &N)
-{
-    std::string tmp = {};
-    for (u_int64_t i = 0; i < N; i++)
-    {
-        tmp = arr[i];
-    }
-    return tmp;
 }
 
 struct webDataObj
