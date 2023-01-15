@@ -96,6 +96,7 @@ int main(int argc, const char *argv[])
         }
         catch (const std::exception &e)
         {
+            std::cerr << "Exception: " << e.what() << "\n";
             fmt::print("{}\n", options.help());
         }
     }
