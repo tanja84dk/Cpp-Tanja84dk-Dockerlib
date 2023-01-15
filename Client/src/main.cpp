@@ -18,6 +18,16 @@ inline std::string getStringData(const nlohmann::ordered_json &j)
     return tmp;
 }
 
+inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayObj, const std::string &searchString)
+{
+    std::string tmp = jsonArrayObj.at(searchString).dump();
+    size_t pos1 = tmp.find('"');
+    std::string name = tmp.substr(pos1 + 2);
+    size_t pos2 = name.find('"');
+    name = name.substr(0, pos2);
+    return name;
+}
+
 std::string traverseArrayToString(nlohmann::ordered_json arr, const u_int64_t &N)
 {
     std::string tmp = {};
@@ -345,7 +355,7 @@ int main(int argc, const char *argv[])
             for (auto &element : Client.jsonOrdered)
             {
 
-                std::string e_Name = traverseArrayToString(element.at("Names"), element.at("Names").size()).substr(1, -1);
+                std::string e_Name = getStringFromNameJSONArray(element, "Names");
                 std::string e_Id = element.at("Id");
                 std::string e_Image = element.at("Image");
                 std::string e_State = element.at("State");
