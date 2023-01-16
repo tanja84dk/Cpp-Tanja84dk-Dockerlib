@@ -108,7 +108,7 @@ int main(int argc, const char *argv[])
         getline(std::cin, tmpHostname);
         if (tmpHostname.empty())
         {
-            fmt::print("Missing the hostname or ip");
+            fmt::print("Missing the hostname or ip\n");
             return 1;
         };
         configuration.setHost(tmpHostname);
