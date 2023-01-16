@@ -35,8 +35,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif ()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(PEDANTIC_COMPILE_FLAGS -Wall -Wextra -pedantic -Wconversion -Wundef
-      -Wdeprecated -Wweak-vtables -Wshadow
+  set(PEDANTIC_COMPILE_FLAGS -Wall -Wextra -pedantic -Wconversion -Wundef -Wshadow
       -Wno-gnu-zero-variadic-macro-arguments)
   check_cxx_compiler_flag(-Wzero-as-null-pointer-constant HAS_NULLPTR_WARNING)
   if (HAS_NULLPTR_WARNING)
