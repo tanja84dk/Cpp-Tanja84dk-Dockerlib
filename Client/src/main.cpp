@@ -104,11 +104,12 @@ int main(int argc, const char *argv[])
     if (configuration.getHostnameLenght() <= 2)
     {
         std::string tmpHostname;
-        fmt::print("Enter the hostname (Default 192.168.196.1): ");
+        fmt::print("Enter the hostname: ");
         getline(std::cin, tmpHostname);
         if (tmpHostname.empty())
         {
-            tmpHostname = "192.168.196.1";
+            fmt::print("Missing the hostname or ip");
+            return 1;
         };
         configuration.setHost(tmpHostname);
     }
