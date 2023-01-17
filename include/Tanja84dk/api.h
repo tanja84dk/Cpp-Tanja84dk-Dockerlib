@@ -12,6 +12,11 @@ namespace Tanja84dk::DockerLib::API
       return "/containers/json?all=true";
     }
 
+    std::string inspect(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/json";
+    };
+
     std::string start(const std::string &containerName)
     {
       return "/containers/" + containerName + "/start";
@@ -30,6 +35,16 @@ namespace Tanja84dk::DockerLib::API
     std::string kill(const std::string &containerName)
     {
       return "/containers/" + containerName + "/kill";
+    }
+
+    std::string pause(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/pause";
+    }
+
+    std::string unpause(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/unpause";
     }
   }
 }

@@ -159,7 +159,7 @@ int main(int argc, const char *argv[])
             httpType = "GET";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = "/containers/" + containerName + "/json";
+            httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
             break;
         case 3:
             httpType = "GET";
