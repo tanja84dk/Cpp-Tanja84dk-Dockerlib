@@ -89,6 +89,10 @@ namespace Tanja84dk::DockerLib::API
 
   namespace Images
   {
+    std::string list()
+    {
+      return "/images/json";
+    }
   }
   /*
   // Images
