@@ -99,6 +99,11 @@ namespace Tanja84dk::DockerLib::API
       return "/images/" + imageName + "/json";
     }
 
+    std::string history(const std::string &imageName)
+    {
+      return "/images/" + imageName + "/history";
+    }
+
     std::string search()
     {
       return "/images/search";
