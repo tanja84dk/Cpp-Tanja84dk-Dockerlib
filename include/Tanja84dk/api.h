@@ -12,6 +12,11 @@ namespace Tanja84dk::DockerLib::API
       return "/containers/json?all=true";
     }
 
+    std::string inspect(const std::string &containerName)
+    {
+      return "/containers/" + containerName + "/json";
+    };
+
     std::string start(const std::string &containerName)
     {
       return "/containers/" + containerName + "/start";
