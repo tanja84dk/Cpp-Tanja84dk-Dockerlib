@@ -133,6 +133,45 @@ namespace Tanja84dk::DockerLib::API
     - Remove an image (/v1.41/images/{name})
   */
 
+  namespace Networks
+  {
+    std::string list()
+    {
+      return "/networks";
+    }
+
+    std::string inspect(const std::string &networkName)
+    {
+      return "/networks/" + networkName;
+    }
+
+    std::string remove(const std::string &networkName)
+    {
+      return "/networks/" + networkName;
+    }
+
+    std::string create(const std::string &networkName)
+    {
+      return "/networks/create";
+    }
+
+    std::string connectContainerToNetwork(const std::string &networkName)
+    {
+      return "/networks/" + networkName + "/connect";
+    }
+
+    std::string disconnectContainerFromNetwork(const std::string &networkName)
+    {
+      return "/networks/" + networkName + "/disconnect";
+    }
+  }
+  /*
+  // Networks
+   - GET
+   - POST
+   - DELETE
+ */
+
 }
 
 #endif // TANJA84DK_DOCKERLIB_API_H
