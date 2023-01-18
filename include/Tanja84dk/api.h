@@ -154,6 +154,11 @@ namespace Tanja84dk::DockerLib::API
     {
       return "/networks/create";
     }
+
+    std::string connectContainerToNetwork(const std::string &networkName)
+    {
+      return "/networks/" + networkName + "/connect";
+    }
   }
   /*
   // Networks
