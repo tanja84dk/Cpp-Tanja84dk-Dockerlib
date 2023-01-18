@@ -144,6 +144,11 @@ namespace Tanja84dk::DockerLib::API
     {
       return "/networks/" + networkName;
     }
+
+    std::string remove(const std::string &networkName)
+    {
+      return "/networks/" + networkName;
+    }
   }
   /*
   // Networks
