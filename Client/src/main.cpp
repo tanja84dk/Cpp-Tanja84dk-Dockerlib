@@ -10,6 +10,7 @@
 #include <map>
 #include <cxxopts.hpp>
 #include <memory>
+#include "menu.h"
 
 inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayObj, const std::string &searchString)
 {
@@ -125,20 +126,7 @@ int main(int argc, const char *argv[])
         configuration.setPort(tmpPort);
     }
 
-    fmt::print("\n"
-               "------------------------------\n"
-               "        Select Menu\n"
-               "------------------------------\n"
-               "\n"
-               "[1] List Containers\n"
-               "[2] Inspect Container\n"
-               "[3] Get container logs\n"
-               "[4] Start a Container\n"
-               "[5] Stop a container\n"
-               "[6] Restart a Container\n"
-               "[7] Kill a Container\n"
-               "[9] Info\n"
-               "[99] Exit\n");
+    Client::Menues::showContainer();
 
     if (httpType == "" || httpPath == "")
     {
