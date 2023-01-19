@@ -52,6 +52,10 @@ endif ()
 
 set(Sources
     src/main.cpp
+    src/menu.h
+)
+
+set(Headers
 )
 
 set(Libraries
