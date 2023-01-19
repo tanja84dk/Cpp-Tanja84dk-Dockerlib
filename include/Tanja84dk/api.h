@@ -150,7 +150,7 @@ namespace Tanja84dk::DockerLib::API
       return "/networks/" + networkName;
     }
 
-    std::string create(const std::string &networkName)
+    std::string create()
     {
       return "/networks/create";
     }
