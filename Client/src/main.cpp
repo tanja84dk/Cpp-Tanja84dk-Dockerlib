@@ -31,6 +31,8 @@ struct webDataObj
 
     nlohmann::ordered_json jsonOrdered{};
 
+    webDataObj() { this->clear(); };
+
     void clear()
     {
         this->length = {};
@@ -48,6 +50,8 @@ struct WebCacheClient
     std::stringstream body{};
     std::errc ec;
     std::string dataType{};
+
+    WebCacheClient() { this->clear(); };
 
     void clear()
     {
@@ -71,6 +75,8 @@ int main(int argc, const char *argv[])
     std::string httpPath = {};
     std::string httpType = {};
     std::unordered_map<std::string, std::string> containersLocalMap = {};
+    WebCacheClient WebCache;
+    webDataObj Client;
 
     if (argc > 1)
     {
@@ -126,11 +132,30 @@ int main(int argc, const char *argv[])
         configuration.setPort(tmpPort);
     }
 
+    Client::Menues::showMain();
+
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        fmt::print("Entered Containers\n");
+        break; // Containers
+    case 2:
+        fmt::print("Entered Images\n");
+        break; // Images
+    case 3:
+        fmt::print("Entered Networks\n");
+        break; // Networks
+    case 99:
+        break; // Exit
+    }
+
     Client::Menues::showContainer();
 
     if (httpType == "" || httpPath == "")
     {
-        int choice = 0;
+        choice = 0;
         std::string containerName = "";
         fmt::print("Enter the menu number: ");
         std::cin >> choice;
@@ -142,46 +167,54 @@ int main(int argc, const char *argv[])
             httpType = "GET";
             httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
             containersLocalMap.clear();
+            WebCache.dataType = "Application/JSON";
             break;
         case 2:
             httpType = "GET";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
+            WebCache.dataType = "Application/JSON";
             break;
         case 3:
             httpType = "GET";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
+            WebCache.dataType = "text";
             break;
         case 4:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
+            WebCache.dataType = "text";
             break;
         case 5:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = Tanja84dk::DockerLib::API::Containers::stop(containerName);
+            WebCache.dataType = "text";
             break;
         case 6:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = Tanja84dk::DockerLib::API::Containers::restart(containerName);
+            WebCache.dataType = "text";
             break;
         case 7:
             httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
             httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName);
+            WebCache.dataType = "text";
             break;
         case 9:
             httpType = "GET";
             httpPath = "/info";
+            WebCache.dataType = "Application/JSON";
             break;
         case 99:
             return EXIT_SUCCESS;
@@ -267,11 +300,6 @@ int main(int argc, const char *argv[])
         // Read the response headers, which are terminated by a blank line.
         asio::read_until(socket, response, "\r\n\r\n");
 
-        WebCacheClient WebCache;
-        WebCache.clear();
-        webDataObj Client;
-        Client.clear();
-
         // Process the response headers.
         std::string header = {};
         while (std::getline(response_stream, header) && header != "\r")
@@ -312,45 +340,52 @@ int main(int argc, const char *argv[])
 
         // fmt::print("{}\n", Client.data);
 
-        try
+        if (WebCache.dataType == "Application/JSON")
         {
-            Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
-            // printJsonPretty(4, Client.jsonOrdered);
-        }
-        catch (const std::exception &e)
-        {
-            std::cerr << "[JSON ERROR]:" << e.what() << '\n'
-                      << '\n';
-        }
 
-        if (!Client.jsonOrdered.empty())
-        {
-            for (auto &element : Client.jsonOrdered)
+            try
             {
+                Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
+                // printJsonPretty(4, Client.jsonOrdered);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[JSON ERROR]:" << e.what() << '\n'
+                          << '\n';
+            }
 
-                std::string e_Name = getStringFromNameJSONArray(element, "Names");
-                std::string e_Id = element.at("Id");
-                std::string e_Image = element.at("Image");
-                std::string e_State = element.at("State");
-                std::string e_Status = element.at("Status");
-                std::string e_Command = element.at("Command");
+            if (!Client.jsonOrdered.empty())
+            {
+                for (auto &element : Client.jsonOrdered)
+                {
 
-                containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
+                    std::string e_Name = getStringFromNameJSONArray(element, "Names");
+                    std::string e_Id = element.at("Id");
+                    std::string e_Image = element.at("Image");
+                    std::string e_State = element.at("State");
+                    std::string e_Status = element.at("Status");
+                    std::string e_Command = element.at("Command");
 
-                fmt::print("Container Name: {}\n", e_Name);
-                fmt::print(" - ID: {}\n", e_Id);
-                fmt::print(" - Image: {}\n", e_Image);
-                fmt::print(" - Command: {}\n", e_Command);
-                fmt::print(" - State: {}\n", e_State);
-                fmt::print(" - Status: {}\n", e_Status);
-                std::cout << " - Ports: " << element.at("Ports") << '\n';
-                printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
-                fmt::print("\n");
+                    containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
+
+                    fmt::print("Container Name: {}\n", e_Name);
+                    fmt::print(" - ID: {}\n", e_Id);
+                    fmt::print(" - Image: {}\n", e_Image);
+                    fmt::print(" - Command: {}\n", e_Command);
+                    fmt::print(" - State: {}\n", e_State);
+                    fmt::print(" - Status: {}\n", e_Status);
+                    std::cout << " - Ports: " << element.at("Ports") << '\n';
+                    printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                    fmt::print("\n");
+                }
             }
         }
         else
         {
-            fmt::print("{}\n", Client.data);
+            std::string printDataTest;
+            response_stream >> printDataTest;
+            std::cout << printDataTest << '\n';
+            // fmt::print("{}\n", printDataTest);
         }
         WebCache.clear();
         Client.clear();
