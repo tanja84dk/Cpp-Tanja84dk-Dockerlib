@@ -9,61 +9,61 @@ namespace Client::Menues
     {
         fmt::print("\n"
                    "------------------------------\n"
-                   "        Main Menu\n"
+                   "\tMain Menu\n"
                    "------------------------------\n"
                    "\n"
-                   "[1] Containers\n"
-                   "[2] Images\n"
-                   "[3] Networks\n"
-                   "[99]\n");
+                   "[1] \tContainers\n"
+                   "[2] \tImages\n"
+                   "[3] \tNetworks\n"
+                   "[99] \tExit\n");
     };
 
     void showContainer()
     {
         fmt::print("\n"
                    "------------------------------\n"
-                   "        Container Menu\n"
+                   "\tContainer Menu\n"
                    "------------------------------\n"
                    "\n"
-                   "[1] List Containers\n"
-                   "[2] Inspect Container\n"
-                   "[3] Get container logs\n"
-                   "[4] Start a Container\n"
-                   "[5] Stop a container\n"
-                   "[6] Restart a Container\n"
-                   "[7] Kill a Container\n"
-                   "[9] Info\n"
-                   "[99] Exit\n");
+                   "[1] \tList Containers\n"
+                   "[2] \tInspect Container\n"
+                   "[3] \tGet container logs\n"
+                   "[4] \tStart a Container\n"
+                   "[5] \tStop a container\n"
+                   "[6] \tRestart a Container\n"
+                   "[7] \tKill a Container\n"
+                   "[9] \tInfo\n"
+                   "[99] \tExit\n");
     };
 
     void showImages()
     {
         fmt::print("\n"
                    "------------------------------\n"
-                   "        Images Menu\n"
+                   "\tImages Menu\n"
                    "------------------------------\n"
                    "\n"
-                   "[1] List Images\n"
-                   "[2] Inspect Image\n"
-                   "[3] History of image\n"
-                   "[4] Search image\n"
-                   "[99] Exit\n");
+                   "[1] \tList Images\n"
+                   "[2] \tInspect Image\n"
+                   "[3] \tHistory of image\n"
+                   "[4] \tSearch image\n"
+                   "[99] \tExit\n");
     };
 
     void showNetworks()
     {
         fmt::print("\n"
                    "------------------------------\n"
-                   "        Images Menu\n"
+                   "\tImages Menu\n"
                    "------------------------------\n"
                    "\n"
-                   "[1] List Networks\n"
-                   "[2] Inspect Network\n"
-                   "[3] Delete Network\n"
-                   "[4] Create Network\n"
-                   "[5] Connect container to Network\n"
-                   "[6] Disconnect container from Network\n"
-                   "[99] Exit\n");
+                   "[1] \tList Networks\n"
+                   "[2] \tInspect Network\n"
+                   "[3] \tDelete Network\n"
+                   "[4] \tCreate Network\n"
+                   "[5] \tConnect container to Network\n"
+                   "[6] \tDisconnect container from Network\n"
+                   "[99] \tExit\n");
     };
 };
 
