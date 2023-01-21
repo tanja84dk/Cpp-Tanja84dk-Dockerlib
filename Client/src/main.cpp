@@ -12,6 +12,23 @@
 #include <memory>
 #include "menu.h"
 
+template <typename T>
+void getInputAndValidate(T &input, const std::string &message)
+{
+    fmt::print(message);
+    std::cin >> input;
+
+    while (std::cin.fail())
+    {
+        std::cin.clear();
+        std::cin.ignore();
+        fmt::print("Invalid input. Please try again.\n");
+
+        fmt::print(message);
+        std::cin >> input;
+    }
+}
+
 inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayObj, const std::string &searchString)
 {
     std::string tmp = jsonArrayObj.at(searchString).dump();
@@ -111,8 +128,7 @@ int main(int argc, const char *argv[])
     if (configuration.getHostnameLenght() <= 2)
     {
         std::string tmpHostname;
-        fmt::print("Enter the hostname: ");
-        getline(std::cin, tmpHostname);
+        getInputAndValidate(tmpHostname, "Enter the hostname: ");
         if (tmpHostname.empty())
         {
             fmt::print("Missing the hostname or ip\n");
@@ -120,11 +136,10 @@ int main(int argc, const char *argv[])
         };
         configuration.setHost(tmpHostname);
     }
-    if (configuration.getPortLenght() <= 1)
+    if (configuration.getPortLenght() < 1)
     {
         std::string tmpPort;
-        fmt::print("Enter the port (Default 2375): ");
-        getline(std::cin, tmpPort);
+        getInputAndValidate(tmpPort, "Enter the port: ");
         if (tmpPort.empty())
         {
             tmpPort = "2375";
@@ -135,7 +150,8 @@ int main(int argc, const char *argv[])
     Client::Menues::showMain();
 
     int choice;
-    std::cin >> choice;
+
+    getInputAndValidate(choice, "Enter the menu number: ");
     switch (choice)
     {
     case 1:
@@ -157,8 +173,7 @@ int main(int argc, const char *argv[])
     {
         choice = 0;
         std::string containerName = "";
-        fmt::print("Enter the menu number: ");
-        std::cin >> choice;
+        getInputAndValidate(choice, "Enter the menu number: ");
         fmt::print("\n");
 
         switch (choice)
@@ -171,43 +186,37 @@ int main(int argc, const char *argv[])
             break;
         case 2:
             httpType = "GET";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
             WebCache.dataType = "Application/JSON";
             break;
         case 3:
             httpType = "GET";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
             WebCache.dataType = "text";
             break;
         case 4:
             httpType = "POST";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
             WebCache.dataType = "text";
             break;
         case 5:
             httpType = "POST";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = Tanja84dk::DockerLib::API::Containers::stop(containerName);
             WebCache.dataType = "text";
             break;
         case 6:
             httpType = "POST";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = Tanja84dk::DockerLib::API::Containers::restart(containerName);
             WebCache.dataType = "text";
             break;
         case 7:
             httpType = "POST";
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName);
             WebCache.dataType = "text";
             break;
