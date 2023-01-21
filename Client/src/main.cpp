@@ -156,12 +156,15 @@ int main(int argc, const char *argv[])
     {
     case 1:
         fmt::print("Entered Containers\n");
+        Client::Menues::showContainer();
         break; // Containers
     case 2:
         fmt::print("Entered Images\n");
+        Client::Menues::showImages();
         break; // Images
     case 3:
         fmt::print("Entered Networks\n");
+        Client::Menues::showNetworks();
         break; // Networks
     case 99:
         return 0;
