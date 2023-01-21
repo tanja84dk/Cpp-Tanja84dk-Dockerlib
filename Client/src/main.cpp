@@ -164,7 +164,7 @@ int main(int argc, const char *argv[])
         fmt::print("Entered Networks\n");
         break; // Networks
     case 99:
-        break; // Exit
+        return 0;
     }
 
     Client::Menues::showContainer();
