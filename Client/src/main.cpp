@@ -182,15 +182,15 @@ int main(int argc, const char *argv[])
         switch (choice)
         {
         case 1:
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
+            httpType = Tanja84dk::DockerLib::API::Containers::listAll().requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::listAll().urlPath;
             containersLocalMap.clear();
-            WebCache.dataType = "application/json";
+            WebCache.dataType = Tanja84dk::DockerLib::API::Containers::listAll().contentType;
             break;
         case 2:
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
+            httpType = Tanja84dk::DockerLib::API::Containers::inspect(containerName).requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName).urlPath;
             break;
         case 3:
             httpType = "GET";
@@ -201,25 +201,25 @@ int main(int argc, const char *argv[])
         case 4:
             fmt::print("Enter container name or container ID: ");
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpType = "POST";
-            httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
+            httpType = Tanja84dk::DockerLib::API::Containers::start(containerName).requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName).urlPath;
             break;
         case 5:
-            httpType = "POST";
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpPath = Tanja84dk::DockerLib::API::Containers::stop(containerName);
+            httpType = Tanja84dk::DockerLib::API::Containers::stop(containerName).requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::stop(containerName).urlPath;
             WebCache.dataType = "text";
             break;
         case 6:
-            httpType = "POST";
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpPath = Tanja84dk::DockerLib::API::Containers::restart(containerName);
+            httpType = Tanja84dk::DockerLib::API::Containers::restart(containerName).requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::restart(containerName).urlPath;
             WebCache.dataType = "text";
             break;
         case 7:
-            httpType = "POST";
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName);
+            httpType = Tanja84dk::DockerLib::API::Containers::kill(containerName).requestType;
+            httpPath = Tanja84dk::DockerLib::API::Containers::kill(containerName).urlPath;
             WebCache.dataType = "text";
             break;
         case 9:
