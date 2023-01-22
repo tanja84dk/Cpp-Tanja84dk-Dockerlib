@@ -13,7 +13,7 @@
 #include "menu.h"
 
 template <typename T>
-void getInputAndValidate(T &input, const std::string &message)
+void getInputAndValidate(T &input, const std::string &message) noexcept
 {
     fmt::print(message);
     std::cin >> input;
@@ -185,11 +185,10 @@ int main(int argc, const char *argv[])
             httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::listAll());
             httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::listAll());
             containersLocalMap.clear();
-            WebCache.dataType = "Application/JSON";
+            WebCache.dataType = "application/json";
             break;
         case 2:
-            fmt::print("Enter container name or container ID: ");
-            std::cin >> containerName;
+            getInputAndValidate(containerName, "Enter container name or container ID: ");
             httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
             httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
             break;
@@ -226,7 +225,7 @@ int main(int argc, const char *argv[])
         case 9:
             httpType = "GET";
             httpPath = "/info";
-            WebCache.dataType = "Application/JSON";
+            WebCache.dataType = "application/json";
             break;
         case 99:
             return EXIT_SUCCESS;
@@ -352,7 +351,7 @@ int main(int argc, const char *argv[])
 
         // fmt::print("{}\n", Client.data);
 
-        if (WebCache.dataType == "Application/JSON")
+        if (WebCache.dataType == "application/json")
         {
 
             try
