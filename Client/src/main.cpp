@@ -182,16 +182,16 @@ int main(int argc, const char *argv[])
         switch (choice)
         {
         case 1:
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::listAll());
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::listAll());
             containersLocalMap.clear();
             WebCache.dataType = "Application/JSON";
             break;
         case 2:
-            httpType = "GET";
-            getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
-            WebCache.dataType = "Application/JSON";
+            fmt::print("Enter container name or container ID: ");
+            std::cin >> containerName;
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
             break;
         case 3:
             httpType = "GET";
@@ -200,10 +200,10 @@ int main(int argc, const char *argv[])
             WebCache.dataType = "text";
             break;
         case 4:
-            httpType = "POST";
+            fmt::print("Enter container name or container ID: ");
             getInputAndValidate(containerName, "Enter container name or container ID: ");
-            httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
-            WebCache.dataType = "text";
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::start(containerName));
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::start(containerName));
             break;
         case 5:
             httpType = "POST";
