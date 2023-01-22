@@ -139,15 +139,15 @@ int main(int argc, const char *argv[])
         switch (choice)
         {
         case 1:
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Containers::listAll();
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::listAll());
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::listAll());
             containersLocalMap.clear();
             break;
         case 2:
-            httpType = "GET";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = Tanja84dk::DockerLib::API::Containers::inspect(containerName);
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::inspect(containerName));
             break;
         case 3:
             httpType = "GET";
@@ -156,10 +156,10 @@ int main(int argc, const char *argv[])
             httpPath = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
             break;
         case 4:
-            httpType = "POST";
             fmt::print("Enter container name or container ID: ");
             std::cin >> containerName;
-            httpPath = Tanja84dk::DockerLib::API::Containers::start(containerName);
+            httpType = std::get<1>(Tanja84dk::DockerLib::API::Containers::start(containerName));
+            httpPath = std::get<0>(Tanja84dk::DockerLib::API::Containers::start(containerName));
             break;
         case 5:
             httpType = "POST";

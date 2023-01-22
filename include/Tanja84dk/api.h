@@ -2,24 +2,26 @@
 #define TANJA84DK_DOCKERLIB_API_H
 
 #include <string>
+#include <tuple>
 
 namespace Tanja84dk::DockerLib::API
 {
   namespace Containers
   {
-    std::string listAll()
+    std::tuple<std::string, std::string> listAll()
+    /*First string is the http url and the second string is the http type*/
     {
-      return "/containers/json?all=true";
+      return std::make_tuple("/containers/json?all=true", "GET");
     }
 
-    std::string inspect(const std::string &containerName)
+    std::tuple<std::string, std::string> inspect(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/json";
+      return std::make_tuple("/containers/" + containerName + "/json", "GET");
     };
 
-    std::string start(const std::string &containerName)
+    std::tuple<std::string, std::string> start(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/start";
+      return std::make_tuple("/containers/" + containerName + "/start", "POST");
     }
 
     std::string stop(const std::string &containerName)
