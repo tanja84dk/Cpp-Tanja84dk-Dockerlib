@@ -5,47 +5,88 @@
 
 namespace Tanja84dk::DockerLib::API
 {
+
+  struct APIRequest
+  {
+    std::string requestType = "";
+    std::string urlPath = "";
+    std::string data = "";
+    std::string contentType = "";
+  };
+
   namespace Containers
   {
-    std::string listAll()
+    APIRequest listAll()
     /*First string is the http url and the second string is the http type*/
     {
-      return "/containers/json?all=true";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/containers/json?all=true";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string inspect(const std::string &containerName)
+    APIRequest inspect(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/json";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/containers/" + containerName + "/json";
+      Client.contentType = "application/json";
+      return Client;
     };
 
-    std::string start(const std::string &containerName)
+    APIRequest start(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/start";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/start";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string stop(const std::string &containerName)
+    APIRequest stop(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/stop";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/stop";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string restart(const std::string &containerName)
+    APIRequest restart(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/restart";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/restart";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string kill(const std::string &containerName)
+    APIRequest kill(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/kill";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/kill";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string pause(const std::string &containerName)
+    APIRequest pause(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/pause";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/pause";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string unpause(const std::string &containerName)
+    APIRequest unpause(const std::string &containerName)
     {
-      return "/containers/" + containerName + "/unpause";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/containers/" + containerName + "/unpause";
+      Client.contentType = "application/json";
+      return Client;
     }
   }
 
@@ -90,24 +131,38 @@ namespace Tanja84dk::DockerLib::API
 
   namespace Images
   {
-    std::string list()
+    APIRequest list()
     {
-      return "/images/json";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/images/json";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string inspect(const std::string &imageName)
+    APIRequest inspect(const std::string &imageName)
     {
-      return "/images/" + imageName + "/json";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/images/" + imageName + "/json";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string history(const std::string &imageName)
+    APIRequest history(const std::string &imageName)
     {
-      return "/images/" + imageName + "/history";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/images/" + imageName + "/history";
+      return Client;
     }
 
-    std::string search()
+    APIRequest search()
     {
-      return "/images/search";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/images/search";
+      return Client;
     }
   }
   /*
