@@ -52,7 +52,7 @@ namespace Client::Menues
         fmt::print("[99]\tExit\n");
     };
 
-    void showMain()
+    static void showMain()
     {
         Client::Menues::printLabel("Main Menu");
         Client::Menues::printMenu(arrayMainMenu);

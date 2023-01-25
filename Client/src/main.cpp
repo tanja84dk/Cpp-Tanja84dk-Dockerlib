@@ -149,37 +149,34 @@ int main(int argc, const char *argv[])
 
     Client::Menues::showMain();
 
-    int choice;
+    int choiceMainMenu;
+    int choiceSubMenu;
 
-    getInputAndValidate(choice, "Enter the menu number: ");
-    switch (choice)
+    getInputAndValidate(choiceMainMenu, "Enter the menu number: ");
+    switch (choiceMainMenu)
     {
     case 1:
-        fmt::print("Entered Containers\n");
         Client::Menues::showContainer();
+        getInputAndValidate(choiceSubMenu, "Enter the menu number: ");
         break; // Containers
     case 2:
-        fmt::print("Entered Images\n");
         Client::Menues::showImages();
+        getInputAndValidate(choiceSubMenu, "Enter the menu number: ");
         break; // Images
     case 3:
-        fmt::print("Entered Networks\n");
         Client::Menues::showNetworks();
+        getInputAndValidate(choiceSubMenu, "Enter the menu number: ");
         break; // Networks
     case 99:
         return 0;
     }
 
-    Client::Menues::showContainer();
-
-    if (httpType == "" || httpPath == "")
+    if ((choiceMainMenu == 1) && (httpType == "" || httpPath == ""))
     {
-        choice = 0;
         std::string containerName = "";
-        getInputAndValidate(choice, "Enter the menu number: ");
         fmt::print("\n");
 
-        switch (choice)
+        switch (choiceSubMenu)
         {
         case 1:
             httpType = Tanja84dk::DockerLib::API::Containers::listAll().requestType;
@@ -233,7 +230,43 @@ int main(int argc, const char *argv[])
             return EXIT_FAILURE;
         }
         containerName = "";
-        choice = 0;
+        choiceSubMenu = 0;
+    }
+    else if ((choiceMainMenu == 2) && (httpType == "" || httpPath == ""))
+    {
+        switch (choiceSubMenu)
+        {
+        case 1:
+            httpType = Tanja84dk::DockerLib::API::Images::list().requestType;
+            httpPath = Tanja84dk::DockerLib::API::Images::list().urlPath;
+            WebCache.dataType = "application/json";
+            break;
+        case 99:
+            return EXIT_SUCCESS;
+        default:
+            return EXIT_FAILURE;
+        }
+    }
+
+    else if ((choiceMainMenu == 3) && (httpType == "" || httpPath == ""))
+    {
+        switch (choiceSubMenu)
+        {
+        case 1:
+            httpType = "GET";
+            httpPath = Tanja84dk::DockerLib::API::Networks::list();
+            WebCache.dataType = "application/json";
+            break;
+        case 99:
+            return EXIT_SUCCESS;
+        default:
+            return EXIT_FAILURE;
+        }
+    }
+    else
+    {
+        fmt::print("Wrong main entry.\nPlease restart and try again\n");
+        return 1;
     }
 
     try
@@ -357,7 +390,8 @@ int main(int argc, const char *argv[])
             try
             {
                 Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
-                // printJsonPretty(4, Client.jsonOrdered);
+                printJsonPretty(4, Client.jsonOrdered);
+                return 0;
             }
             catch (const std::exception &e)
             {
