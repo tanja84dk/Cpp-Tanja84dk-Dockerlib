@@ -344,19 +344,86 @@ int main(int argc, const char *argv[])
         // Read the response headers, which are terminated by a blank line.
         asio::read_until(socket, response, "\r\n\r\n");
 
-        // Process the response headers.
-        std::string header = {};
-        while (std::getline(response_stream, header) && header != "\r")
+        struct ParseTest
         {
-            WebCache.header << header;
+            std::string dumpHeader = "";
+            std::string httpType = "";
+            std::string apiVersion = "";
+            std::string contentType = "";
+            std::string dockerExperimental = "";
+            std::string osType = "";
+            std::string server = "";
+            std::string date = "";
+            std::string contentLength = "";
+            std::string connection = "";
+            std::string transferEncoding = "";
         };
+
+        ParseTest ParserClient;
+        std::string headerLine = "";
+        while (std::getline(response_stream, headerLine, '\n'))
+        {
+            if (headerLine.empty() || headerLine == "\r")
+            {
+                break;
+            }
+
+            if (headerLine.back() == '\r')
+            {
+                headerLine.resize(headerLine.size() - 1);
+            }
+
+            std::string delimiter = ": ";
+            std::string token = headerLine.substr(0, headerLine.find_first_of(delimiter));
+
+            if (token == "Api-Version")
+            {
+                ParserClient.apiVersion = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Content-Type")
+            {
+                ParserClient.contentType = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+                WebCache.dataType = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Docker-Experimental")
+            {
+                ParserClient.dockerExperimental = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Ostype")
+            {
+                ParserClient.osType = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Server")
+            {
+                ParserClient.server = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Date")
+            {
+                ParserClient.date = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Content-Length")
+            {
+                ParserClient.contentLength = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else if (token == "Transfer-Encoding")
+            {
+                ParserClient.transferEncoding = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+                std::cout << ParserClient.transferEncoding << '\n';
+            }
+            else if (token == "Connection")
+            {
+                ParserClient.connection = headerLine.substr(headerLine.find_first_of(delimiter) + 1).erase(0, 1);
+            }
+            else
+            {
+                std::cout << "Ignored Header: " << std::quoted(headerLine) << '\n';
+            }
+        }
 
         // Write whatever content we already have to output.
         WebCache.body.clear();
-        // webdata.clear();
         if (response.size() > 0)
         {
-            // webdata << &response;
             WebCache.body << &response;
         }
 
@@ -365,7 +432,6 @@ int main(int argc, const char *argv[])
         while (asio::read(socket, response,
                           asio::transfer_at_least(1), error))
         {
-            // webdata << &response;
             WebCache.body << &response;
         }
         if (error != asio::error::eof)
@@ -374,13 +440,23 @@ int main(int argc, const char *argv[])
         }
 
         Client.header = WebCache.header.str();
-        std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
-        Client.length = stoi(WebCache.tmpBuffer, nullptr, 16);
-        WebCache.tmpBuffer.clear();
+        if (ParserClient.transferEncoding == "chunked")
+        {
+            std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
+            Client.length = stoi(WebCache.tmpBuffer, nullptr, 16);
+            WebCache.tmpBuffer.clear();
+        }
         std::getline(WebCache.body, Client.data, '\r');
         std::getline(WebCache.body, WebCache.tmpBuffer, '\r');
-        Client.returnCode = stoi(WebCache.tmpBuffer);
-        WebCache.tmpBuffer.clear();
+        try
+        {
+            Client.returnCode = stoi(WebCache.tmpBuffer);
+            WebCache.tmpBuffer.clear();
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
 
         // fmt::print("{}\n", Client.data);
 
@@ -420,7 +496,7 @@ int main(int argc, const char *argv[])
                     fmt::print(" - State: {}\n", e_State);
                     fmt::print(" - Status: {}\n", e_Status);
                     std::cout << " - Ports: " << element.at("Ports") << '\n';
-                    printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                    // printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
                     fmt::print("\n");
                 }
             }
