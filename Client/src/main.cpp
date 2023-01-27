@@ -460,14 +460,13 @@ int main(int argc, const char *argv[])
 
         // fmt::print("{}\n", Client.data);
 
-        if (WebCache.dataType == "application/json")
+        if (WebCache.dataType == "application/json" && httpPath == "/containers/json?all=true")
         {
 
             try
             {
                 Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
-                printJsonPretty(4, Client.jsonOrdered);
-                return 0;
+                // printJsonPretty(4, Client.jsonOrdered);
             }
             catch (const std::exception &e)
             {
