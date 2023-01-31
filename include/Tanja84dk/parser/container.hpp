@@ -9,6 +9,7 @@ namespace Tanja84dk::DockerLib::Parser
     struct ContainersDataStore
     {
         friend struct ContainersInterface;
+        virtual void parse([[maybe_unused]] const nlohmann::ordered_json &jsonOrdered) = 0;
 
     private:
         std::string m_Id;
@@ -23,7 +24,7 @@ namespace Tanja84dk::DockerLib::Parser
     struct ContainersInterface : ContainersDataStore
     {
         friend struct Inspect;
-        virtual void parse([[maybe_unused]] const nlohmann::ordered_json &jsonOrdered){};
+        virtual void parse([[maybe_unused]] const nlohmann::ordered_json &jsonOrdered) = 0;
 
         // Getters
         inline const std::string getId() noexcept { return this->m_Id; };
