@@ -77,6 +77,7 @@ set(Headers
     include/Tanja84dk/Settings.h
     include/Tanja84dk/WebRequests.h
     include/Tanja84dk/api.h
+    include/Tanja84dk/parser/container.hpp
 )
 
 set(Sources

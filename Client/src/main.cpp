@@ -1,9 +1,11 @@
 #include <iostream>
 #include <Tanja84dk/Settings.h>
 #include <Tanja84dk/WebRequests.h>
+#include <Tanja84dk/parser/container.hpp>
 #include <Tanja84dk/api.h>
 #include <string>
 #include <fmt/core.h>
+#include <fmt/format.h>
 #include <asio.hpp>
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -80,7 +82,7 @@ struct WebCacheClient
     }
 };
 
-void printJsonPretty(int tabs, const nlohmann::ordered_json &obj)
+void printJsonPretty(const nlohmann::ordered_json &obj, int tabs = 2)
 {
     std::cout << std::setw(tabs) << obj;
     return;
@@ -466,7 +468,7 @@ int main(int argc, const char *argv[])
             try
             {
                 Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
-                // printJsonPretty(4, Client.jsonOrdered);
+                // printJsonPretty(Client.jsonOrdered, 4);
             }
             catch (const std::exception &e)
             {
@@ -500,8 +502,41 @@ int main(int argc, const char *argv[])
                 }
             }
         }
+        else if (WebCache.dataType == "application/json" && httpPath == "/containers/portainer/json")
+        {
+            try
+            {
+                Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
+                // printJsonPretty(Client.jsonOrdered, 4);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[JSON ERROR]:" << e.what() << '\n'
+                          << '\n';
+            }
+
+            if (!Client.jsonOrdered.empty())
+            {
+                Tanja84dk::DockerLib::Parser::Inspect InspectClient;
+                InspectClient.parse(Client.jsonOrdered);
+
+                fmt::print("ID:\t{}\n", InspectClient.getId());
+                fmt::print("Name:\t{}\n", InspectClient.getName());
+                fmt::print("Binds:\t{}\n", InspectClient.getBinds());
+            }
+        }
         else
         {
+            try
+            {
+                nlohmann::ordered_json testParse = nlohmann::ordered_json::parse(Client.data);
+                printJsonPretty(testParse);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+
             std::string printDataTest;
             response_stream >> printDataTest;
             std::cout << printDataTest << '\n';
