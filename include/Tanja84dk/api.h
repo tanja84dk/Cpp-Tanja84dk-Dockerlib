@@ -5,7 +5,6 @@
 
 namespace Tanja84dk::DockerLib::API
 {
-
   struct APIRequest
   {
     std::string requestType = "";
@@ -35,7 +34,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     };
 
-    APIRequest start(const std::string &containerName)
+    APIRequest start(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -44,7 +43,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest stop(const std::string &containerName)
+    APIRequest stop(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -53,7 +52,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest restart(const std::string &containerName)
+    APIRequest restart(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -62,7 +61,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest kill(const std::string &containerName)
+    APIRequest kill(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -71,7 +70,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest pause(const std::string &containerName)
+    APIRequest pause(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -80,7 +79,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest unpause(const std::string &containerName)
+    APIRequest unpause(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
     {
       APIRequest Client;
       Client.requestType = "POST";
