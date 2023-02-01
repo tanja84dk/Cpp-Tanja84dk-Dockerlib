@@ -255,9 +255,9 @@ int main(int argc, const char *argv[])
         switch (choiceSubMenu)
         {
         case 1:
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Networks::list();
-            WebCache.dataType = "application/json";
+            httpType = Tanja84dk::DockerLib::API::Networks::list().requestType;
+            httpPath = Tanja84dk::DockerLib::API::Networks::list().urlPath;
+            WebCache.dataType = Tanja84dk::DockerLib::API::Networks::list().contentType;
             break;
         case 99:
             return EXIT_SUCCESS;

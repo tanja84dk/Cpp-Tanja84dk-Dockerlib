@@ -2,6 +2,7 @@
 #define TANJA84DK_DOCKERLIB_API_H
 
 #include <string>
+#include <vector>
 
 namespace Tanja84dk::DockerLib::API
 {
@@ -11,6 +12,8 @@ namespace Tanja84dk::DockerLib::API
     std::string urlPath = "";
     std::string data = "";
     std::string contentType = "";
+
+    std::vector<std::string> options;
   };
 
   namespace Containers
@@ -34,7 +37,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     };
 
-    APIRequest start(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest start(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -43,7 +46,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest stop(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest stop(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -52,7 +55,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest restart(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest restart(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -61,7 +64,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest kill(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest kill(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -70,7 +73,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest pause(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest pause(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -79,7 +82,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest unpause(const std::string &containerName, [[maybe_unused]] const std::string &data = nullptr)
+    APIRequest unpause(const std::string &containerName, [[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "POST";
@@ -156,7 +159,7 @@ namespace Tanja84dk::DockerLib::API
       return Client;
     }
 
-    APIRequest search()
+    APIRequest search([[maybe_unused]] const std::string &data = "")
     {
       APIRequest Client;
       Client.requestType = "GET";
@@ -190,24 +193,40 @@ namespace Tanja84dk::DockerLib::API
 
   namespace Networks
   {
-    std::string list()
+    APIRequest list()
     {
-      return "/networks";
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/networks";
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string inspect(const std::string &networkName)
+    APIRequest inspect(const std::string &networkName)
     {
-      return "/networks/" + networkName;
+      APIRequest Client;
+      Client.requestType = "GET";
+      Client.urlPath = "/networks/" + networkName;
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string remove(const std::string &networkName)
+    APIRequest remove(const std::string &networkName)
     {
-      return "/networks/" + networkName;
+      APIRequest Client;
+      Client.requestType = "DELETE";
+      Client.urlPath = "/networks/" + networkName;
+      Client.contentType = "application/json";
+      return Client;
     }
 
-    std::string create()
+    APIRequest create([[maybe_unused]] const std::string &networkName, [[maybe_unused]] const std::string &data = "")
     {
-      return "/networks/create";
+      APIRequest Client;
+      Client.requestType = "POST";
+      Client.urlPath = "/networks/create";
+      Client.contentType = "application/json";
+      return Client;
     }
 
     std::string connectContainerToNetwork(const std::string &networkName)
