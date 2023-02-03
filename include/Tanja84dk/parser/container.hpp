@@ -2,6 +2,7 @@
 #define TANJA84DK_DOCKERLIB_PARSER_CONTAINER_HPP
 
 #include <string>
+#include <fmt/core.h>
 #include <nlohmann/json.hpp>
 
 namespace Tanja84dk::DockerLib::Parser
@@ -86,6 +87,66 @@ namespace Tanja84dk::DockerLib::Parser
         std::string m_NetworkMode;
         std::string m_RestartPolicy;
         std::string m_Hostname;
+    };
+
+    struct TestStruct
+    {
+        TestStruct() { this->clear(); };
+
+        void parse(const nlohmann::ordered_json &jsonObj)
+        {
+            this->clear();
+
+            this->m_name = this->getStringFromNameJSONArray(jsonObj, "Names");
+            this->m_id = jsonObj.at("Id");
+            this->m_image = jsonObj.at("Image");
+            this->m_state = jsonObj.at("State");
+            this->m_status = jsonObj.at("Status");
+            this->m_command = jsonObj.at("Command");
+            this->m_ports = jsonObj.at("Ports").dump();
+        };
+
+        void printParsed()
+        {
+            fmt::print("Container Name: {}\n", this->m_name);
+            fmt::print(" - ID: {}\n", this->m_id);
+            fmt::print(" - Image: {}\n", this->m_image);
+            fmt::print(" - Command: {}\n", this->m_command);
+            fmt::print(" - State: {}\n", this->m_state);
+            fmt::print(" - Status: {}\n", this->m_status);
+            fmt::print(" - Ports: {}\n", this->m_ports);
+        }
+
+        void clear()
+        {
+            this->m_name.clear();
+            this->m_id.clear();
+            this->m_image.clear();
+            this->m_command.clear();
+            this->m_state.clear();
+            this->m_status.clear();
+            this->m_ports.clear();
+        };
+
+    private:
+        inline std::string getStringFromNameJSONArray(const nlohmann::ordered_json &jsonArrayObj, const std::string &searchString) noexcept
+        {
+            std::string tmp = jsonArrayObj.at(searchString).dump();
+            size_t pos1 = tmp.find('"');
+            std::string name = tmp.substr(pos1 + 2);
+            size_t pos2 = name.find('"');
+            name = name.substr(0, pos2);
+            return name;
+        }
+
+    private:
+        std::string m_name{};
+        std::string m_id{};
+        std::string m_image{};
+        std::string m_command{};
+        std::string m_state{};
+        std::string m_status{};
+        std::string m_ports{};
     };
 
 }
