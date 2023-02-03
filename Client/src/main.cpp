@@ -17,7 +17,7 @@
 template <typename T>
 void getInputAndValidate(T &input, const std::string &message) noexcept
 {
-    fmt::print(message);
+    fmt::print("{}", message);
     std::cin >> input;
 
     while (std::cin.fail())
@@ -26,11 +26,12 @@ void getInputAndValidate(T &input, const std::string &message) noexcept
         std::cin.ignore();
         fmt::print("Invalid input. Please try again.\n");
 
-        fmt::print(message);
+        fmt::print("{}", message);
         std::cin >> input;
     }
 }
 
+/*
 inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayObj, const std::string &searchString)
 {
     std::string tmp = jsonArrayObj.at(searchString).dump();
@@ -40,6 +41,7 @@ inline std::string getStringFromNameJSONArray(nlohmann::ordered_json &jsonArrayO
     name = name.substr(0, pos2);
     return name;
 }
+*/
 
 struct webDataObj
 {
@@ -255,9 +257,9 @@ int main(int argc, const char *argv[])
         switch (choiceSubMenu)
         {
         case 1:
-            httpType = "GET";
-            httpPath = Tanja84dk::DockerLib::API::Networks::list();
-            WebCache.dataType = "application/json";
+            httpType = Tanja84dk::DockerLib::API::Networks::list().requestType;
+            httpPath = Tanja84dk::DockerLib::API::Networks::list().urlPath;
+            WebCache.dataType = Tanja84dk::DockerLib::API::Networks::list().contentType;
             break;
         case 99:
             return EXIT_SUCCESS;
@@ -460,15 +462,12 @@ int main(int argc, const char *argv[])
             std::cerr << e.what() << '\n';
         }
 
-        // fmt::print("{}\n", Client.data);
-
         if (WebCache.dataType == "application/json" && httpPath == "/containers/json?all=true")
         {
 
             try
             {
                 Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
-                // printJsonPretty(Client.jsonOrdered, 4);
             }
             catch (const std::exception &e)
             {
@@ -480,24 +479,9 @@ int main(int argc, const char *argv[])
             {
                 for (auto &element : Client.jsonOrdered)
                 {
-
-                    std::string e_Name = getStringFromNameJSONArray(element, "Names");
-                    std::string e_Id = element.at("Id");
-                    std::string e_Image = element.at("Image");
-                    std::string e_State = element.at("State");
-                    std::string e_Status = element.at("Status");
-                    std::string e_Command = element.at("Command");
-
-                    containersLocalMap.insert(std::pair<std::string, std::string>(e_Name, e_Id));
-
-                    fmt::print("Container Name: {}\n", e_Name);
-                    fmt::print(" - ID: {}\n", e_Id);
-                    fmt::print(" - Image: {}\n", e_Image);
-                    fmt::print(" - Command: {}\n", e_Command);
-                    fmt::print(" - State: {}\n", e_State);
-                    fmt::print(" - Status: {}\n", e_Status);
-                    std::cout << " - Ports: " << element.at("Ports") << '\n';
-                    // printJsonPretty(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                    Tanja84dk::DockerLib::Parser::TestStruct NewTest;
+                    NewTest.parse(element);
+                    NewTest.printParsed();
                     fmt::print("\n");
                 }
             }
