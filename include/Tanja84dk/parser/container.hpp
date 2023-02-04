@@ -66,7 +66,40 @@ namespace Tanja84dk::DockerLib::Parser
             this->setImage(jsonOrdered.at("Config").at("Image"));
             this->setWorkingDir(jsonOrdered.at("Config").at("WorkingDir"));
             this->setEntrypoint(jsonOrdered.at("Config").at("Entrypoint").dump());
+            this->m_Mounts = jsonOrdered.at("Mounts").dump();
+            this->m_ConfigDomainname = jsonOrdered.at("Config").at("Domainname");
+            this->m_ConfigUser = jsonOrdered.at("Config").at("User");
+            this->m_ConfigExposedPorts = jsonOrdered.at("Config").at("ExposedPorts").dump();
+            this->m_Tty = jsonOrdered.at("Config").at("Tty");
         };
+
+        inline void printParsed() noexcept
+        {
+            fmt::print("Container Name: {}\n", this->getName());
+            fmt::print(" - ID: {}\n", this->getId());
+            fmt::print(" - State/Status: {}\n", this->getState());
+            fmt::print(" - Started At: {}\n", this->m_StartedAt);
+            fmt::print(" - Finished At: {}\n", this->m_FinishedAt);
+            fmt::print(" - Platform: {}\n", this->m_Platform);
+            fmt::print(" - AppArmor Profile: {}\n", this->m_AppArmorProfile);
+            // fmt::print(" - Exec ID: {}\n", this->m_ExecId);
+            fmt::print(" - Binds: {}\n", this->m_Binds);
+            fmt::print(" - Network Mode: {}\n", this->m_NetworkMode);
+            fmt::print(" - Port Bindings: {}\n", this->getPortBinds());
+            fmt::print(" - Restart Policy: {}\n", this->m_RestartPolicy);
+            // fmt::print(" - Auto Remove: {}\n", this->m_AutoRemove);
+            fmt::print(" - Mounts: {}\n", this->m_Mounts);
+            fmt::print(" - Hostname: {}\n", this->getHostname());
+            fmt::print(" - Domainname: {}\n", this->m_ConfigDomainname);
+            fmt::print(" - User: {}\n", this->m_ConfigUser);
+            fmt::print(" - Exposed Ports: {}\n", this->m_ConfigExposedPorts);
+            fmt::print(" - Tty: {}\n", this->m_Tty);
+            fmt::print(" - Open Stdin: {}\n", this->m_OpenStdin);
+            fmt::print(" - Cmd: {}\n", this->m_Cmd);
+            fmt::print(" - Image: {}\n", this->getImage());
+            fmt::print(" - Working Directory: {}\n", this->m_WorkingDir);
+            fmt::print(" - Entrypoint: {}\n", this->getEntrypoint());
+        }
 
         // Getters
         inline const std::string getStartedAt() noexcept { return this->m_StartedAt; };
@@ -87,6 +120,11 @@ namespace Tanja84dk::DockerLib::Parser
         std::string m_NetworkMode;
         std::string m_RestartPolicy;
         std::string m_Hostname;
+        std::string m_Mounts;
+        std::string m_ConfigDomainname;
+        std::string m_ConfigUser;
+        std::string m_ConfigExposedPorts;
+        bool m_Tty;
     };
 
     struct TestStruct

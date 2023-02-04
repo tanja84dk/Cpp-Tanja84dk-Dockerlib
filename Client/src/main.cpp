@@ -504,9 +504,7 @@ int main(int argc, const char *argv[])
                 Tanja84dk::DockerLib::Parser::Inspect InspectClient;
                 InspectClient.parse(Client.jsonOrdered);
 
-                fmt::print("ID:\t{}\n", InspectClient.getId());
-                fmt::print("Name:\t{}\n", InspectClient.getName());
-                fmt::print("Binds:\t{}\n", InspectClient.getBinds());
+                InspectClient.printParsed();
             }
         }
         else
