@@ -26,6 +26,7 @@ namespace Tanja84dk::DockerLib::Parser
     {
         friend struct Inspect;
         virtual void parse([[maybe_unused]] const nlohmann::ordered_json &jsonOrdered) = 0;
+        virtual void printParsed() = 0;
 
         // Getters
         inline const std::string getId() noexcept { return this->m_Id; };
@@ -61,6 +62,7 @@ namespace Tanja84dk::DockerLib::Parser
             this->m_AppArmorProfile = jsonOrdered.at("AppArmorProfile");
             this->m_Binds = jsonOrdered.at("HostConfig").at("Binds").dump();
             this->m_NetworkMode = jsonOrdered.at("HostConfig").at("NetworkMode");
+            // this->m_Ipv4Address = jsonOrdered.at("NetworkSettings").at("");
             this->m_RestartPolicy = jsonOrdered.at("HostConfig").at("RestartPolicy").at("Name");
             this->m_Hostname = jsonOrdered.at("Config").at("Hostname");
             this->setImage(jsonOrdered.at("Config").at("Image"));
@@ -71,9 +73,12 @@ namespace Tanja84dk::DockerLib::Parser
             this->m_ConfigUser = jsonOrdered.at("Config").at("User");
             this->m_ConfigExposedPorts = jsonOrdered.at("Config").at("ExposedPorts").dump();
             this->m_Tty = jsonOrdered.at("Config").at("Tty");
+            this->m_OpenStdin = jsonOrdered.at("Config").at("OpenStdin");
+            this->m_Cmd = jsonOrdered.at("Config").at("Cmd").dump();
+            this->m_WorkingDir = jsonOrdered.at("Config").at("WorkingDir");
         };
 
-        inline void printParsed() noexcept
+        inline void printParsed() noexcept override
         {
             fmt::print("Container Name: {}\n", this->getName());
             fmt::print(" - ID: {}\n", this->getId());
@@ -85,6 +90,8 @@ namespace Tanja84dk::DockerLib::Parser
             // fmt::print(" - Exec ID: {}\n", this->m_ExecId);
             fmt::print(" - Binds: {}\n", this->m_Binds);
             fmt::print(" - Network Mode: {}\n", this->m_NetworkMode);
+            // fmt::print(" - IPv4 Address: {}\n", this->m_Ipv4Address);
+
             fmt::print(" - Port Bindings: {}\n", this->getPortBinds());
             fmt::print(" - Restart Policy: {}\n", this->m_RestartPolicy);
             // fmt::print(" - Auto Remove: {}\n", this->m_AutoRemove);
@@ -124,7 +131,11 @@ namespace Tanja84dk::DockerLib::Parser
         std::string m_ConfigDomainname;
         std::string m_ConfigUser;
         std::string m_ConfigExposedPorts;
+        std::string m_Cmd;
+        std::string m_WorkingDir;
+        std::string m_Ipv4Address;
         bool m_Tty;
+        bool m_OpenStdin;
     };
 
     struct TestStruct
