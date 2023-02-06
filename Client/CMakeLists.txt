@@ -46,7 +46,8 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif ()
 
 if (MSVC)
-  set(PEDANTIC_COMPILE_FLAGS /W3)
+  set(PEDANTIC_COMPILE_FLAGS /W4)
+  ## To ignore a specific warning then it's /WD(number) so like /WD4701
   set(WERROR_FLAG /WX)
 endif ()
 

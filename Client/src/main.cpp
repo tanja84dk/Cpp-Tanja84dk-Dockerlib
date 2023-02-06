@@ -153,8 +153,8 @@ int main(int argc, const char *argv[])
 
     Client::Menues::showMain();
 
-    int choiceMainMenu;
-    int choiceSubMenu;
+    int choiceMainMenu{};
+    int choiceSubMenu{};
 
     getInputAndValidate(choiceMainMenu, "Enter the menu number: ");
     switch (choiceMainMenu)
