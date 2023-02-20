@@ -81,10 +81,12 @@ set(Headers
     include/Tanja84dk/parser/container.hpp
     include/Tanja84dk/parser/image.hpp
     include/Tanja84dk/parser/network.hpp
+    include/Tanja84dk/time.hpp
 )
 
 set(Sources
     src/DockerClient.cpp
+    src/time.cpp
 )
 
 set(Libraries
