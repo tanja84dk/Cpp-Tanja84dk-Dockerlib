@@ -31,11 +31,7 @@ namespace Tanja84dk::DockerLib::Parser::Image
         virtual void parse([[maybe_unused]] const nlohmann::ordered_json &jsonOrdered) = 0;
         virtual void printParsed() = 0;
 
-        /// @brief Getting the stored ID from parsing
-        /// @return Return's std::string
         inline const std::string getId() noexcept { return this->m_Id; };
-        /// @brief Getting the Created Date and timestamp from parsing
-        /// @return Return's std::string
         inline const std::string getCreated() noexcept { return this->m_Created; };
 
     private:
@@ -51,15 +47,12 @@ namespace Tanja84dk::DockerLib::Parser::Image
 
     struct Inspect : ImageInterface
     {
-
-        /// @brief Parsing a docker API response
-        /// @param jsonOrdered json object as a reference
         void parse(const nlohmann::ordered_json &jsonOrdered) noexcept override
         {
             this->setId(jsonOrdered.at("Id"));
             this->setCreated(Tanja84dk::Time::unixTimeToHumanReadable(stoll(jsonOrdered.at("Created").dump())));
         };
-        /// @brief Printing the Parsed object
+
         inline void printParsed() noexcept override
         {
             fmt::print(" - ID: {}\n", this->getId());
