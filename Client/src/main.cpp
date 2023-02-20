@@ -2,6 +2,7 @@
 #include <Tanja84dk/Settings.h>
 #include <Tanja84dk/WebRequests.h>
 #include <Tanja84dk/parser/container.hpp>
+#include <Tanja84dk/parser/image.hpp>
 #include <Tanja84dk/api.h>
 #include <string>
 #include <fmt/core.h>
@@ -505,6 +506,29 @@ int main(int argc, const char *argv[])
                 InspectClient.parse(Client.jsonOrdered);
 
                 InspectClient.printParsed();
+            }
+        }
+        else if (WebCache.dataType == "application/json" && httpPath == "/images/json")
+        {
+            try
+            {
+                Client.jsonOrdered = nlohmann::ordered_json::parse(Client.data);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[JSON ERROR]:" << e.what() << '\n'
+                          << '\n';
+            }
+
+            if (!Client.jsonOrdered.empty())
+            {
+                for (auto &element : Client.jsonOrdered)
+                {
+                    Tanja84dk::DockerLib::Parser::Image::Inspect NewTest;
+                    NewTest.parse(element);
+                    NewTest.printParsed();
+                    fmt::print("\n");
+                }
             }
         }
         else

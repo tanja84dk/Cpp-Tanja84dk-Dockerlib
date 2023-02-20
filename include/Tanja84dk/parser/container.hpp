@@ -4,6 +4,7 @@
 #include <string>
 #include <fmt/core.h>
 #include <nlohmann/json.hpp>
+#include <Tanja84dk/time.hpp>
 
 namespace Tanja84dk::DockerLib::Parser
 {
@@ -51,6 +52,8 @@ namespace Tanja84dk::DockerLib::Parser
     struct Inspect : ContainersInterface
     {
 
+        /// @brief Parsing a default docker API response
+        /// @param jsonOrdered json object as a reference
         void parse(const nlohmann::ordered_json &jsonOrdered) noexcept override
         {
             this->setId(jsonOrdered.at("Id"));
@@ -78,6 +81,7 @@ namespace Tanja84dk::DockerLib::Parser
             this->m_WorkingDir = jsonOrdered.at("Config").at("WorkingDir");
         };
 
+        /// @brief Printing the parsed data from the Docker API response
         inline void printParsed() noexcept override
         {
             fmt::print("Container Name: {}\n", this->getName());
@@ -142,6 +146,8 @@ namespace Tanja84dk::DockerLib::Parser
     {
         TestStruct() { this->clear(); };
 
+        /// @brief Parsing a default docker API response
+        /// @param jsonObj json object as a reference
         void parse(const nlohmann::ordered_json &jsonObj)
         {
             this->clear();
@@ -155,6 +161,7 @@ namespace Tanja84dk::DockerLib::Parser
             this->m_ports = jsonObj.at("Ports").dump();
         };
 
+        /// @brief Printing the parsed data from the Docker API response
         void printParsed()
         {
             fmt::print("Container Name: {}\n", this->m_name);
