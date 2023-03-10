@@ -77,11 +77,16 @@ set(Headers
     include/Tanja84dk/Settings.h
     include/Tanja84dk/WebRequests.h
     include/Tanja84dk/api.h
+    include/Tanja84dk/parser.hpp
     include/Tanja84dk/parser/container.hpp
+    include/Tanja84dk/parser/image.hpp
+    include/Tanja84dk/parser/network.hpp
+    include/Tanja84dk/time.hpp
 )
 
 set(Sources
     src/DockerClient.cpp
+    src/time.cpp
 )
 
 set(Libraries
