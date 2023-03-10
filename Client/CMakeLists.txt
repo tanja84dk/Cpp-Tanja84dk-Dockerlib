@@ -4,7 +4,7 @@ project(Tanja84dkDockerClient
     LANGUAGES CXX
 )
 
-include(cmake/CPM.cmake)
+find_package(CPM REQUIRED)
 
 include(CheckCXXCompilerFlag)
 

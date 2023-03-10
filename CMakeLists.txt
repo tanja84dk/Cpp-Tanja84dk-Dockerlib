@@ -68,7 +68,7 @@ option(Tanja84dkDocker_BUILD_TESTS "Set to ON to build tests" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-include(cmake/CPM.cmake)
+find_package(CPM REQUIRED)
 
 set(Headers
     include/Tanja84dk/Tanja84dkDocker_pch.h
