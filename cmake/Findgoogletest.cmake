@@ -1,8 +1,8 @@
 CPMAddPackage(
     NAME googletest
-    GITHUB_REPOSITORY google/googletest
-    GIT_TAG release-1.12.1
-    VERSION 1.12.1
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG release-1.13.0
+    VERSION 1.13.0
     OPTIONS
         "INSTALL_GTEST OFF"
         "gtest_force_shared_crt"
