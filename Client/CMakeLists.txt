@@ -90,5 +90,5 @@ target_compile_options(${PROJECT_NAME}
 
 target_compile_features(${PROJECT_NAME}
     PRIVATE
-        cxx_std_17
+        cxx_std_20
 )
