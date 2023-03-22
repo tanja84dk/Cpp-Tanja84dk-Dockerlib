@@ -86,7 +86,7 @@ namespace Tanja84dk::DockerLib::API
       Client.urlPath = "/containers/" + containerName + "/json";
       Client.contentType = "application/json";
       return Client;
-    };
+    }
 
     APIRequest listRunningProcesses(const std::string &containerName, [[maybe_unused]] const std::string &queryArgs = "-ef")
     {
