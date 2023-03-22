@@ -40,7 +40,7 @@ namespace Client::Menues
                    "------------------------------\n"
                    "\n",
                    menuTitle);
-    };
+    }
 
     template <size_t size>
     static void printMenu(const std::array<std::string, size> &array)
@@ -50,31 +50,31 @@ namespace Client::Menues
             fmt::print("[{}]\t{}\n", (i + 1), array[i]);
         }
         fmt::print("[99]\tExit\n");
-    };
+    }
 
     static void showMain()
     {
         Client::Menues::printLabel("Main Menu");
         Client::Menues::printMenu(arrayMainMenu);
-    };
+    }
 
     void showContainer()
     {
         Client::Menues::printLabel("Containers Menu");
         Client::Menues::printMenu(arrayContainerMenu);
-    };
+    }
 
     void showImages()
     {
         Client::Menues::printLabel("Images Menu");
         Client::Menues::printMenu(arrayImagesMenu);
-    };
+    }
 
     void showNetworks()
     {
         Client::Menues::printLabel("Networks Menu");
         Client::Menues::printMenu(arrayNetworkMenu);
-    };
-};
+    }
+}
 
 #endif // TANJA84DK_DOCKERLIB_CLIENT_MENU_H
