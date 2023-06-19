@@ -6,6 +6,6 @@
 #include <fmt/core.h>
 #include <asio.hpp>
 #include <nlohmann/json.hpp>
-#include <Tanja84dk/Tanja84dkDockerConfig.h>
+#include <Tanja84dk/dockerlib/tanja84dk_dockerlib_config.h>
 
 #endif // TANJA84DK_DOCKERLIB_DOCKERLIB_PCH_H

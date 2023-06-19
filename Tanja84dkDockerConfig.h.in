@@ -1,4 +1,0 @@
-#define Tanja84dkDocker_VERSION @Tanja84dkDocker_VERSION@
-#define Tanja84dkDocker_VERSION_MAJOR @Tanja84dkDocker_VERSION_MAJOR@
-#define Tanja84dkDocker_VERSION_MINOR @Tanja84dkDocker_VERSION_MINOR@
-#define Tanja84dkDocker_VERSION_PATCH @Tanja84dkDocker_VERSION_PATCH@

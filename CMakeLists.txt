@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Tanja84dkDocker VERSION 0.1.0)
+project(tanja84dk_dockerlib VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
-
-set(CMAKE_CXX_STANDARD 17)
 
 set(POSITION_INDEPENDENT_CODE True)
 
@@ -60,30 +58,28 @@ endif ()
 
 option(BUILD_SHARED_LIBS OFF)
 
-#set(CMAKE_EXE_LINKER_FLAGS "-static")
-
-option(BUILD_CLIENT "Flag to build the test client" ON)
-option(Tanja84dkDocker_BUILD_TESTS "Set to ON to build tests" OFF)
+option(tanja84dk_dockerlib_BUILD_CLIENT "Flag to build the test client" ON)
+option(tanja84dk_dockerlib_BUILD_TEST "Set to ON to build tests" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(cmake/CPM.cmake)
 
-set(Headers
-    include/Tanja84dk/Tanja84dkDocker_pch.h
-    include/Tanja84dk/DockerClient.h
-    include/Tanja84dk/DockerLib.h
-    include/Tanja84dk/Settings.h
-    include/Tanja84dk/WebRequests.h
-    include/Tanja84dk/api.h
+set(tanja84dk_dockerlib_HEADERS
+    include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
+    include/Tanja84dk/dockerlib/docker_client.h
+    include/Tanja84dk/dockerlib/dockerlib.h
+    include/Tanja84dk/dockerlib/settings.h
+    include/Tanja84dk/dockerlib/web_requests.h
+    include/Tanja84dk/dockerlib/api.h
 )
 
-set(Sources
-    src/DockerClient.cpp
+set(tanja84dk_dockerlib_SOURCES
+    src/docker_client.cpp
 )
 
-set(Libraries
+set(tanja84dk_dockerlib_LIBRARIES
     fmt
     asio
     nlohmann_json
@@ -94,15 +90,15 @@ find_package(asio QUIET REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
 
-configure_file(${PROJECT_NAME}Config.h.in include/Tanja84dk/${PROJECT_NAME}Config.h)
+configure_file(tanja84dk_dockerlib_config.h.in include/Tanja84dk/dockerlib/tanja84dk_dockerlib_config.h)
 
-add_library(${PROJECT_NAME} ${Sources} ${Headers})
+add_library(tanja84dk_dockerlib ${tanja84dk_dockerlib_SOURCES} ${tanja84dk_dockerlib_HEADERS})
 
-add_library(Tanja84dk::Docker ALIAS ${PROJECT_NAME})
+add_library(Tanja84dk::dockerlib ALIAS tanja84dk_dockerlib)
 
-target_link_libraries(${PROJECT_NAME} ${Libraries})
+target_link_libraries(tanja84dk_dockerlib ${tanja84dk_dockerlib_LIBRARIES})
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(tanja84dk_dockerlib
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -112,36 +108,36 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # PCH support
-option(${PROJECT_NAME}_BUILD_USING_PCH "Build using pre-compile header support" ON)
-if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16 AND ${PROJECT_NAME}_BUILD_USING_PCH)
+option(tanja84dk_dockerlib_BUILD_USING_PCH "Build using pre-compile header support" ON)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.16 AND tanja84dk_dockerlib_BUILD_USING_PCH)
     message(STATUS "Compiling using pre-compiled header support")
-    target_precompile_headers(${PROJECT_NAME} PRIVATE include/Tanja84dk/${PROJECT_NAME}_pch.h)
+    target_precompile_headers(tanja84dk_dockerlib PRIVATE include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h)
     set(CMAKE_PCH_INSTANTIATE_TEMPLATES ON)
 else()
     message(STATUS "Disabled pre-compiled header support")
 endif()
 
-target_compile_options(${PROJECT_NAME}
+target_compile_options(tanja84dk_dockerlib
     PRIVATE
         ${WERROR_FLAG}
         ${PEDANTIC_COMPILE_FLAGS})
 
-target_compile_features(${PROJECT_NAME}
+target_compile_features(tanja84dk_dockerlib
     PRIVATE
         cxx_std_17
 )
 
-set_target_properties(${PROJECT_NAME}
+set_target_properties(tanja84dk_dockerlib
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
+    VERSION ${tanja84dk_dockerlib_VERSION}
+    SOVERSION ${tanja84dk_dockerlib_VERSION_MAJOR}
     FOLDER Libraries
 )
 
-if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR BUILD_CLIENT STREQUAL ON )
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON )
     add_subdirectory(Client)
 endif()
 
@@ -150,6 +146,11 @@ endif()
 #    add_subdirectory(test)
 #endif()
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
+  enable_testing()
+  add_subdirectory(test)
+endif()
+
+set(CPACK_PROJECT_NAME tanja84dk_dockerlib)
+set(CPACK_PROJECT_VERSION ${tanja84dk_dockerlib_VERSION})
 include(CPack)

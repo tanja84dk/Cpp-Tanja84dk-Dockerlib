@@ -1,0 +1,4 @@
+#define tanja84dk_dockerlib_VERSION @tanja84dk_dockerlib_VERSION@
+#define tanja84dk_dockerlib_VERSION_MAJOR @tanja84dk_dockerlib_VERSION_MAJOR@
+#define tanja84dk_dockerlib_VERSION_MINOR @tanja84dk_dockerlib_VERSION_MINOR@
+#define tanja84dk_dockerlib_VERSION_PATCH @tanja84dk_dockerlib_VERSION_PATCH@

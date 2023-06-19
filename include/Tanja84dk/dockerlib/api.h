@@ -3,11 +3,11 @@
 
 #include <string>
 
-namespace Tanja84dk::DockerLib::API
+namespace Tanja84dk::dockerlib::api
 {
-  namespace Containers
+  namespace containers
   {
-    std::string listAll()
+    std::string list_all()
     {
       return "/containers/json?all=true";
     }
@@ -87,7 +87,7 @@ namespace Tanja84dk::DockerLib::API
     - Extract an archive of files or folders to a directory in a container (/v1.41/containers/{id}/archive)
   */
 
-  namespace Images
+  namespace images
   {
     std::string list()
     {
