@@ -12,39 +12,39 @@ namespace Tanja84dk::dockerlib::api
       return "/containers/json?all=true";
     }
 
-    std::string inspect(const std::string &containerName)
+    std::string inspect(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/json";
+      return "/containers/" + container_name_string + "/json";
     };
 
-    std::string start(const std::string &containerName)
+    std::string start(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/start";
+      return "/containers/" + container_name_string + "/start";
     }
 
-    std::string stop(const std::string &containerName)
+    std::string stop(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/stop";
+      return "/containers/" + container_name_string + "/stop";
     }
 
-    std::string restart(const std::string &containerName)
+    std::string restart(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/restart";
+      return "/containers/" + container_name_string + "/restart";
     }
 
-    std::string kill(const std::string &containerName)
+    std::string kill(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/kill";
+      return "/containers/" + container_name_string + "/kill";
     }
 
-    std::string pause(const std::string &containerName)
+    std::string pause(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/pause";
+      return "/containers/" + container_name_string + "/pause";
     }
 
-    std::string unpause(const std::string &containerName)
+    std::string unpause(const std::string &container_name_string)
     {
-      return "/containers/" + containerName + "/unpause";
+      return "/containers/" + container_name_string + "/unpause";
     }
   }
 
