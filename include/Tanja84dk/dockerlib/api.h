@@ -94,14 +94,14 @@ namespace Tanja84dk::dockerlib::api
       return "/images/json";
     }
 
-    std::string inspect(const std::string &imageName)
+    std::string inspect(const std::string &image_name)
     {
-      return "/images/" + imageName + "/json";
+      return "/images/" + image_name + "/json";
     }
 
-    std::string history(const std::string &imageName)
+    std::string history(const std::string &image_name)
     {
-      return "/images/" + imageName + "/history";
+      return "/images/" + image_name + "/history";
     }
 
     std::string search()
