@@ -2,103 +2,97 @@
 #define TANJA84DK_DOCKERLIB_WEBREQUESTS_H
 
 #include <Tanja84dk/dockerlib/settings.h>
+#include <Tanja84dk/http/headers.h>
 
 namespace Tanja84dk
 {
-    namespace dockerlib
+  namespace dockerlib
+  {
+    void http_get_request(asio::streambuf &request, const std::string &host, const std::string &path)
     {
+      Tanja84dk::Headers HeaderClient;
+      HeaderClient.set_http_type("GET");
+      HeaderClient.set_url_path(path);
+      HeaderClient.set_http_version("HTTP/1.1");
+      HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+      HeaderClient.set_host(host);
+      HeaderClient.set_data_type("application/json");
+      HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
+      HeaderClient.set_http_keep_state("close");
 
-        void http_get_request(asio::streambuf &request, const char *HOST, const char *PATH)
-        {
-            std::ostream request_stream(&request);
-            request_stream << "GET " << PATH << " HTTP/1.1\r\n";
-            request_stream << "User-Agent: Tanja84dkDocker/" << Tanja84dk::dockerlib::version_as_string() << "\r\n";
-            request_stream << "Host: " << HOST << "\r\n";
-            request_stream << "Accept: application/json\r\n";
-            request_stream << "Accept-Language: en-US, en;q=0.8, *;q=0.5\r\n";
-            request_stream << "Connection: close\r\n\r\n";
-        }
+      HeaderClient.generate_header(request);
+    }
 
-        void http_post_request(asio::streambuf &request, const char *HOST, const char *PATH, const std::string data = "")
-        {
-            std::ostream request_stream(&request);
-            request_stream << "POST " << PATH << " HTTP/1.1\r\n";
-            request_stream << "User-Agent: Tanja84dkDockerClient/" << Tanja84dk::dockerlib::version_as_string() << "\r\n";
-            request_stream << "Host: " << HOST << "\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << "Content-Length: " << data.length() << "\r\n";
-            }
-            else
-            {
-                request_stream << "Content-Length: 0\r\n";
-            }
-            request_stream << "Accept: application/json\r\n";
-            request_stream << "Accept-Language: en-US, en;q=0.8, *;q=0.5\r\n";
-            request_stream << "Connection: close\r\n\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << data;
-            }
-        }
+    void http_post_request(asio::streambuf &request, const std::string &host, const std::string &path, const std::string &data = "")
+    {
+      Tanja84dk::Headers HeaderClient;
+      HeaderClient.set_http_type("POST");
+      HeaderClient.set_url_path(path);
+      HeaderClient.set_http_version("HTTP/1.1");
+      HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+      HeaderClient.set_host(host);
+      HeaderClient.set_data_type("application/json");
+      HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
+      HeaderClient.set_http_keep_state("close");
+      HeaderClient.generate_header(request, data);
+      if (data.length() > 0)
+      {
+        HeaderClient.set_http_request_body(request, data);
+      }
+    }
 
-        void http_delete_request(asio::streambuf &request, const char *HOST, const char *PATH, const std::string data = "")
-        {
-            std::ostream request_stream(&request);
-            request_stream << "DELETE " << PATH << " HTTP/1.1\r\n";
-            request_stream << "User-Agent: Tanja84dkDockerClient/" << Tanja84dk::dockerlib::version_as_string() << "\r\n";
-            request_stream << "Host: " << HOST << "\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << "Content-Length: " << data.length() << "\r\n";
-            }
-            else
-            {
-                request_stream << "Content-Length: 0\r\n";
-            }
-            request_stream << "Accept: application/json\r\n";
-            request_stream << "Accept-Language: en-US, en;q=0.8, *;q=0.5\r\n";
-            request_stream << "Connection: close\r\n\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << data;
-            }
-        }
+    void http_delete_request(asio::streambuf &request, const std::string &host, const std::string &path, const std::string &data = "")
+    {
+      Tanja84dk::Headers HeaderClient;
+      HeaderClient.set_http_type("DELETE");
+      HeaderClient.set_url_path(path);
+      HeaderClient.set_http_version("HTTP/1.1");
+      HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+      HeaderClient.set_host(host);
+      HeaderClient.set_data_type("application/json");
+      HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
+      HeaderClient.set_http_keep_state("close");
+      HeaderClient.generate_header(request, data);
+      if (data.length() > 0)
+      {
+        HeaderClient.set_http_request_body(request, data);
+      }
+    }
 
-        void http_head_request(asio::streambuf &request, const char *HOST, const char *PATH)
-        {
-            std::ostream request_stream(&request);
-            request_stream << "HEAD " << PATH << " HTTP/1.1\r\n";
-            request_stream << "User-Agent: Tanja84dkDocker/" << Tanja84dk::dockerlib::version_as_string() << "\r\n";
-            request_stream << "Host: " << HOST << "\r\n";
-            request_stream << "Accept: application/json\r\n";
-            request_stream << "Accept-Language: en-US, en;q=0.8, *;q=0.5\r\n";
-            request_stream << "Connection: close\r\n\r\n";
-        }
+    void http_head_request(asio::streambuf &request, const std::string &host, const std::string &path)
+    {
+      Tanja84dk::Headers HeaderClient;
+      HeaderClient.set_http_type("HEAD");
+      HeaderClient.set_url_path(path);
+      HeaderClient.set_http_version("HTTP/1.1");
+      HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+      HeaderClient.set_host(host);
+      HeaderClient.set_data_type("application/json");
+      HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
+      HeaderClient.set_http_keep_state("close");
 
-        void http_put_request(asio::streambuf &request, const char *HOST, const char *PATH, const std::string data = "")
-        {
-            std::ostream request_stream(&request);
-            request_stream << "PUT " << PATH << " HTTP/1.1\r\n";
-            request_stream << "User-Agent: Tanja84dkDockerClient/" << Tanja84dk::dockerlib::version_as_string() << "\r\n";
-            request_stream << "Host: " << HOST << "\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << "Content-Length: " << data.length() << "\r\n";
-            }
-            else
-            {
-                request_stream << "Content-Length: 0\r\n";
-            }
-            request_stream << "Accept: application/json\r\n";
-            request_stream << "Accept-Language: en-US, en;q=0.8, *;q=0.5\r\n";
-            request_stream << "Connection: close\r\n\r\n";
-            if (data.length() > 0)
-            {
-                request_stream << data;
-            }
-        }
-    } // namespace Dockerlib
+      HeaderClient.generate_header(request);
+    }
+
+    void http_put_request(asio::streambuf &request, const std::string &host, const std::string &path, const std::string &data = "")
+    {
+      Tanja84dk::Headers HeaderClient;
+      HeaderClient.set_http_type("PUT");
+      HeaderClient.set_url_path(path);
+      HeaderClient.set_http_version("HTTP/1.1");
+      HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+      HeaderClient.set_host(host);
+      HeaderClient.set_data_type("application/json");
+      HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
+      HeaderClient.set_http_keep_state("close");
+      HeaderClient.generate_header(request, data);
+      if (data.length() > 0)
+      {
+        HeaderClient.set_http_request_body(request, data);
+      }
+    }
+
+  } // namespace Dockerlib
 
 } // namespace Tanja84dk
 

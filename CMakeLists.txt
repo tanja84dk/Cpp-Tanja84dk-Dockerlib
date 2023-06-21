@@ -41,12 +41,11 @@ endif ()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(PEDANTIC_COMPILE_FLAGS -Wall -Wextra -pedantic -Wconversion -Wundef
-      -Wdeprecated -Wweak-vtables -Wshadow
-      -Wno-gnu-zero-variadic-macro-arguments)
+    -Wdeprecated -Wweak-vtables -Wshadow
+    -Wno-gnu-zero-variadic-macro-arguments)
   check_cxx_compiler_flag(-Wzero-as-null-pointer-constant HAS_NULLPTR_WARNING)
   if (HAS_NULLPTR_WARNING)
-    set(PEDANTIC_COMPILE_FLAGS ${PEDANTIC_COMPILE_FLAGS}
-        -Wzero-as-null-pointer-constant)
+    set(PEDANTIC_COMPILE_FLAGS ${PEDANTIC_COMPILE_FLAGS}-Wzero-as-null-pointer-constant)
   endif ()
   set(WERROR_FLAG -Werror)
 endif ()
@@ -67,26 +66,28 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(cmake/CPM.cmake)
 
 set(tanja84dk_dockerlib_HEADERS
-    include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
-    include/Tanja84dk/dockerlib/docker_client.h
-    include/Tanja84dk/dockerlib/dockerlib.h
-    include/Tanja84dk/dockerlib/settings.h
-    include/Tanja84dk/dockerlib/web_requests.h
-    include/Tanja84dk/dockerlib/api.h
+  include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
+  include/Tanja84dk/dockerlib/docker_client.h
+  include/Tanja84dk/dockerlib/dockerlib.h
+  include/Tanja84dk/dockerlib/settings.h
+  include/Tanja84dk/dockerlib/web_requests.h
+  include/Tanja84dk/dockerlib/api.h
 )
 
 set(tanja84dk_dockerlib_SOURCES
-    src/docker_client.cpp
+  src/docker_client.cpp
 )
 
 set(tanja84dk_dockerlib_LIBRARIES
-    fmt
-    asio
-    nlohmann_json
+  fmt
+  asio
+  Tanja84dk::http
+  nlohmann_json
 )
 
 find_package(Threads QUIET REQUIRED)
 find_package(asio QUIET REQUIRED)
+find_package(tanja84dk_http REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
 
@@ -99,12 +100,12 @@ add_library(Tanja84dk::dockerlib ALIAS tanja84dk_dockerlib)
 target_link_libraries(tanja84dk_dockerlib ${tanja84dk_dockerlib_LIBRARIES})
 
 target_include_directories(tanja84dk_dockerlib
-    PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
+  PUBLIC
+    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # PCH support
