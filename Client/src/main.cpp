@@ -103,15 +103,15 @@ int main(int argc, const char *argv[])
 
   if (configuration.get_hostname_length() <= 2)
   {
-    std::string tmpHostname;
+    std::string temp_hostname_string;
     fmt::print("Enter the hostname: ");
-    getline(std::cin, tmpHostname);
-    if (tmpHostname.empty())
+    getline(std::cin, temp_hostname_string);
+    if (temp_hostname_string.empty())
     {
       fmt::print("Missing the hostname or ip\n");
       return 1;
     };
-    configuration.set_host(tmpHostname);
+    configuration.set_host(temp_hostname_string);
   }
   if (configuration.get_port_length() <= 1)
   {
