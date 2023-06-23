@@ -72,6 +72,9 @@ set(tanja84dk_dockerlib_HEADERS
   include/Tanja84dk/dockerlib/settings.h
   include/Tanja84dk/dockerlib/web_requests.h
   include/Tanja84dk/dockerlib/api.h
+  include/Tanja84dk/dockerlib/parser.h
+  include/Tanja84dk/dockerlib/parser/container.h
+  include/Tanja84dk/dockerlib/parser/image.h
 )
 
 set(tanja84dk_dockerlib_SOURCES
