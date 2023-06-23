@@ -11,6 +11,25 @@
 #include <cxxopts.hpp>
 #include <memory>
 
+#include "menu.h"
+
+template <typename T>
+void getInputAndValidate(T &input, const std::string &message) noexcept
+{
+  fmt::print("{}", message);
+  std::cin >> input;
+
+  while (std::cin.fail())
+  {
+    std::cin.clear();
+    std::cin.ignore();
+    fmt::print("Invalid input. Please try again.\n");
+
+    fmt::print("{}", message);
+    std::cin >> input;
+  }
+}
+
 inline std::string get_string_from_name_json_array(nlohmann::ordered_json &json_array_object, const std::string &search_string)
 {
   std::string tmp = json_array_object.at(search_string).dump();
@@ -125,83 +144,126 @@ int main(int argc, const char *argv[])
     configuration.set_port(temp_port_string);
   }
 
-  fmt::print("\n"
-             "------------------------------\n"
-             "        Select Menu\n"
-             "------------------------------\n"
-             "\n"
-             "[1] List Containers\n"
-             "[2] Inspect Container\n"
-             "[3] Get container logs\n"
-             "[4] Start a Container\n"
-             "[5] Stop a container\n"
-             "[6] Restart a Container\n"
-             "[7] Kill a Container\n"
-             "[9] Info\n"
-             "[99] Exit\n");
+  client::menues::print_main_menu();
 
-  if (http_type_string == "" || http_path_string == "")
+  int main_menu_choice_int{};
+  int sub_menu_choice_int{};
+
+  getInputAndValidate(main_menu_choice_int, "Enter the menu number: ");
+  switch (main_menu_choice_int)
   {
-    int choice = 0;
-    std::string container_name_string = "";
-    fmt::print("Enter the menu number: ");
-    std::cin >> choice;
+  case 1:
+    client::menues::print_container_menu();
+    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    break; // Containers
+  case 2:
+    client::menues::print_images_menu();
+    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    break; // Images
+  case 3:
+    client::menues::print_networks_menu();
+    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    break; // Networks
+  case 99:
+    return 0;
+  }
+
+  if ((main_menu_choice_int == 1) && (http_type_string == "" || http_path_string == ""))
+  {
+    std::string containerName = "";
     fmt::print("\n");
 
-    switch (choice)
+    switch (sub_menu_choice_int)
     {
     case 1:
-      http_type_string = "GET";
-      http_path_string = Tanja84dk::dockerlib::api::containers::list_all();
+      http_type_string = Tanja84dk::dockerlib::api::containers::list_all().requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::list_all().urlPath;
       containers_local_map.clear();
+      WebCache.dataType = Tanja84dk::dockerlib::api::containers::list_all().contentType;
       break;
     case 2:
-      http_type_string = "GET";
-      fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(container_name_string);
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).urlPath;
       break;
     case 3:
       http_type_string = "GET";
-      fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = "/containers/" + container_name_string + "/logs?stdout=true&timestamps=true";
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_path_string = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
+      WebCache.dataType = "text";
       break;
     case 4:
-      http_type_string = "POST";
       fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = Tanja84dk::dockerlib::api::containers::start(container_name_string);
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::start(containerName).requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::start(containerName).urlPath;
       break;
     case 5:
-      http_type_string = "POST";
-      fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = Tanja84dk::dockerlib::api::containers::stop(container_name_string);
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::stop(containerName).requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::stop(containerName).urlPath;
+      WebCache.dataType = "text";
       break;
     case 6:
-      http_type_string = "POST";
-      fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = Tanja84dk::dockerlib::api::containers::restart(container_name_string);
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::restart(containerName).requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::restart(containerName).urlPath;
+      WebCache.dataType = "text";
       break;
     case 7:
-      http_type_string = "POST";
-      fmt::print("Enter container name or container ID: ");
-      std::cin >> container_name_string;
-      http_path_string = Tanja84dk::dockerlib::api::containers::kill(container_name_string);
+      getInputAndValidate(containerName, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::kill(containerName).requestType;
+      http_path_string = Tanja84dk::dockerlib::api::containers::kill(containerName).urlPath;
+      WebCache.dataType = "text";
       break;
     case 9:
       http_type_string = "GET";
       http_path_string = "/info";
+      WebCache.dataType = "application/json";
       break;
     case 99:
       return EXIT_SUCCESS;
     default:
       return EXIT_FAILURE;
     }
-    container_name_string = "";
-    choice = 0;
+    containerName = "";
+    choiceSubMenu = 0;
+  }
+  else if ((choiceMainMenu == 2) && (http_type_string == "" || http_path_string == ""))
+  {
+    switch (choiceSubMenu)
+    {
+    case 1:
+      http_type_string = Tanja84dk::dockerlib::api::images::list().requestType;
+      http_path_string = Tanja84dk::dockerlib::api::images::list().urlPath;
+      WebCache.dataType = "application/json";
+      break;
+    case 99:
+      return EXIT_SUCCESS;
+    default:
+      return EXIT_FAILURE;
+    }
+  }
+
+  else if ((choiceMainMenu == 3) && (http_type_string == "" || http_path_string == ""))
+  {
+    switch (choiceSubMenu)
+    {
+    case 1:
+      http_type_string = Tanja84dk::dockerlib::api::networks::list().requestType;
+      http_path_string = Tanja84dk::dockerlib::api::networks::list().urlPath;
+      WebCache.dataType = Tanja84dk::dockerlib::api::networks::list().contentType;
+      break;
+    case 99:
+      return EXIT_SUCCESS;
+    default:
+      return EXIT_FAILURE;
+    }
+  }
+  else
+  {
+    fmt::print("Wrong main entry.\nPlease restart and try again\n");
+    return 1;
   }
 
   try
