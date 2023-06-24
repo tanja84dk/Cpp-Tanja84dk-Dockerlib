@@ -39,6 +39,15 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
+    ApiRequest list_running_processes(const std::string &container_name_string, [[maybe_unused]] const std::string &query_arguments_string = "-ef")
+    {
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/top";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
     ApiRequest inspect(const std::string &container_name_string)
     {
       ApiRequest Client;
