@@ -2,14 +2,31 @@
 #define TANJA84DK_DOCKERLIB_API_H
 
 #include <string>
+#include <vector>
 
 namespace Tanja84dk::dockerlib::api
 {
+
+  struct ApiRequest
+  {
+    std::string request_type = "";
+
+    std::string data = "";
+    std::string content_type = "";
+    std::string url_path = "";
+
+    std::vector<std::string> options;
+  };
+
   namespace containers
   {
-    std::string list_all()
+    ApiRequest list_all()
     {
-      return "/containers/json?all=true";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/json?all=true";
+      Client.content_type = "application/json";
+      return Client;
     }
 
     std::string inspect(const std::string &container_name_string)
