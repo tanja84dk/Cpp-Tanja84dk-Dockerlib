@@ -89,6 +89,7 @@ int main(int argc, const char *argv[])
   std::string http_path_string = {};
   std::string http_type_string = {};
   std::unordered_map<std::string, std::string> containers_local_map = {};
+  WebCacheClient WebCache;
 
   if (argc > 1)
   {
@@ -179,7 +180,7 @@ int main(int argc, const char *argv[])
       http_type_string = Tanja84dk::dockerlib::api::containers::list_all().requestType;
       http_path_string = Tanja84dk::dockerlib::api::containers::list_all().urlPath;
       containers_local_map.clear();
-      WebCache.dataType = Tanja84dk::dockerlib::api::containers::list_all().contentType;
+      WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::list_all().contentType;
       break;
     case 2:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
@@ -190,7 +191,7 @@ int main(int argc, const char *argv[])
       http_type_string = "GET";
       getInputAndValidate(containerName, "Enter container name or container ID: ");
       http_path_string = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
-      WebCache.dataType = "text";
+      WebCache.data_type_ = "text";
       break;
     case 4:
       fmt::print("Enter container name or container ID: ");
@@ -202,24 +203,24 @@ int main(int argc, const char *argv[])
       getInputAndValidate(containerName, "Enter container name or container ID: ");
       http_type_string = Tanja84dk::dockerlib::api::containers::stop(containerName).requestType;
       http_path_string = Tanja84dk::dockerlib::api::containers::stop(containerName).urlPath;
-      WebCache.dataType = "text";
+      WebCache.data_type_ = "text";
       break;
     case 6:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
       http_type_string = Tanja84dk::dockerlib::api::containers::restart(containerName).requestType;
       http_path_string = Tanja84dk::dockerlib::api::containers::restart(containerName).urlPath;
-      WebCache.dataType = "text";
+      WebCache.data_type_ = "text";
       break;
     case 7:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
       http_type_string = Tanja84dk::dockerlib::api::containers::kill(containerName).requestType;
       http_path_string = Tanja84dk::dockerlib::api::containers::kill(containerName).urlPath;
-      WebCache.dataType = "text";
+      WebCache.data_type_ = "text";
       break;
     case 9:
       http_type_string = "GET";
       http_path_string = "/info";
-      WebCache.dataType = "application/json";
+      WebCache.data_type_ = "application/json";
       break;
     case 99:
       return EXIT_SUCCESS;
@@ -227,16 +228,16 @@ int main(int argc, const char *argv[])
       return EXIT_FAILURE;
     }
     containerName = "";
-    choiceSubMenu = 0;
+    sub_menu_choice_int = 0;
   }
-  else if ((choiceMainMenu == 2) && (http_type_string == "" || http_path_string == ""))
+  else if ((main_menu_choice_int == 2) && (http_type_string == "" || http_path_string == ""))
   {
-    switch (choiceSubMenu)
+    switch (sub_menu_choice_int)
     {
     case 1:
       http_type_string = Tanja84dk::dockerlib::api::images::list().requestType;
       http_path_string = Tanja84dk::dockerlib::api::images::list().urlPath;
-      WebCache.dataType = "application/json";
+      WebCache.data_type_ = "application/json";
       break;
     case 99:
       return EXIT_SUCCESS;
@@ -245,14 +246,14 @@ int main(int argc, const char *argv[])
     }
   }
 
-  else if ((choiceMainMenu == 3) && (http_type_string == "" || http_path_string == ""))
+  else if ((main_menu_choice_int == 3) && (http_type_string == "" || http_path_string == ""))
   {
-    switch (choiceSubMenu)
+    switch (sub_menu_choice_int)
     {
     case 1:
       http_type_string = Tanja84dk::dockerlib::api::networks::list().requestType;
       http_path_string = Tanja84dk::dockerlib::api::networks::list().urlPath;
-      WebCache.dataType = Tanja84dk::dockerlib::api::networks::list().contentType;
+      WebCache.data_type_ = Tanja84dk::dockerlib::api::networks::list().contentType;
       break;
     case 99:
       return EXIT_SUCCESS;
