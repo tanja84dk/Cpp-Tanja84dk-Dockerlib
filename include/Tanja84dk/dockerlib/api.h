@@ -2,49 +2,167 @@
 #define TANJA84DK_DOCKERLIB_API_H
 
 #include <string>
+#include <vector>
 
 namespace Tanja84dk::dockerlib::api
 {
+
+  struct ApiRequest
+  {
+    std::string request_type = "";
+
+    std::string data = "";
+    std::string content_type = "";
+    std::string url_path = "";
+
+    std::vector<std::string> options;
+  };
+
   namespace containers
   {
-    std::string list_all()
+    ApiRequest list_all()
     {
-      return "/containers/json?all=true";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/json?all=true";
+      Client.content_type = "application/json";
+      return Client;
     }
 
-    std::string inspect(const std::string &container_name_string)
+    ApiRequest create_container([[maybe_unused]] const std::string &data = "")
     {
-      return "/containers/" + container_name_string + "/json";
-    };
-
-    std::string start(const std::string &container_name_string)
-    {
-      return "/containers/" + container_name_string + "/start";
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/create";
+      Client.content_type = "application/json";
+      Client.data = data;
+      return Client;
     }
 
-    std::string stop(const std::string &container_name_string)
+    ApiRequest list_running_processes(const std::string &container_name_string, [[maybe_unused]] const std::string &query_arguments_string = "-ef")
     {
-      return "/containers/" + container_name_string + "/stop";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/top";
+      Client.content_type = "application/json";
+      return Client;
     }
 
-    std::string restart(const std::string &container_name_string)
+    ApiRequest get_logs(const std::string &container_name_string, [[maybe_unused]] const std::string data = "")
     {
-      return "/containers/" + container_name_string + "/restart";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/logs";
+      Client.content_type = "application/json";
+      return Client;
     }
 
-    std::string kill(const std::string &container_name_string)
+    ApiRequest get_changes(const std::string &container_name_string)
     {
-      return "/containers/" + container_name_string + "/kill";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/changes";
+      Client.content_type = "application/json";
+      return Client;
     }
 
-    std::string pause(const std::string &container_name_string)
+    ApiRequest export_container(const std::string &containerName)
     {
-      return "/containers/" + container_name_string + "/pause";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + containerName + "/export";
+      Client.content_type = "application/x-tar";
+      return Client;
     }
 
-    std::string unpause(const std::string &container_name_string)
+    ApiRequest stats(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
     {
-      return "/containers/" + container_name_string + "/unpause";
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "containers/" + container_name_string + "/stats";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest inspect(const std::string &container_name_string)
+    {
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/json";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest start(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/start";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest stop(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/stop";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest restart(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/restart";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest kill(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/kill";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest update_container(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/update";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest rename_container(const std::string &container_name_string, [[maybe_unused]] const std::string data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/rename";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest pause(const std::string &contcontainer_name_stringinerName, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + contcontainer_name_stringinerName + "/pause";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
+    ApiRequest unpause(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/unpause";
+      Client.content_type = "application/json";
+      return Client;
     }
   }
 
