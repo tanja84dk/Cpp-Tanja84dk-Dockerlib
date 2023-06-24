@@ -102,9 +102,13 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
-    std::string stop(const std::string &container_name_string)
+    ApiRequest stop(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
     {
-      return "/containers/" + container_name_string + "/stop";
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/" + container_name_string + "/stop";
+      Client.content_type = "application/json";
+      return Client;
     }
 
     std::string restart(const std::string &container_name_string)
