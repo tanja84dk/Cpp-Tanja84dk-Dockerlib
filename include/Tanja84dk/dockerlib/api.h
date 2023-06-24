@@ -57,6 +57,15 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
+    ApiRequest get_changes(const std::string &container_name_string)
+    {
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + container_name_string + "/changes";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
     ApiRequest inspect(const std::string &container_name_string)
     {
       ApiRequest Client;
