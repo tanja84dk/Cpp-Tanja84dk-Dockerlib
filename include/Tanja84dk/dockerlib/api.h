@@ -66,6 +66,24 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
+    ApiRequest export_container(const std::string &containerName)
+    {
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "/containers/" + containerName + "/export";
+      Client.content_type = "application/x-tar";
+      return Client;
+    }
+
+    ApiRequest stats(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "GET";
+      Client.url_path = "containers/" + container_name_string + "/stats";
+      Client.content_type = "application/json";
+      return Client;
+    }
+
     ApiRequest inspect(const std::string &container_name_string)
     {
       ApiRequest Client;
