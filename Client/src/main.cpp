@@ -177,15 +177,15 @@ int main(int argc, const char *argv[])
     switch (sub_menu_choice_int)
     {
     case 1:
-      http_type_string = Tanja84dk::dockerlib::api::containers::list_all().requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::list_all().urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::list_all().request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::list_all().url_path;
       containers_local_map.clear();
-      WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::list_all().contentType;
+      WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::list_all().content_type;
       break;
     case 2:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).url_path;
       break;
     case 3:
       http_type_string = "GET";
@@ -196,25 +196,25 @@ int main(int argc, const char *argv[])
     case 4:
       fmt::print("Enter container name or container ID: ");
       getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::start(containerName).requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::start(containerName).urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::start(containerName).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::start(containerName).url_path;
       break;
     case 5:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::stop(containerName).requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::stop(containerName).urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::stop(containerName).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::stop(containerName).url_path;
       WebCache.data_type_ = "text";
       break;
     case 6:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::restart(containerName).requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::restart(containerName).urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::restart(containerName).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::restart(containerName).url_path;
       WebCache.data_type_ = "text";
       break;
     case 7:
       getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::kill(containerName).requestType;
-      http_path_string = Tanja84dk::dockerlib::api::containers::kill(containerName).urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::containers::kill(containerName).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::kill(containerName).url_path;
       WebCache.data_type_ = "text";
       break;
     case 9:
@@ -235,8 +235,8 @@ int main(int argc, const char *argv[])
     switch (sub_menu_choice_int)
     {
     case 1:
-      http_type_string = Tanja84dk::dockerlib::api::images::list().requestType;
-      http_path_string = Tanja84dk::dockerlib::api::images::list().urlPath;
+      http_type_string = Tanja84dk::dockerlib::api::images::list().request_type;
+      http_path_string = Tanja84dk::dockerlib::api::images::list().url_path;
       WebCache.data_type_ = "application/json";
       break;
     case 99:
@@ -251,9 +251,9 @@ int main(int argc, const char *argv[])
     switch (sub_menu_choice_int)
     {
     case 1:
-      http_type_string = Tanja84dk::dockerlib::api::networks::list().requestType;
-      http_path_string = Tanja84dk::dockerlib::api::networks::list().urlPath;
-      WebCache.data_type_ = Tanja84dk::dockerlib::api::networks::list().contentType;
+      http_type_string = Tanja84dk::dockerlib::api::networks::list().request_type;
+      http_path_string = Tanja84dk::dockerlib::api::networks::list().url_path;
+      WebCache.data_type_ = Tanja84dk::dockerlib::api::networks::list().content_type;
       break;
     case 99:
       return EXIT_SUCCESS;
@@ -342,7 +342,7 @@ int main(int argc, const char *argv[])
     // Read the response headers, which are terminated by a blank line.
     asio::read_until(socket, response, "\r\n\r\n");
 
-    WebCacheClient WebCache;
+    // WebCacheClient WebCache;
     WebCache.clear();
     WebDataObject Client;
     Client.clear();
