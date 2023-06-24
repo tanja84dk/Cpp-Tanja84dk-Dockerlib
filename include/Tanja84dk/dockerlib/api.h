@@ -29,6 +29,16 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
+    ApiRequest create_container([[maybe_unused]] const std::string &data = "")
+    {
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/containers/create";
+      Client.content_type = "application/json";
+      Client.data = data;
+      return Client;
+    }
+
     std::string inspect(const std::string &container_name_string)
     {
       return "/containers/" + container_name_string + "/json";
