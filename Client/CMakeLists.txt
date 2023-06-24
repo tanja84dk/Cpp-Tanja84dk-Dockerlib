@@ -51,6 +51,7 @@ endif ()
 
 set(tanja84dk_dockerclient_SOURCES
     src/main.cpp
+    src/menu.h
 )
 
 set(tanja84dk_dockerclient_LIBRARIES
@@ -72,7 +73,7 @@ set_target_properties(tanja84dk_dockerclient
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
         CXX_STANDARD 17
-        VERSION ${tanja84dk_dockerlib_VERSION} 
+        VERSION ${tanja84dk_dockerlib_VERSION}
     FOLDER
         Application
 )
