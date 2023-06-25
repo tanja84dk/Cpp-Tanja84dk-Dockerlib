@@ -14,7 +14,7 @@
 #include "menu.h"
 
 template <typename T>
-void getInputAndValidate(T &input, const std::string &message) noexcept
+void get_and_validate_input(T &input, const std::string &message) noexcept
 {
   fmt::print("{}", message);
   std::cin >> input;
@@ -145,33 +145,33 @@ int main(int argc, const char *argv[])
     configuration.set_port(temp_port_string);
   }
 
-  client::menues::print_main_menu();
+  menues::print_main_menu();
 
   int main_menu_choice_int{};
   int sub_menu_choice_int{};
 
-  getInputAndValidate(main_menu_choice_int, "Enter the menu number: ");
+  get_and_validate_input(main_menu_choice_int, "Enter the menu number: ");
   switch (main_menu_choice_int)
   {
   case 1:
-    client::menues::print_container_menu();
-    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    menues::print_container_menu();
+    get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
     break; // Containers
   case 2:
-    client::menues::print_images_menu();
-    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    menues::print_images_menu();
+    get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
     break; // Images
   case 3:
-    client::menues::print_networks_menu();
-    getInputAndValidate(sub_menu_choice_int, "Enter the menu number: ");
+    menues::print_networks_menu();
+    get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
     break; // Networks
   case 99:
     return 0;
   }
 
-  if ((main_menu_choice_int == 1) && (http_type_string == "" || http_path_string == ""))
+  if ((main_menu_choice_int == menues::main_menu_enum::Containers) && (http_type_string == "" || http_path_string == ""))
   {
-    std::string containerName = "";
+    std::string container_name_string = {};
     fmt::print("\n");
 
     switch (sub_menu_choice_int)
@@ -183,38 +183,37 @@ int main(int argc, const char *argv[])
       WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::list_all().content_type;
       break;
     case 2:
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).request_type;
-      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(containerName).url_path;
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::inspect(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::inspect(container_name_string).url_path;
       break;
     case 3:
-      http_type_string = "GET";
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_path_string = "/containers/" + containerName + "/logs?stdout=true&timestamps=true";
-      WebCache.data_type_ = "text";
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).url_path;
+      WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).content_type;
       break;
     case 4:
-      fmt::print("Enter container name or container ID: ");
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::start(containerName).request_type;
-      http_path_string = Tanja84dk::dockerlib::api::containers::start(containerName).url_path;
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::start(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::start(container_name_string).url_path;
       break;
     case 5:
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::stop(containerName).request_type;
-      http_path_string = Tanja84dk::dockerlib::api::containers::stop(containerName).url_path;
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::stop(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::stop(container_name_string).url_path;
       WebCache.data_type_ = "text";
       break;
     case 6:
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::restart(containerName).request_type;
-      http_path_string = Tanja84dk::dockerlib::api::containers::restart(containerName).url_path;
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::restart(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::restart(container_name_string).url_path;
       WebCache.data_type_ = "text";
       break;
     case 7:
-      getInputAndValidate(containerName, "Enter container name or container ID: ");
-      http_type_string = Tanja84dk::dockerlib::api::containers::kill(containerName).request_type;
-      http_path_string = Tanja84dk::dockerlib::api::containers::kill(containerName).url_path;
+      get_and_validate_input(container_name_string, "Enter container name or container ID: ");
+      http_type_string = Tanja84dk::dockerlib::api::containers::kill(container_name_string).request_type;
+      http_path_string = Tanja84dk::dockerlib::api::containers::kill(container_name_string).url_path;
       WebCache.data_type_ = "text";
       break;
     case 9:
@@ -227,10 +226,10 @@ int main(int argc, const char *argv[])
     default:
       return EXIT_FAILURE;
     }
-    containerName = "";
+    container_name_string = "";
     sub_menu_choice_int = 0;
   }
-  else if ((main_menu_choice_int == 2) && (http_type_string == "" || http_path_string == ""))
+  else if ((main_menu_choice_int == menues::main_menu_enum::Images) && (http_type_string == "" || http_path_string == ""))
   {
     switch (sub_menu_choice_int)
     {
@@ -246,7 +245,7 @@ int main(int argc, const char *argv[])
     }
   }
 
-  else if ((main_menu_choice_int == 3) && (http_type_string == "" || http_path_string == ""))
+  else if ((main_menu_choice_int == menues::main_menu_enum::Networks) && (http_type_string == "" || http_path_string == ""))
   {
     switch (sub_menu_choice_int)
     {

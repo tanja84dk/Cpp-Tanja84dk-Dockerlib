@@ -5,8 +5,16 @@
 #include <array>
 #include <string>
 
-namespace client::menues
+namespace menues
 {
+
+  enum main_menu_enum
+  {
+    Containers = 1,
+    Images = 2,
+    Networks = 3,
+  };
+
   static std::array<std::string, 3> main_menu_array = {"Containers",
                                                        "Images",
                                                        "Networks"};
