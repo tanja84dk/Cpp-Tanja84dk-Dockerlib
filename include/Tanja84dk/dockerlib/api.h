@@ -9,17 +9,72 @@ namespace Tanja84dk::dockerlib::api
 
   struct ApiRequest
   {
-    std::string request_type = "";
+    std::string request_type = {};
 
-    std::string data = "";
-    std::string content_type = "";
-    std::string url_path = "";
+    std::string data = {};
+    std::string content_type = {};
+    std::string url_path = {};
 
-    std::vector<std::string> options;
+    std::vector<std::string> options = {};
+
+    ApiRequest()
+    {
+      this->clear_all();
+    }
+
+  private:
+    void clear_all()
+    {
+      this->request_type.clear();
+      this->data.clear();
+      this->content_type.clear();
+      this->url_path.clear();
+      this->options.clear();
+    }
   };
 
   namespace containers
   {
+
+    /*
+     // Containers
+     Routes:
+      - GET
+       - List Containers (/containers/json)
+       - List processes running inside a container (/containers/{id}/top)
+       - Get container logs (/containers/{id}/logs)
+       - Get changes on a container’s filesystem (/containers/{id}/changes)
+       - Export a container (/containers/{id}/export)
+       - Get container stats based on resource usage (/containers/{id}/stats)
+       - Get an archive of a filesystem resource in a container (/v1.41/containers/{id}/archive)
+       -
+
+      - POST
+       - Create a container (/containers/create)
+       - Resize a container TTY (/containers/{id}/resize)
+       - Start a container (/containers/{id}/start)
+       - Stop a container (/v1.41/containers/{id}/stop)
+       - Restart a container (/v1.41/containers/{id}/restart)
+       - Kill a container (/v1.41/containers/{id}/kill)
+       - Update a container (/v1.41/containers/{id}/update)
+       - Rename a container (/v1.41/containers/{id}/rename)
+       - Pause a container (/v1.41/containers/{id}/pause)
+       - Unpause a container (/v1.41/containers/{id}/unpause)
+       - Attach to a container (/v1.41/containers/{id}/attach)
+       - Attach to a container via a websocket (/v1.41/containers/{id}/attach/ws)
+       - Wait for a container (/v1.41/containers/{id}/wait) // Block until a container stops, then returns the exit code.
+       - Delete stopped containers (/v1.41/containers/prune)
+
+     - DELETE
+       - Remove a container (/v1.41/containers/{id})
+
+     - HEAD
+       - Get information about files in a container (/v1.41/containers/{id}/archive)
+
+     - PUT
+       - Extract an archive of files or folders to a directory in a container (/v1.41/containers/{id}/archive)
+     */
+
     ApiRequest list_all()
     {
       ApiRequest Client;
@@ -166,45 +221,6 @@ namespace Tanja84dk::dockerlib::api
     }
   }
 
-  /*
-  // Containers
-  Routes:
-   - GET
-    - List Containers (/containers/json)
-    - List processes running inside a container (/containers/{id}/top)
-    - Get container logs (/containers/{id}/logs)
-    - Get changes on a container’s filesystem (/containers/{id}/changes)
-    - Export a container (/containers/{id}/export)
-    - Get container stats based on resource usage (/containers/{id}/stats)
-    - Get an archive of a filesystem resource in a container (/v1.41/containers/{id}/archive)
-    -
-
-   - POST
-    - Create a container (/containers/create)
-    - Resize a container TTY (/containers/{id}/resize)
-    - Start a container (/containers/{id}/start)
-    - Stop a container (/v1.41/containers/{id}/stop)
-    - Restart a container (/v1.41/containers/{id}/restart)
-    - Kill a container (/v1.41/containers/{id}/kill)
-    - Update a container (/v1.41/containers/{id}/update)
-    - Rename a container (/v1.41/containers/{id}/rename)
-    - Pause a container (/v1.41/containers/{id}/pause)
-    - Unpause a container (/v1.41/containers/{id}/unpause)
-    - Attach to a container (/v1.41/containers/{id}/attach)
-    - Attach to a container via a websocket (/v1.41/containers/{id}/attach/ws)
-    - Wait for a container (/v1.41/containers/{id}/wait) // Block until a container stops, then returns the exit code.
-    - Delete stopped containers (/v1.41/containers/prune)
-
-  - DELETE
-    - Remove a container (/v1.41/containers/{id})
-
-  - HEAD
-    - Get information about files in a container (/v1.41/containers/{id}/archive)
-
-  - PUT
-    - Extract an archive of files or folders to a directory in a container (/v1.41/containers/{id}/archive)
-  */
-
   namespace images
   {
     /*
@@ -284,25 +300,25 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
-    ApiRequest inspect(const std::string &networkName, [[maybe_unused]] const std::string &data = "")
+    ApiRequest inspect(const std::string &network_name_æstring, [[maybe_unused]] const std::string &data = "")
     {
       ApiRequest Client;
       Client.request_type = "GET";
-      Client.url_path = "/networks/" + networkName;
+      Client.url_path = "/networks/" + network_name_æstring;
       Client.content_type = "application/json";
       return Client;
     }
 
-    ApiRequest remove(const std::string &networkName, [[maybe_unused]] const std::string &data = "")
+    ApiRequest remove(const std::string &network_name_string, [[maybe_unused]] const std::string &data = "")
     {
       ApiRequest Client;
       Client.request_type = "DELETE";
-      Client.url_path = "/networks/" + networkName;
+      Client.url_path = "/networks/" + network_name_string;
       Client.content_type = "application/json";
       return Client;
     }
 
-    ApiRequest create([[maybe_unused]] const std::string &networkName, [[maybe_unused]] const std::string &data = "")
+    ApiRequest create([[maybe_unused]] const std::string &network_name_string, [[maybe_unused]] const std::string &data = "")
     {
       ApiRequest Client;
       Client.request_type = "POST";
@@ -311,14 +327,22 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
-    std::string connect_container_to_network(const std::string &networkName)
+    ApiRequest connect_container_to_network(const std::string &network_name_string)
     {
-      return "/networks/" + networkName + "/connect";
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/networks/" + network_name_string + "/connect";
+      Client.content_type = "application/json";
+      return Client;
     }
 
-    std::string disconnect_container_from_network(const std::string &networkName)
+    ApiRequest disconnect_container_from_network(const std::string &network_name_string)
     {
-      return "/networks/" + networkName + "/disconnect";
+      ApiRequest Client;
+      Client.request_type = "POST";
+      Client.url_path = "/networks/" + network_name_string + "/disconnect";
+      Client.content_type = "application/json";
+      return Client;
     }
   }
 
