@@ -15,12 +15,12 @@ namespace Tanja84dk
         return instance;
       };
 
-      static void set_host(std::string const &host) { get_instance().set_host_impl(host); };
-      static char const *get_host() { return get_instance().host_string_.data(); };
+      static void set_host(const std::string &host) { get_instance().set_host_impl(host); };
+      static const char *get_host() { return get_instance().host_string_.data(); };
       static std::size_t get_hostname_length() { return get_instance().get_hostname_length_impl(); };
 
-      static void set_port(std::string const &port) { get_instance().set_port_impl(port); };
-      static char const *get_port() { return get_instance().port_string_.data(); };
+      static void set_port(const std::string &port) { get_instance().set_port_impl(port); };
+      static const char *get_port() { return get_instance().port_string_.data(); };
       static std::size_t get_port_length() { return get_instance().get_port_length_impl(); };
 
       ConfigClass(const ConfigClass &) = delete;
@@ -37,15 +37,15 @@ namespace Tanja84dk
       std::size_t get_port_length_impl() { return port_string_.length(); };
 
       // setter impl
-      void set_host_impl(std::string const &host) { host_string_ = host; };
-      void set_port_impl(std::string const &port) { port_string_ = port; };
+      void set_host_impl(const std::string &host) noexcept { host_string_ = host; };
+      void set_port_impl(const std::string &port) noexcept { port_string_ = port; };
 
       // data
-      std::string host_string_{};
-      std::string port_string_{};
+      std::string host_string_ = {};
+      std::string port_string_ = {};
     };
 
-    std::string version_as_string()
+    const std::string version_as_string()
     {
       return (std::to_string(tanja84dk_dockerlib_VERSION_MAJOR) + "." +
               std::to_string(tanja84dk_dockerlib_VERSION_MINOR) + "." +
