@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 namespace Tanja84dk::dockerlib::api
 {
 
@@ -336,12 +338,14 @@ namespace Tanja84dk::dockerlib::api
       return Client;
     }
 
-    ApiRequest disconnect_container_from_network(const std::string &network_name_string)
+    ApiRequest disconnect_container_from_network(const std::string &network_name_string, const std::string &container_name_string, const bool force_disconnect = false)
     {
       ApiRequest Client;
       Client.request_type = "POST";
       Client.url_path = "/networks/" + network_name_string + "/disconnect";
       Client.content_type = "application/json";
+      nlohmann::json json_object = nlohmann::json::object({{"Container", container_name_string}, {"Force", force_disconnect}});
+      Client.data = json_object.dump().c_str();
       return Client;
     }
   }
