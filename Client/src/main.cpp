@@ -124,8 +124,7 @@ int main(int argc, const char *argv[])
   if (configuration.get_hostname_length() <= 2)
   {
     std::string temp_hostname_string;
-    fmt::print("Enter the hostname: ");
-    getline(std::cin, temp_hostname_string);
+    get_and_validate_input(temp_hostname_string, "Enter the hostname:");
     if (temp_hostname_string.empty())
     {
       fmt::print("Missing the hostname or ip\n");
@@ -133,11 +132,11 @@ int main(int argc, const char *argv[])
     };
     configuration.set_host(temp_hostname_string);
   }
+
   if (configuration.get_port_length() <= 1)
   {
     std::string temp_port_string;
-    fmt::print("Enter the port (Default 2375): ");
-    getline(std::cin, temp_port_string);
+    get_and_validate_input(temp_port_string, "Enter the port (Default 2375): ");
     if (temp_port_string.empty())
     {
       temp_port_string = "2375";
@@ -147,8 +146,8 @@ int main(int argc, const char *argv[])
 
   menues::print_main_menu();
 
-  int main_menu_choice_int{};
-  int sub_menu_choice_int{};
+  int main_menu_choice_int = {};
+  int sub_menu_choice_int = {};
 
   get_and_validate_input(main_menu_choice_int, "Enter the menu number: ");
   switch (main_menu_choice_int)
