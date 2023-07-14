@@ -273,8 +273,8 @@ int main(int argc, const char *argv[]) {
                (http_type_string == "" || http_path_string == "")) {
         switch (sub_menu_choice_int) {
             case 1:
-                http_type_string = Tanja84dk::dockerlib::api::images::list().request_type;
-                http_path_string = Tanja84dk::dockerlib::api::images::list().url_path;
+                http_type_string = Tanja84dk::dockerlib::api::image::list().request_type;
+                http_path_string = Tanja84dk::dockerlib::api::image::list().url_path;
                 WebCache.data_type_ = "application/json";
                 break;
             case 99:
