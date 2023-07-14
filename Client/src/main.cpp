@@ -288,9 +288,9 @@ int main(int argc, const char *argv[]) {
              (http_type_string == "" || http_path_string == "")) {
         switch (sub_menu_choice_int) {
             case 1:
-                http_type_string = Tanja84dk::dockerlib::api::networks::list().request_type;
-                http_path_string = Tanja84dk::dockerlib::api::networks::list().url_path;
-                WebCache.data_type_ = Tanja84dk::dockerlib::api::networks::list().content_type;
+                http_type_string = Tanja84dk::dockerlib::api::network::list().request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::list().url_path;
+                WebCache.data_type_ = Tanja84dk::dockerlib::api::network::list().content_type;
                 break;
             case 99:
                 return EXIT_SUCCESS;
