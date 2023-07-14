@@ -3,6 +3,7 @@
 
 #include <Tanja84dk/dockerlib/api/container.h>
 #include <Tanja84dk/dockerlib/api/datatype.h>
+#include <Tanja84dk/dockerlib/api/image.h>
 
 #include <nlohmann/json.hpp>
 #include <string>
@@ -11,62 +12,6 @@
 namespace Tanja84dk {
 namespace dockerlib {
 namespace api {
-
-namespace images {
-/*
-// Images
-- GET
-  - List Images (/v1.41/images/json)
-  - Inspect an image (/v1.41/images/{name}/json)
-  - Get the history of an image (/v1.41/images/{name}/history)
-  - Search images (/v1.41/images/search) // Search for an image on Docker Hub.
-  - Export an image (/v1.41/images/{name}/get)
-  - Export several images (/v1.41/images/get)
-
-- POST
-  - Build an image (/v1.41/build)
-  - Delete builder cache (/v1.41/build/prune)
-  - Create an image (/v1.41/images/create) // Create an image by either pulling it from a registry or importing it.
-  - Push an image (/v1.41/images/{name}/push)
-  - Tag an image (/v1.41/images/{name}/tag)
-  - Delete unused images (/v1.41/images/prune)
-  - Create a new image from a container (/v1.41/commit)
-  - Import images (/v1.41/images/load)
-
-- DELETE
-  - Remove an image (/v1.41/images/{name})
-*/
-
-ApiRequest list() {
-    ApiRequest Client;
-    Client.request_type = "GET";
-    Client.url_path = "/images/json";
-    Client.content_type = "application/json";
-    return Client;
-}
-
-ApiRequest inspect(const std::string &imageName, [[maybe_unused]] const std::string &data = "") {
-    ApiRequest Client;
-    Client.request_type = "GET";
-    Client.url_path = "/images/" + imageName + "/json";
-    Client.content_type = "application/json";
-    return Client;
-}
-
-ApiRequest history(const std::string &imageName, [[maybe_unused]] const std::string &data = "") {
-    ApiRequest Client;
-    Client.request_type = "GET";
-    Client.url_path = "/images/" + imageName + "/history";
-    return Client;
-}
-
-ApiRequest search([[maybe_unused]] const std::string &data = "") {
-    ApiRequest Client;
-    Client.request_type = "GET";
-    Client.url_path = "/images/search";
-    return Client;
-}
-}  // namespace images
 
 namespace networks {
 /*
