@@ -1,6 +1,8 @@
 #ifndef TANJA84DK_DOCKERLIB_API_H
 #define TANJA84DK_DOCKERLIB_API_H
 
+#include <Tanja84dk/dockerlib/api/datatype.h>
+
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -8,27 +10,6 @@
 namespace Tanja84dk {
 namespace dockerlib {
 namespace api {
-
-struct ApiRequest {
-    std::string request_type = {};
-
-    std::string data = {};
-    std::string content_type = {};
-    std::string url_path = {};
-
-    std::vector<std::string> options = {};
-
-    ApiRequest() { this->clear_all(); }
-
-   private:
-    void clear_all() {
-        this->request_type.clear();
-        this->data.clear();
-        this->content_type.clear();
-        this->url_path.clear();
-        this->options.clear();
-    }
-};
 
 namespace containers {
 

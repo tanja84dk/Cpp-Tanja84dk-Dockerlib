@@ -24,6 +24,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(cmake/CPM.cmake)
 
 set(tanja84dk_dockerlib_HEADERS
+  include/Tanja84dk/dockerlib/api/datatype.h
   include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
   include/Tanja84dk/dockerlib/docker_client.h
   include/Tanja84dk/dockerlib/dockerlib.h
@@ -36,6 +37,7 @@ set(tanja84dk_dockerlib_HEADERS
 )
 
 set(tanja84dk_dockerlib_SOURCES
+  src/api/datatype.cpp
   src/docker_client.cpp
 )
 
