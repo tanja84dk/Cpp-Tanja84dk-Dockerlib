@@ -27,6 +27,7 @@ set(tanja84dk_dockerlib_HEADERS
   include/Tanja84dk/dockerlib/api/container.h
   include/Tanja84dk/dockerlib/api/datatype.h
   include/Tanja84dk/dockerlib/api/image.h
+  include/Tanja84dk/dockerlib/api/network.h
   include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
   include/Tanja84dk/dockerlib/docker_client.h
   include/Tanja84dk/dockerlib/dockerlib.h
@@ -42,6 +43,7 @@ set(tanja84dk_dockerlib_SOURCES
   src/api/datatype.cpp
   src/api/container.cpp
   src/api/image.cpp
+  src/api/network.cpp
   src/docker_client.cpp
 )
 
