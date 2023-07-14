@@ -217,44 +217,44 @@ int main(int argc, const char *argv[]) {
 
         switch (sub_menu_choice_int) {
             case 1:
-                http_type_string = Tanja84dk::dockerlib::api::containers::list_all().request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::list_all().url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::list_all().request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::list_all().url_path;
                 containers_local_map.clear();
-                WebCache.data_type_ = Tanja84dk::dockerlib::api::containers::list_all().content_type;
+                WebCache.data_type_ = Tanja84dk::dockerlib::api::container::list_all().content_type;
                 break;
             case 2:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::inspect(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::inspect(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::inspect(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::inspect(container_name_string).url_path;
                 break;
             case 3:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::get_logs(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::get_logs(container_name_string).url_path;
                 WebCache.data_type_ =
-                    Tanja84dk::dockerlib::api::containers::get_logs(container_name_string).content_type;
+                    Tanja84dk::dockerlib::api::container::get_logs(container_name_string).content_type;
                 break;
             case 4:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::start(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::start(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::start(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::start(container_name_string).url_path;
                 break;
             case 5:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::stop(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::stop(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::stop(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::stop(container_name_string).url_path;
                 WebCache.data_type_ = "text";
                 break;
             case 6:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::restart(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::restart(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::restart(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::restart(container_name_string).url_path;
                 WebCache.data_type_ = "text";
                 break;
             case 7:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
-                http_type_string = Tanja84dk::dockerlib::api::containers::kill(container_name_string).request_type;
-                http_path_string = Tanja84dk::dockerlib::api::containers::kill(container_name_string).url_path;
+                http_type_string = Tanja84dk::dockerlib::api::container::kill(container_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::container::kill(container_name_string).url_path;
                 WebCache.data_type_ = "text";
                 break;
             case 9:
