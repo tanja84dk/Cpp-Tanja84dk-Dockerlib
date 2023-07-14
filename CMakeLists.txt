@@ -44,6 +44,7 @@ set(tanja84dk_dockerlib_SOURCES
   src/api/container.cpp
   src/api/image.cpp
   src/api/network.cpp
+  src/parser/container.cpp
   src/docker_client.cpp
 )
 
