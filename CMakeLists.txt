@@ -31,6 +31,7 @@ set(tanja84dk_dockerlib_HEADERS
   include/Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h
   include/Tanja84dk/dockerlib/docker_client.h
   include/Tanja84dk/dockerlib/dockerlib.h
+  include/Tanja84dk/dockerlib/license.h
   include/Tanja84dk/dockerlib/settings.h
   include/Tanja84dk/dockerlib/web_requests.h
   include/Tanja84dk/dockerlib/api.h
@@ -46,6 +47,8 @@ set(tanja84dk_dockerlib_SOURCES
   src/api/network.cpp
   src/parser/container.cpp
   src/docker_client.cpp
+  src/license.cpp
+  src/license_helper.h
 )
 
 set(tanja84dk_dockerlib_LIBRARIES
@@ -61,6 +64,18 @@ find_package(tanja84dk_http REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
 
+include(cmake/tanja84dk_generate_licenses.cmake)
+
+tanja84dk_generate_license_begin()
+tanja84dk_generate_license_manual(tanja84dk_dockerlib ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
+tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
+tanja84dk_generate_license(cxxopts)
+tanja84dk_generate_license_manual(fmt ${fmt_SOURCE_DIR}/LICENSE.rst)
+tanja84dk_generate_license_manual(nlohmann_json ${nlohmann_json_SOURCE_DIR}/LICENSE.MIT)
+tanja84dk_generate_license(tanja84dk_http)
+tanja84dk_generate_license_end()
+
+configure_file(${${PROJECT_NAME}_LICENSES_MACRO_FILE} include/Tanja84dk/dockerlib/${PROJECT_NAME}_licenses_macro.h)
 configure_file(tanja84dk_dockerlib_config.h.in include/Tanja84dk/dockerlib/tanja84dk_dockerlib_config.h)
 
 add_library(tanja84dk_dockerlib ${tanja84dk_dockerlib_SOURCES} ${tanja84dk_dockerlib_HEADERS})
