@@ -65,14 +65,19 @@ find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
 
 include(cmake/tanja84dk_generate_licenses.cmake)
-
 tanja84dk_generate_license_begin()
+
+if (tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON)
+    find_package(cxxopts REQUIRED)
+    tanja84dk_generate_license(cxxopts)
+endif()
+
 tanja84dk_generate_license_manual(tanja84dk_dockerlib ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
 tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
-tanja84dk_generate_license(cxxopts)
 tanja84dk_generate_license_manual(fmt ${fmt_SOURCE_DIR}/LICENSE.rst)
 tanja84dk_generate_license_manual(nlohmann_json ${nlohmann_json_SOURCE_DIR}/LICENSE.MIT)
 tanja84dk_generate_license(tanja84dk_http)
+
 tanja84dk_generate_license_end()
 
 configure_file(${${PROJECT_NAME}_LICENSES_MACRO_FILE} include/Tanja84dk/dockerlib/${PROJECT_NAME}_licenses_macro.h)

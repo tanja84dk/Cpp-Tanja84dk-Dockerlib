@@ -23,8 +23,10 @@ void license::print_all_licences() noexcept {
     Tanja84dk::dockerlib::license::print_title_for_licenses("asio 1.28.0");
     fmt::print("{}\n\n", Tanja84dk::dockerlib::license::get_asio_license());
 
+#ifdef cxxopts_LICENSE
     Tanja84dk::dockerlib::license::print_title_for_licenses("cxxopts 3.1.1");
     fmt::print("{}\n\n", Tanja84dk::dockerlib::license::get_cxxopts_license());
+#endif
 
     Tanja84dk::dockerlib::license::print_title_for_licenses("fmt/fmtlib 10.0.0");
     fmt::print("{}\n\n", Tanja84dk::dockerlib::license::get_fmtlib_license());
@@ -40,8 +42,12 @@ const std::string license::get_asio_license() noexcept {
 };
 
 const std::string license::get_cxxopts_license() noexcept {
+#ifdef cxxopts_LICENSE
     std::string license = cxxopts_LICENSE;
     Tanja84dk::dockerlib_private::replace_all(license, ";", "\n");
+#else
+    std::string license = "";
+#endif
     return license;
 };
 
