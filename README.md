@@ -18,7 +18,7 @@ I do have to add a note that at this point its only omunicating over HTTP ( So n
 
 ### 2.1 Required libraries
 
-- CPM - CMake dependency management 0.36.0
+- CPM - CMake dependency management 0.38.2
 - asio 1.24.0
 - fmt 9.1.0
 - nlohmann_json 3.11.2
