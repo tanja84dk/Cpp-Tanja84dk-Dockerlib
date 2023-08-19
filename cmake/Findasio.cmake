@@ -1,8 +1,8 @@
 CPMAddPackage(
     NAME asio
     GIT_REPOSITORY https://github.com/chriskohlhoff/asio
-    VERSION 1.28.0
-    GIT_TAG asio-1-28-0
+    VERSION 1.28.1
+    GIT_TAG asio-1-28-1
 )
 
 if(asio_ADDED)
