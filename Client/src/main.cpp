@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 
+#include "client_settings.h"
 #include "menu.h"
 
 /* The above code is a template function called `get_and_validate_input` that takes two parameters: a
@@ -131,7 +132,7 @@ struct WebCacheClient {
  * @return The function is not returning any value. It has a void return type, which means it does not
  * return anything.
  */
-void pretty_print_json(int tabs, const nlohmann::ordered_json &ordered_json_object) {
+void pretty_print_json(int8_t tabs, const nlohmann::ordered_json &ordered_json_object) {
     std::cout << std::setw(tabs) << ordered_json_object;
     return;
 }
@@ -215,8 +216,7 @@ int main(int argc, const char *argv[]) {
             return 0;
     }
 
-    if ((main_menu_choice_int == menues::main_menu_enum::Containers) &&
-        (http_type_string == "" || http_path_string == "")) {
+    if (main_menu_choice_int == menues::main_menu_enum::Containers) {
         std::string container_name_string = {};
         fmt::print("\n");
 
@@ -272,10 +272,9 @@ int main(int argc, const char *argv[]) {
             default:
                 return EXIT_FAILURE;
         }
-        container_name_string = "";
+        container_name_string.clear();
         sub_menu_choice_int = 0;
-    } else if ((main_menu_choice_int == menues::main_menu_enum::Images) &&
-               (http_type_string == "" || http_path_string == "")) {
+    } else if (main_menu_choice_int == menues::main_menu_enum::Images) {
         switch (sub_menu_choice_int) {
             case 1:
                 http_type_string = Tanja84dk::dockerlib::api::image::list().request_type;
@@ -289,8 +288,7 @@ int main(int argc, const char *argv[]) {
         }
     }
 
-    else if ((main_menu_choice_int == menues::main_menu_enum::Networks) &&
-             (http_type_string == "" || http_path_string == "")) {
+    else if (main_menu_choice_int == menues::main_menu_enum::Networks) {
         switch (sub_menu_choice_int) {
             case 1:
                 http_type_string = Tanja84dk::dockerlib::api::network::list().request_type;
@@ -399,11 +397,11 @@ int main(int argc, const char *argv[]) {
 
         Client.header = WebCache.header_.str();
         std::getline(WebCache.body_, WebCache.temp_buffer_, '\r');
-        Client.length = stoi(WebCache.temp_buffer_, nullptr, 16);
+        Client.length = std::stoi(WebCache.temp_buffer_, nullptr, 16);
         WebCache.temp_buffer_.clear();
         std::getline(WebCache.body_, Client.data, '\r');
         std::getline(WebCache.body_, WebCache.temp_buffer_, '\r');
-        Client.return_code = stoi(WebCache.temp_buffer_);
+        Client.return_code = std::stoi(WebCache.temp_buffer_);
         WebCache.temp_buffer_.clear();
 
         try {
@@ -418,20 +416,24 @@ int main(int argc, const char *argv[]) {
                 std::string e_Name = get_string_from_name_json_array(element, "Names");
                 std::string e_Id = element.at("Id");
                 std::string e_Image = element.at("Image");
+                std::string e_Network = element.at("NetworkSettings").at("Networks").dump();
                 std::string e_State = element.at("State");
                 std::string e_Status = element.at("Status");
                 std::string e_Command = element.at("Command");
 
-                containers_local_map.insert(std::pair<std::string, std::string>(e_Name, e_Id));
+                containers_local_map.emplace(std::pair<std::string, std::string>(e_Name, e_Id));
 
                 fmt::print("Container Name: {}\n", e_Name);
                 fmt::print(" - ID: {}\n", e_Id);
                 fmt::print(" - Image: {}\n", e_Image);
+                fmt::print(" - Network: {}\n", e_Network);
                 fmt::print(" - Command: {}\n", e_Command);
                 fmt::print(" - State: {}\n", e_State);
                 fmt::print(" - Status: {}\n", e_Status);
-                std::cout << " - Ports: " << element.at("Ports") << '\n';
+                std::cout << " - Ports: " << element.at("Ports").items() << '\n';
                 pretty_print_json(2, nlohmann::ordered_json::parse(element.at("Ports").dump()));
+                pretty_print_json(2,
+                                  nlohmann::ordered_json::parse(element.at("NetworkSettings").at("Networks").dump()));
                 fmt::print("\n");
             }
         } else {

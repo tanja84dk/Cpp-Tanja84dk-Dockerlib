@@ -51,6 +51,7 @@ endif ()
 
 set(tanja84dk_dockerclient_SOURCES
     src/main.cpp
+    src/client_settings.h
     src/menu.h
 )
 
