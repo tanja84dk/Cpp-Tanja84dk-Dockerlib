@@ -19,7 +19,7 @@ namespace network {
 
 const ApiRequest list() noexcept;
 
-const ApiRequest inspect(const std::string &network_name_æstring,
+const ApiRequest inspect(const std::string &network_name_string,
                          [[maybe_unused]] const std::string &data = "") noexcept;
 
 const ApiRequest remove(const std::string &network_name_string, [[maybe_unused]] const std::string &data = "") noexcept;
