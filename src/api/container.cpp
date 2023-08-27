@@ -30,7 +30,7 @@ api::ApiRequest api::container::list_running_processes(
 }
 
 api::ApiRequest api::container::get_logs(const std::string &container_name_string,
-                                         [[maybe_unused]] const std::string data) noexcept {
+                                         [[maybe_unused]] const std::string &data) noexcept {
     api::ApiRequest Client;
     Client.request_type = "GET";
     Client.url_path = "/containers/" + container_name_string + "/logs";
@@ -46,10 +46,10 @@ api::ApiRequest api::container::get_changes(const std::string &container_name_st
     return Client;
 }
 
-api::ApiRequest api::container::export_container(const std::string &containerName) noexcept {
+api::ApiRequest api::container::export_container(const std::string &container_name_string) noexcept {
     api::ApiRequest Client;
     Client.request_type = "GET";
-    Client.url_path = "/containers/" + containerName + "/export";
+    Client.url_path = "/containers/" + container_name_string + "/export";
     Client.content_type = "application/x-tar";
     return Client;
 }
@@ -117,7 +117,7 @@ api::ApiRequest api::container::update_container(const std::string &container_na
 }
 
 api::ApiRequest api::container::rename_container(const std::string &container_name_string,
-                                                 [[maybe_unused]] const std::string data) noexcept {
+                                                 [[maybe_unused]] const std::string &data) noexcept {
     api::ApiRequest Client;
     Client.request_type = "POST";
     Client.url_path = "/containers/" + container_name_string + "/rename";
@@ -125,11 +125,11 @@ api::ApiRequest api::container::rename_container(const std::string &container_na
     return Client;
 }
 
-api::ApiRequest api::container::pause(const std::string &contcontainer_name_stringinerName,
+api::ApiRequest api::container::pause(const std::string &container_name_string,
                                       [[maybe_unused]] const std::string &data) noexcept {
     api::ApiRequest Client;
     Client.request_type = "POST";
-    Client.url_path = "/containers/" + contcontainer_name_stringinerName + "/pause";
+    Client.url_path = "/containers/" + container_name_string + "/pause";
     Client.content_type = "application/json";
     return Client;
 }

@@ -54,11 +54,11 @@ ApiRequest create_container([[maybe_unused]] const std::string &data = "") noexc
 ApiRequest list_running_processes(const std::string &container_name_string,
                                   [[maybe_unused]] const std::string &query_arguments_string = "-ef") noexcept;
 
-ApiRequest get_logs(const std::string &container_name_string, [[maybe_unused]] const std::string data = "") noexcept;
+ApiRequest get_logs(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "") noexcept;
 
 ApiRequest get_changes(const std::string &container_name_string) noexcept;
 
-ApiRequest export_container(const std::string &containerName) noexcept;
+ApiRequest export_container(const std::string &container_name_string) noexcept;
 
 ApiRequest stats(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "") noexcept;
 
@@ -76,10 +76,9 @@ ApiRequest update_container(const std::string &container_name_string,
                             [[maybe_unused]] const std::string &data = "") noexcept;
 
 ApiRequest rename_container(const std::string &container_name_string,
-                            [[maybe_unused]] const std::string data = "") noexcept;
+                            [[maybe_unused]] const std::string &data = "") noexcept;
 
-ApiRequest pause(const std::string &contcontainer_name_stringinerName,
-                 [[maybe_unused]] const std::string &data = "") noexcept;
+ApiRequest pause(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "") noexcept;
 
 ApiRequest unpause(const std::string &container_name_string, [[maybe_unused]] const std::string &data = "") noexcept;
 

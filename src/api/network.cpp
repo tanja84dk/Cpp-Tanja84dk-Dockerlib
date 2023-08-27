@@ -11,11 +11,11 @@ const api::ApiRequest api::network::list() noexcept {
     return Client;
 }
 
-const api::ApiRequest api::network::inspect(const std::string &network_name_æstring,
+const api::ApiRequest api::network::inspect(const std::string &network_name_string,
                                             [[maybe_unused]] const std::string &data) noexcept {
     api::ApiRequest Client;
     Client.request_type = "GET";
-    Client.url_path = "/networks/" + network_name_æstring;
+    Client.url_path = "/networks/" + network_name_string;
     Client.content_type = "application/json";
     return Client;
 }

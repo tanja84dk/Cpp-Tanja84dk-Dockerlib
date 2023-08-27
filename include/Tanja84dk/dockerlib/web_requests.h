@@ -7,81 +7,81 @@
 namespace Tanja84dk {
 namespace dockerlib {
 void http_get_request(asio::streambuf &request, const std::string &host, const std::string &path) {
-    Tanja84dk::Headers HeaderClient;
-    HeaderClient.set_http_type("GET");
-    HeaderClient.set_url_path(path);
-    HeaderClient.set_http_version("HTTP/1.1");
-    HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
-    HeaderClient.set_host(host);
-    HeaderClient.set_data_type("application/json");
-    HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
-    HeaderClient.set_http_keep_state("close");
+    Tanja84dk::http::Headers Header_Client;
+    Header_Client.set_http_type("GET");
+    Header_Client.set_url_path(path);
+    Header_Client.set_http_version("HTTP/1.1");
+    Header_Client.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+    Header_Client.set_host(host);
+    Header_Client.set_data_type("application/json");
+    Header_Client.set_language("en-US, en;q=0.8, *;q=0.5");
+    Header_Client.set_http_keep_state("close");
 
-    HeaderClient.generate_header(request);
+    Header_Client.generate_header(request);
 }
 
 void http_post_request(asio::streambuf &request, const std::string &host, const std::string &path,
                        const std::string &data = "") {
-    Tanja84dk::Headers HeaderClient;
-    HeaderClient.set_http_type("POST");
-    HeaderClient.set_url_path(path);
-    HeaderClient.set_http_version("HTTP/1.1");
-    HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
-    HeaderClient.set_host(host);
-    HeaderClient.set_data_type("application/json");
-    HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
-    HeaderClient.set_http_keep_state("close");
-    HeaderClient.generate_header(request, data);
+    Tanja84dk::http::Headers Header_Client;
+    Header_Client.set_http_type("POST");
+    Header_Client.set_url_path(path);
+    Header_Client.set_http_version("HTTP/1.1");
+    Header_Client.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+    Header_Client.set_host(host);
+    Header_Client.set_data_type("application/json");
+    Header_Client.set_language("en-US, en;q=0.8, *;q=0.5");
+    Header_Client.set_http_keep_state("close");
+    Header_Client.generate_header(request, data);
     if (data.length() > 0) {
-        HeaderClient.set_http_request_body(request, data);
+        Header_Client.set_http_request_body(request, data);
     }
 }
 
 void http_delete_request(asio::streambuf &request, const std::string &host, const std::string &path,
                          const std::string &data = "") {
-    Tanja84dk::Headers HeaderClient;
-    HeaderClient.set_http_type("DELETE");
-    HeaderClient.set_url_path(path);
-    HeaderClient.set_http_version("HTTP/1.1");
-    HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
-    HeaderClient.set_host(host);
-    HeaderClient.set_data_type("application/json");
-    HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
-    HeaderClient.set_http_keep_state("close");
-    HeaderClient.generate_header(request, data);
+    Tanja84dk::http::Headers Header_Client;
+    Header_Client.set_http_type("DELETE");
+    Header_Client.set_url_path(path);
+    Header_Client.set_http_version("HTTP/1.1");
+    Header_Client.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+    Header_Client.set_host(host);
+    Header_Client.set_data_type("application/json");
+    Header_Client.set_language("en-US, en;q=0.8, *;q=0.5");
+    Header_Client.set_http_keep_state("close");
+    Header_Client.generate_header(request, data);
     if (data.length() > 0) {
-        HeaderClient.set_http_request_body(request, data);
+        Header_Client.set_http_request_body(request, data);
     }
 }
 
 void http_head_request(asio::streambuf &request, const std::string &host, const std::string &path) {
-    Tanja84dk::Headers HeaderClient;
-    HeaderClient.set_http_type("HEAD");
-    HeaderClient.set_url_path(path);
-    HeaderClient.set_http_version("HTTP/1.1");
-    HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
-    HeaderClient.set_host(host);
-    HeaderClient.set_data_type("application/json");
-    HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
-    HeaderClient.set_http_keep_state("close");
+    Tanja84dk::http::Headers Header_Client;
+    Header_Client.set_http_type("HEAD");
+    Header_Client.set_url_path(path);
+    Header_Client.set_http_version("HTTP/1.1");
+    Header_Client.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+    Header_Client.set_host(host);
+    Header_Client.set_data_type("application/json");
+    Header_Client.set_language("en-US, en;q=0.8, *;q=0.5");
+    Header_Client.set_http_keep_state("close");
 
-    HeaderClient.generate_header(request);
+    Header_Client.generate_header(request);
 }
 
 void http_put_request(asio::streambuf &request, const std::string &host, const std::string &path,
                       const std::string &data = "") {
-    Tanja84dk::Headers HeaderClient;
-    HeaderClient.set_http_type("PUT");
-    HeaderClient.set_url_path(path);
-    HeaderClient.set_http_version("HTTP/1.1");
-    HeaderClient.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
-    HeaderClient.set_host(host);
-    HeaderClient.set_data_type("application/json");
-    HeaderClient.set_language("en-US, en;q=0.8, *;q=0.5");
-    HeaderClient.set_http_keep_state("close");
-    HeaderClient.generate_header(request, data);
+    Tanja84dk::http::Headers Header_Client;
+    Header_Client.set_http_type("PUT");
+    Header_Client.set_url_path(path);
+    Header_Client.set_http_version("HTTP/1.1");
+    Header_Client.set_http_user_agent("Tanja84dkDocker/" + Tanja84dk::dockerlib::version_as_string());
+    Header_Client.set_host(host);
+    Header_Client.set_data_type("application/json");
+    Header_Client.set_language("en-US, en;q=0.8, *;q=0.5");
+    Header_Client.set_http_keep_state("close");
+    Header_Client.generate_header(request, data);
     if (data.length() > 0) {
-        HeaderClient.set_http_request_body(request, data);
+        Header_Client.set_http_request_body(request, data);
     }
 }
 

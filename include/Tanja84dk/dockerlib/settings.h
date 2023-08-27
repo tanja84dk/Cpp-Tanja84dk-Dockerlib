@@ -41,11 +41,7 @@ class ConfigClass {
     std::string port_string_ = {};
 };
 
-const std::string version_as_string() {
-    return (std::to_string(tanja84dk_dockerlib_VERSION_MAJOR) + "." +
-            std::to_string(tanja84dk_dockerlib_VERSION_MINOR) + "." +
-            std::to_string(tanja84dk_dockerlib_VERSION_PATCH));
-}
+const std::string version_as_string() { return tanja84dk_dockerlib_VERSION_STRING; }
 
 }  // namespace dockerlib
 }  // namespace Tanja84dk
