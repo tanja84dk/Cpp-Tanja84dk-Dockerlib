@@ -1,24 +1,16 @@
-cmake_minimum_required(VERSION 3.8)
+find_package(Catch2 3 REQUIRED)
 
-project(tanja84dk_dockerlib_tests)
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-include(cmake/CPM.cmake)
-
-find_package(googletest REQUIRED)
-
-add_executable(tanja84dk_dockerlib_tests "src/main_test.cpp")
+add_executable(tanja84dk_dockerlib_tests src/main_test.cpp)
+target_link_libraries(tanja84dk_dockerlib_tests
+    PRIVATE
+        Tanja84dk::dockerlib
+        Catch2::Catch2WithMain
+)
 
 set_target_properties(tanja84dk_dockerlib_tests
-  PROPERTIES
-    FOLDER Tests
+    PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+        CMAKE_FOLDER Testing
 )
-
-target_link_libraries(tanja84dk_dockerlib_tests
-  PRIVATE
-    Tanja84dk::dockerlib
-    gtest
-)
-
-add_test(tanja84dk_dockerlib_tests tanja84dk_dockerlib_tests)

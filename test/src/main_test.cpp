@@ -1,29 +1,11 @@
-#include <Tanja84dk/dockerlib/dockerlib.h>
-#include <gtest/gtest.h>
+#include <Tanja84dk/http/headers.h>
 
-TEST(MultiplyTests, TestIntegerOne_One)
-{
-    const auto expected = 1;
-    const auto actual = 1 * 1;
-    ASSERT_EQ(expected, actual);
-}
+#include <catch2/catch_all.hpp>
+#include <string>
 
-TEST(MultiplyTests, TestIntegerZero_Zero)
-{
-    const auto expected = 0;
-    const auto actual = 0 * 0;
-    ASSERT_EQ(expected, actual);
-}
-
-TEST(MultiplyTests, TestIntegerZero_One)
-{
-    const auto expected = 0;
-    const auto actual = 0 * 1;
-    ASSERT_EQ(actual, expected);
-}
-
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST_CASE("Header Obj Test") {
+    Tanja84dk::http::Headers HeaderClient;
+    CHECK(HeaderClient.get_data_type() == "application/json");
+    HeaderClient.set_host("google.com");
+    CHECK(HeaderClient.get_host() == "google.com");
 }
