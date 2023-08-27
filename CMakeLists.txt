@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.16.0)
 
 project(tanja84dk_dockerlib VERSION 0.1.0)
 
@@ -17,6 +17,8 @@ option(BUILD_SHARED_LIBS OFF)
 
 option(tanja84dk_dockerlib_BUILD_CLIENT "Flag to build the test client" ON)
 option(tanja84dk_dockerlib_BUILD_TEST "Set to ON to build tests" OFF)
+
+include(GNUInstallDirs)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -46,6 +48,8 @@ set(tanja84dk_dockerlib_SOURCES
   src/api/image.cpp
   src/api/network.cpp
   src/parser/container.cpp
+  src/parser/image.cpp
+  src/parser/network.cpp
   src/docker_client.cpp
   src/license.cpp
   src/license_helper.h
@@ -131,6 +135,7 @@ set_target_properties(tanja84dk_dockerlib
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON )
   add_subdirectory(Client)
+  #add_subdirectory(Client2)
 endif()
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
