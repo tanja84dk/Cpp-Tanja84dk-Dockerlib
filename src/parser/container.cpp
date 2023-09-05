@@ -1,11 +1,16 @@
-#include <Tanja84dk/dockerlib/parser/container.h>
+#include "Tanja84dk/dockerlib/parser/container.h"
+
 #include <fmt/core.h>
 
 #include <nlohmann/json.hpp>
 #include <string>
 
 using namespace Tanja84dk::dockerlib;
-
+/**
+ * @brief Parsing the response from a docker container request
+ * 
+ * @param ordered_json_object nlohmann::ordered_json object as a reference
+ */
 void parser::Inspect::parse(const nlohmann::ordered_json &ordered_json_object) noexcept {
     this->set_id_(ordered_json_object.at("Id"));
     this->set_state_(ordered_json_object.at("state").at("Status"));

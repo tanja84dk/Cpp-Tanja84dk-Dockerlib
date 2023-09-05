@@ -1,9 +1,9 @@
 #ifndef TANJA84DK_DOCKERLIB_API_NETWORK_H
 #define TANJA84DK_DOCKERLIB_API_NETWORK_H
 
-#include <Tanja84dk/dockerlib/api/datatype.h>
-
 #include <string>
+
+#include "datatype.h"
 
 namespace Tanja84dk {
 namespace dockerlib {

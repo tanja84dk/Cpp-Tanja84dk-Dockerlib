@@ -1,8 +1,9 @@
 #ifndef TANJA84DK_DOCKERLIB_WEBREQUESTS_H
 #define TANJA84DK_DOCKERLIB_WEBREQUESTS_H
 
-#include <Tanja84dk/dockerlib/settings.h>
 #include <Tanja84dk/http/headers.h>
+
+#include "settings.h"
 
 namespace Tanja84dk {
 namespace dockerlib {

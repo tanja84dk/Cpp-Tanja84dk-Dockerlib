@@ -1,6 +1,7 @@
 #ifndef TANJA84DK_DOCKERLIB_SETTINGS_H
 #define TANJA84DK_DOCKERLIB_SETTINGS_H
-#include <Tanja84dk/dockerlib/tanja84dk_dockerlib_pch.h>
+
+#include "tanja84dk_dockerlib_pch.h"
 
 namespace Tanja84dk {
 namespace dockerlib {

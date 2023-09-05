@@ -6,7 +6,7 @@
 #include <array>
 #include <string>
 
-namespace menues {
+namespace menus {
 
 enum main_menu_enum {
     Containers = 1,
@@ -67,6 +67,6 @@ void print_networks_menu() noexcept {
     print_menu_label("Networks Menu");
     print_menu_options(network_menu_array);
 }
-}  // namespace menues
+}  // namespace menus
 
 #endif  // TANJA84DK_DOCKERLIB_CLIENT_MENU_H

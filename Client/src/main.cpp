@@ -53,7 +53,7 @@ inline std::string get_string_from_name_json_array(nlohmann::ordered_json &json_
 }
 
 /**
- * The WebDataObject struct represents a data object containing information about a web
+ * The WebDataObject class represents a data object containing information about a web
  * request/response.
  * @property {int} length - The length property represents the length of the data in the WebDataObject.
  * It is an integer value.
@@ -70,7 +70,8 @@ inline std::string get_string_from_name_json_array(nlohmann::ordered_json &json_
  * order of the elements in the JSON object is preserved. This is useful when the order of the elements
  * is important, such
  */
-struct WebDataObject {
+class WebDataObject {
+   public:
     int length = {};
     std::string header = {};
     std::string data = {};
@@ -88,10 +89,10 @@ struct WebDataObject {
         this->return_code = {};
         this->json_ordered_object.clear();
     }
-};  // struct webDataObj
+};  // class webDataObj
 
 /**
- * The WebCacheClient struct represents a client for a web cache system and contains various data
+ * The WebCacheClient class represents a client for a web cache system and contains various data
  * members and methods for managing the client's state.
  * @property temp_buffer_ - A string variable used to temporarily store data during processing.
  * @property header_ - A stringstream object used to store the header data received from a web cache
@@ -104,7 +105,8 @@ struct WebDataObject {
  * @property data_type_ - The `data_type_` property in the `WebCacheClient` struct is a `std::string`
  * that represents the type of data being stored in the cache.
  */
-struct WebCacheClient {
+class WebCacheClient {
+   public:
     std::string temp_buffer_ = {};
     std::stringstream header_ = {};
     std::stringstream body_ = {};
@@ -118,7 +120,7 @@ struct WebCacheClient {
         this->error_code_ = {};
         this->data_type_.clear();
     }
-};
+};  // class WebCacheClient
 
 /**
  * The function pretty_print_json takes an ordered JSON object and prints it with a specified number of
@@ -142,7 +144,7 @@ int main(int argc, const char *argv[]) {
     std::string http_path_string = {};
     std::string http_type_string = {};
     std::unordered_map<std::string, std::string> containers_local_map = {};
-    WebCacheClient WebCache;
+    WebCacheClient Web_Cache;
 
     if (argc > 1) {
         cxxopts::Options options("Tanja84dkDockerClient",
@@ -150,7 +152,7 @@ int main(int argc, const char *argv[]) {
                                  "If none arguments are given then you would be able to set it in the program\n");
         options.add_options()("H,Host", "Setting the Host", cxxopts::value<std::string>())(
             "P,Port", "Setting the Port", cxxopts::value<std::string>())("h,help", "Print Usage")(
-            "l,license", "Printing the licences");
+            "l,license", "Printing the licenses");
         options.allow_unrecognised_options();
         auto result = options.parse(argc, argv);
         try {
@@ -159,7 +161,7 @@ int main(int argc, const char *argv[]) {
                 exit(0);
             }
             if (result.count("license")) {
-                Tanja84dk::dockerlib::license::print_all_licences();
+                Tanja84dk::dockerlib::license::print_all_licenses();
                 return 0;
             }
             if (result.count("Host")) {
@@ -193,7 +195,7 @@ int main(int argc, const char *argv[]) {
         configuration.set_port(temp_port_string);
     }
 
-    menues::print_main_menu();
+    menus::print_main_menu();
 
     int main_menu_choice_int = {};
     int sub_menu_choice_int = {};
@@ -201,22 +203,22 @@ int main(int argc, const char *argv[]) {
     get_and_validate_input(main_menu_choice_int, "Enter the menu number: ");
     switch (main_menu_choice_int) {
         case 1:
-            menues::print_container_menu();
+            menus::print_container_menu();
             get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
             break;  // Containers
         case 2:
-            menues::print_images_menu();
+            menus::print_images_menu();
             get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
             break;  // Images
         case 3:
-            menues::print_networks_menu();
+            menus::print_networks_menu();
             get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
             break;  // Networks
         case 99:
             return 0;
     }
 
-    if (main_menu_choice_int == menues::main_menu_enum::Containers) {
+    if (main_menu_choice_int == menus::main_menu_enum::Containers) {
         std::string container_name_string = {};
         fmt::print("\n");
 
@@ -225,7 +227,7 @@ int main(int argc, const char *argv[]) {
                 http_type_string = Tanja84dk::dockerlib::api::container::list_all().request_type;
                 http_path_string = Tanja84dk::dockerlib::api::container::list_all().url_path;
                 containers_local_map.clear();
-                WebCache.data_type_ = Tanja84dk::dockerlib::api::container::list_all().content_type;
+                Web_Cache.data_type_ = Tanja84dk::dockerlib::api::container::list_all().content_type;
                 break;
             case 2:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
@@ -236,7 +238,7 @@ int main(int argc, const char *argv[]) {
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
                 http_type_string = Tanja84dk::dockerlib::api::container::get_logs(container_name_string).request_type;
                 http_path_string = Tanja84dk::dockerlib::api::container::get_logs(container_name_string).url_path;
-                WebCache.data_type_ =
+                Web_Cache.data_type_ =
                     Tanja84dk::dockerlib::api::container::get_logs(container_name_string).content_type;
                 break;
             case 4:
@@ -248,24 +250,24 @@ int main(int argc, const char *argv[]) {
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
                 http_type_string = Tanja84dk::dockerlib::api::container::stop(container_name_string).request_type;
                 http_path_string = Tanja84dk::dockerlib::api::container::stop(container_name_string).url_path;
-                WebCache.data_type_ = "text";
+                Web_Cache.data_type_ = "text";
                 break;
             case 6:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
                 http_type_string = Tanja84dk::dockerlib::api::container::restart(container_name_string).request_type;
                 http_path_string = Tanja84dk::dockerlib::api::container::restart(container_name_string).url_path;
-                WebCache.data_type_ = "text";
+                Web_Cache.data_type_ = "text";
                 break;
             case 7:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
                 http_type_string = Tanja84dk::dockerlib::api::container::kill(container_name_string).request_type;
                 http_path_string = Tanja84dk::dockerlib::api::container::kill(container_name_string).url_path;
-                WebCache.data_type_ = "text";
+                Web_Cache.data_type_ = "text";
                 break;
             case 9:
                 http_type_string = "GET";
                 http_path_string = "/info";
-                WebCache.data_type_ = "application/json";
+                Web_Cache.data_type_ = "application/json";
                 break;
             case 99:
                 return EXIT_SUCCESS;
@@ -274,12 +276,12 @@ int main(int argc, const char *argv[]) {
         }
         container_name_string.clear();
         sub_menu_choice_int = 0;
-    } else if (main_menu_choice_int == menues::main_menu_enum::Images) {
+    } else if (main_menu_choice_int == menus::main_menu_enum::Images) {
         switch (sub_menu_choice_int) {
             case 1:
                 http_type_string = Tanja84dk::dockerlib::api::image::list().request_type;
                 http_path_string = Tanja84dk::dockerlib::api::image::list().url_path;
-                WebCache.data_type_ = "application/json";
+                Web_Cache.data_type_ = "application/json";
                 break;
             case 99:
                 return EXIT_SUCCESS;
@@ -288,12 +290,12 @@ int main(int argc, const char *argv[]) {
         }
     }
 
-    else if (main_menu_choice_int == menues::main_menu_enum::Networks) {
+    else if (main_menu_choice_int == menus::main_menu_enum::Networks) {
         switch (sub_menu_choice_int) {
             case 1:
                 http_type_string = Tanja84dk::dockerlib::api::network::list().request_type;
                 http_path_string = Tanja84dk::dockerlib::api::network::list().url_path;
-                WebCache.data_type_ = Tanja84dk::dockerlib::api::network::list().content_type;
+                Web_Cache.data_type_ = Tanja84dk::dockerlib::api::network::list().content_type;
                 break;
             case 99:
                 return EXIT_SUCCESS;
@@ -367,42 +369,39 @@ int main(int argc, const char *argv[]) {
         asio::read_until(socket, response, "\r\n\r\n");
 
         // WebCacheClient WebCache;
-        WebCache.clear();
+        Web_Cache.clear();
         WebDataObject Client;
         Client.clear();
 
         // Process the response headers.
         std::string header = {};
         while (std::getline(response_stream, header) && header != "\r") {
-            WebCache.header_ << header;
+            Web_Cache.header_ << header;
         };
 
         // Write whatever content we already have to output.
-        WebCache.body_.clear();
-        // webdata.clear();
+        Web_Cache.body_.clear();
         if (response.size() > 0) {
-            // webdata << &response;
-            WebCache.body_ << &response;
+            Web_Cache.body_ << &response;
         }
 
         // Read until EOF, writing data to output as we go.
         asio::error_code error;
         while (asio::read(socket, response, asio::transfer_at_least(1), error)) {
-            // webdata << &response;
-            WebCache.body_ << &response;
+            Web_Cache.body_ << &response;
         }
         if (error != asio::error::eof) {
             std::cerr << "[ERROR]: ..\n";
         }
 
-        Client.header = WebCache.header_.str();
-        std::getline(WebCache.body_, WebCache.temp_buffer_, '\r');
-        Client.length = std::stoi(WebCache.temp_buffer_, nullptr, 16);
-        WebCache.temp_buffer_.clear();
-        std::getline(WebCache.body_, Client.data, '\r');
-        std::getline(WebCache.body_, WebCache.temp_buffer_, '\r');
-        Client.return_code = std::stoi(WebCache.temp_buffer_);
-        WebCache.temp_buffer_.clear();
+        Client.header = Web_Cache.header_.str();
+        std::getline(Web_Cache.body_, Web_Cache.temp_buffer_, '\r');
+        Client.length = std::stoi(Web_Cache.temp_buffer_, nullptr, 16);
+        Web_Cache.temp_buffer_.clear();
+        std::getline(Web_Cache.body_, Client.data, '\r');
+        std::getline(Web_Cache.body_, Web_Cache.temp_buffer_, '\r');
+        Client.return_code = std::stoi(Web_Cache.temp_buffer_);
+        Web_Cache.temp_buffer_.clear();
 
         try {
             Client.json_ordered_object = nlohmann::ordered_json::parse(Client.data);
@@ -439,7 +438,7 @@ int main(int argc, const char *argv[]) {
         } else {
             fmt::print("{}\n", Client.data);
         }
-        WebCache.clear();
+        Web_Cache.clear();
         Client.clear();
     } catch (std::exception &e) {
         std::cerr << "Exception: " << e.what() << "\n";

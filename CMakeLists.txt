@@ -57,13 +57,13 @@ set(tanja84dk_dockerlib_SOURCES
 
 set(tanja84dk_dockerlib_LIBRARIES
   fmt
-  asio
+  #asio
   Tanja84dk::http
   nlohmann_json
 )
 
 find_package(Threads QUIET REQUIRED)
-find_package(asio QUIET REQUIRED)
+#find_package(asio QUIET REQUIRED)
 find_package(tanja84dk_http REQUIRED)
 find_package(nlohmann_json QUIET REQUIRED)
 find_package(fmt QUIET REQUIRED)
@@ -77,7 +77,7 @@ if (tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON)
 endif()
 
 tanja84dk_generate_license_manual(tanja84dk_dockerlib ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
-tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
+#tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
 tanja84dk_generate_license_manual(fmt ${fmt_SOURCE_DIR}/LICENSE.rst)
 tanja84dk_generate_license_manual(nlohmann_json ${nlohmann_json_SOURCE_DIR}/LICENSE.MIT)
 tanja84dk_generate_license(tanja84dk_http)
