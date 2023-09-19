@@ -12,6 +12,7 @@ enum main_menu_enum {
     Containers = 1,
     Images = 2,
     Networks = 3,
+    About = 9,
 };
 
 static std::array<std::string, 3> main_menu_array = {"Containers", "Images", "Networks"};
@@ -29,6 +30,11 @@ static std::array<std::string, 6> network_menu_array = {"List Networks",
                                                         "Create Network",
                                                         "Connect container to Network",
                                                         "Disconnect container from Network"};
+
+static std::array<std::string, 2> about_menu_array = {
+    "About Dockerlib",
+    "Licenses",
+};
 
 static void print_menu_label(const std::string &menu_title_string) {
     fmt::print(
@@ -67,6 +73,12 @@ void print_networks_menu() noexcept {
     print_menu_label("Networks Menu");
     print_menu_options(network_menu_array);
 }
+
+void print_about_menu() noexcept {
+    print_menu_label("About");
+    print_menu_options(about_menu_array);
+}
+
 }  // namespace menus
 
 #endif  // TANJA84DK_DOCKERLIB_CLIENT_MENU_H

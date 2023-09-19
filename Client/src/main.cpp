@@ -214,6 +214,10 @@ int main(int argc, const char *argv[]) {
             menus::print_networks_menu();
             get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
             break;  // Networks
+        case 9:
+            menus::print_about_menu();
+            get_and_validate_input(sub_menu_choice_int, "Enter the menu number: ");
+            break;
         case 99:
             return 0;
     }
@@ -302,6 +306,22 @@ int main(int argc, const char *argv[]) {
             default:
                 return EXIT_FAILURE;
         }
+
+    } else if (main_menu_choice_int == menus::main_menu_enum::About) {
+        switch (sub_menu_choice_int) {
+            case 1:
+                break;
+            case 2:
+                Tanja84dk::dockerlib::license::print_all_licenses();
+                break;
+            case 99:
+                return EXIT_SUCCESS;
+            default:
+                return EXIT_FAILURE;
+        }
+
+        main_menu_choice_int = 0;
+        sub_menu_choice_int = 0;
     } else {
         fmt::print("Wrong main entry.\nPlease restart and try again\n");
         return 1;
