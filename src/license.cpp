@@ -20,7 +20,7 @@ void license::print_title_for_licenses(const std::string &title) noexcept {
         "    {}\n"
         "---------------------------\n",
         title);
-};
+}
 
 /**
  * @brief Print all licenses
@@ -48,7 +48,7 @@ void license::print_all_licenses() noexcept {
     fmt::print("{}\n\n", Tanja84dk::dockerlib::license::get_tanja84dk_http());
 }
 
-const std::string license::get_asio_license() noexcept { return Tanja84dk::http::Licenses::asio(); };
+const std::string license::get_asio_license() noexcept { return Tanja84dk::http::Licenses::asio(); }
 
 const std::string license::get_tanja84dk_http() noexcept {
     std::string license = tanja84dk_http_LICENSE;
@@ -64,13 +64,13 @@ const std::string license::get_cxxopts_license() noexcept {
     std::string license = "";
 #endif
     return license;
-};
+}
 
 const std::string license::get_fmtlib_license() noexcept {
     std::string license = fmt_LICENSE;
     Tanja84dk::dockerlib_private::replace_all(license, ";", "\n");
     return license;
-};
+}
 
 const std::string license::get_nlohmann_json_license() noexcept {
     std::string license = nlohmann_json_LICENSE;
