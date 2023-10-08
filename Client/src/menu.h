@@ -36,6 +36,9 @@ static std::array<std::string, 2> about_menu_array = {
     "Licenses",
 };
 
+/*
+ * @param menu_title_string The Menu's Title
+ */
 static void print_menu_label(const std::string &menu_title_string) {
     fmt::print(
         "\n"
@@ -46,6 +49,10 @@ static void print_menu_label(const std::string &menu_title_string) {
         menu_title_string);
 }
 
+/*
+ * @param menu_options_array This is a array of string menu points, and a std::size_t in size to tell the length of the
+ * array
+ */
 template <std::size_t size>
 static void print_menu_options(const std::array<std::string, size> &menu_options_array) {
     for (std::size_t i = 0; i < size; ++i) {

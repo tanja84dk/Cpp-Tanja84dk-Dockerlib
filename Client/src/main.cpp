@@ -15,8 +15,6 @@
 #include "client_settings.h"
 #include "menu.h"
 
-/* The above code is a template function called `get_and_validate_input` that takes two parameters: a
-reference to a variable of type `T` and a constant reference to a string `message`. */
 template <typename T>
 void get_and_validate_input(T &input, const std::string &message) noexcept {
     fmt::print("{}", message);
@@ -32,16 +30,6 @@ void get_and_validate_input(T &input, const std::string &message) noexcept {
     }
 }
 
-/**
- * The function extracts a string value from a JSON array object based on a given search string.
- *
- * @param json_array_object A reference to a JSON array object (of type nlohmann::ordered_json) that
- * contains the data.
- * @param search_string The `search_string` parameter is a `std::string` that represents the key or
- * property name in the JSON array object that you want to search for.
- *
- * @return a string that is extracted from a JSON array object.
- */
 inline std::string get_string_from_name_json_array(nlohmann::ordered_json &json_array_object,
                                                    const std::string &search_string) {
     std::string tmp = json_array_object.at(search_string).dump();
@@ -52,24 +40,6 @@ inline std::string get_string_from_name_json_array(nlohmann::ordered_json &json_
     return name;
 }
 
-/**
- * The WebDataObject class represents a data object containing information about a web
- * request/response.
- * @property {int} length - The length property represents the length of the data in the WebDataObject.
- * It is an integer value.
- * @property header - The "header" property is a string that represents the header information of a web
- * data object. It typically contains metadata about the data being transmitted, such as content type,
- * encoding, and other relevant information.
- * @property data - The `data` property is a string that represents the actual data received from a web
- * request or response. It can contain any type of data, such as HTML, JSON, XML, or plain text.
- * @property {int} return_code - The return_code property is an integer that represents the return code
- * of a web request. It is typically used to indicate the status or outcome of the request, such as
- * whether it was successful or encountered an error.
- * @property json_ordered_object - The `json_ordered_object` property is an instance of the
- * `nlohmann::ordered_json` class. It is used to store JSON data in an ordered manner, meaning the
- * order of the elements in the JSON object is preserved. This is useful when the order of the elements
- * is important, such
- */
 class WebDataObject {
    public:
     int length = {};
@@ -79,9 +49,6 @@ class WebDataObject {
 
     nlohmann::ordered_json json_ordered_object = {};
 
-    /**
-     * The clear() function resets all the member variables of the class to their default values.
-     */
     void clear() {
         this->length = {};
         this->header.clear();
@@ -91,20 +58,6 @@ class WebDataObject {
     }
 };  // class webDataObj
 
-/**
- * The WebCacheClient class represents a client for a web cache system and contains various data
- * members and methods for managing the client's state.
- * @property temp_buffer_ - A string variable used to temporarily store data during processing.
- * @property header_ - A stringstream object used to store the header data received from a web cache
- * server.
- * @property body_ - A stringstream object used to store the body of the response received from the web
- * cache server.
- * @property error_code_ - The `error_code_` property is of type `std::errc`, which is an enumeration
- * type representing error conditions. It is used to store the error code associated with the web cache
- * client.
- * @property data_type_ - The `data_type_` property in the `WebCacheClient` struct is a `std::string`
- * that represents the type of data being stored in the cache.
- */
 class WebCacheClient {
    public:
     std::string temp_buffer_ = {};
@@ -122,18 +75,6 @@ class WebCacheClient {
     }
 };  // class WebCacheClient
 
-/**
- * The function pretty_print_json takes an ordered JSON object and prints it with a specified number of
- * tabs for formatting.
- *
- * @param tabs The "tabs" parameter is an integer that represents the number of spaces to indent each
- * level of the JSON object when printing it.
- * @param ordered_json_object The parameter `ordered_json_object` is of type `nlohmann::ordered_json`,
- * which is a class provided by the nlohmann JSON library. It represents a JSON object or array.
- *
- * @return The function is not returning any value. It has a void return type, which means it does not
- * return anything.
- */
 void pretty_print_json(int8_t tabs, const nlohmann::ordered_json &ordered_json_object) {
     std::cout << std::setw(tabs) << ordered_json_object;
     return;
