@@ -3,9 +3,6 @@
 
 #include <iostream>
 
-const char* HOST = "127.0.0.1";
-const char* PORT = "80";
-
 int main() {
     auto& configuration = Tanja84dk::dockerlib::ConfigClass::get_instance();
 
