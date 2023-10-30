@@ -136,7 +136,7 @@ set_target_properties(tanja84dk_dockerlib
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON )
   add_subdirectory(Client)
-  #add_subdirectory(Client2)
+  add_subdirectory(client_new)
 endif()
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
