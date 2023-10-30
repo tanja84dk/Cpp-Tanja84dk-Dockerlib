@@ -23,6 +23,11 @@ CPMAddPackage(
 
 add_executable(tanja84dk_dockerclient_httplib ${tanja84dk_dockerclient_httplib_SOURCES})
 
+target_link_directories(tanja84dk_dockerclient_httplib
+    PRIVATE
+        ${httplib_SOURCE_DIR}
+)
+
 target_link_libraries(tanja84dk_dockerclient_httplib
     PRIVATE
         httplib
