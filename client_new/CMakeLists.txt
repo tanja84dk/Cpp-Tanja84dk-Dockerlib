@@ -14,7 +14,19 @@ set(tanja84dk_dockerclient_httplib_HEADERS)
 
 set(tanja84dk_dockerclient_httplib_LIBRARIES)
 
+CPMAddPackage(
+    NAME            cpp-httplib
+    GIT_REPOSITORY  https://github.com/yhirose/cpp-httplib
+    VERSION         0.14.1
+    GIT_TAG         v0.14.1
+)
+
 add_executable(tanja84dk_dockerclient_httplib ${tanja84dk_dockerclient_httplib_SOURCES})
+
+target_link_libraries(tanja84dk_dockerclient_httplib
+    PRIVATE
+        httplib
+)
 
 set_target_properties(tanja84dk_dockerclient_httplib
     PROPERTIES
