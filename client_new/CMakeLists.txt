@@ -30,6 +30,7 @@ target_link_directories(tanja84dk_dockerclient_httplib
 
 target_link_libraries(tanja84dk_dockerclient_httplib
     PRIVATE
+        Tanja84dk::dockerlib
         httplib
 )
 
