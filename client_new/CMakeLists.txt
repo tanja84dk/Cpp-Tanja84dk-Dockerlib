@@ -15,6 +15,13 @@ set(tanja84dk_dockerclient_httplib_HEADERS)
 set(tanja84dk_dockerclient_httplib_LIBRARIES)
 
 CPMAddPackage(
+    NAME            fmt
+    GIT_REPOSITORY  https://github.com/fmtlib/fmt
+    VERSION         10.1.1
+    GIT_TAG         10.1.1
+)
+
+CPMAddPackage(
     NAME            cpp-httplib
     GIT_REPOSITORY  https://github.com/yhirose/cpp-httplib
     VERSION         0.14.1
@@ -31,6 +38,7 @@ target_link_directories(tanja84dk_dockerclient_httplib
 target_link_libraries(tanja84dk_dockerclient_httplib
     PRIVATE
         Tanja84dk::dockerlib
+        fmt
         httplib
 )
 
