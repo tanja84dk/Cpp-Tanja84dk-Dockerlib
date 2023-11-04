@@ -8,7 +8,9 @@ include(CheckCCompilerFlag)
 
 set(tanja84dk_dockerclient_httplib_SOURCES
     src/main.cpp
+    src/container.cpp
     src/client_parsing.cpp
+    src/client_tools.cpp
 )
 
 set(tanja84dk_dockerclient_httplib_HEADERS)
