@@ -163,6 +163,80 @@ int main() {
         }
         container_name_string.clear();
         sub_menu_choice_int = 0;
+    } else if (main_menu_choice_int == menus::main_menu_enum::Images) {
+        std::string image_name_string = {};
+        fmt::print("\n");
+
+        switch (sub_menu_choice_int) {
+            case 1:
+                http_type_string = Tanja84dk::dockerlib::api::image::list().request_type;
+                http_path_string = Tanja84dk::dockerlib::api::image::list().url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::image::list().content_type;
+                break;
+            case 2:
+                get_and_validate_input(image_name_string, "Enter image name or image ID: ");
+                http_type_string = Tanja84dk::dockerlib::api::image::inspect(image_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::image::inspect(image_name_string).url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::image::inspect(image_name_string).content_type;
+                break;
+            case 3:
+                get_and_validate_input(image_name_string, "Enter image name or image ID: ");
+                http_type_string = Tanja84dk::dockerlib::api::image::history(image_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::image::history(image_name_string).url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::image::history(image_name_string).content_type;
+                break;
+            case 4:
+                get_and_validate_input(image_name_string, "Enter image to search for: ");
+                http_type_string = Tanja84dk::dockerlib::api::image::search(image_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::image::search(image_name_string).url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::image::search(image_name_string).content_type;
+                break;
+            case 99:
+                return EXIT_SUCCESS;
+            default:
+                return EXIT_FAILURE;
+        }
+        image_name_string.clear();
+        sub_menu_choice_int = 0;
+    } else if (main_menu_choice_int == menus::main_menu_enum::Networks) {
+        std::string network_name_string = {};
+        fmt::print("\n");
+
+        switch (sub_menu_choice_int) {
+            case 1:
+                http_type_string = Tanja84dk::dockerlib::api::network::list().request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::list().url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::network::list().content_type;
+                break;
+            case 2:
+                get_and_validate_input(network_name_string, "Enter network name: ");
+                http_type_string = Tanja84dk::dockerlib::api::network::inspect(network_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::inspect(network_name_string).url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::network::inspect(network_name_string).content_type;
+                break;
+            case 3:
+                get_and_validate_input(network_name_string, "Enter network name: ");
+                http_type_string = Tanja84dk::dockerlib::api::network::remove(network_name_string).request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::remove(network_name_string).url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::network::remove(network_name_string).content_type;
+                break;
+            case 4:
+                // Create Network
+                break;
+            case 5:
+                // Connect a Container to a Network
+                break;
+            case 6:
+                // Disconnect Container from Network
+                break;
+            case 99:
+                return EXIT_SUCCESS;
+            default:
+                return EXIT_FAILURE;
+        }
+        network_name_string.clear();
+        sub_menu_choice_int = 0;
+    } else if (main_menu_choice_int == menus::main_menu_enum::About) {
     }
 
     httplib::Client cli(configuration.get_host(), std::stoi(configuration.get_port()));
