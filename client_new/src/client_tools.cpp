@@ -1,3 +1,6 @@
+#include <nlohmann/json.hpp>
+#include <string>
+
 #include "client_tools.h"
 
 using namespace Tanja84dk::DockerLib::Client;

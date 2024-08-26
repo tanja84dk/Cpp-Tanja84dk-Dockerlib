@@ -6,6 +6,8 @@
 #include <array>
 #include <string>
 
+#include "license.h"
+
 namespace menus {
 
 enum main_menu_enum {
@@ -46,6 +48,13 @@ static void print_menu_label(const std::string &menu_title_string) {
         "\t{}\n"
         "------------------------------\n"
         "\n",
+        menu_title_string);
+}
+
+static void print_colum_label(const std::string &menu_title_string) {
+    fmt::print(
+        "{}\n"
+        "------------------------------\n",
         menu_title_string);
 }
 

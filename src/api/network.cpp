@@ -38,11 +38,14 @@ const api::ApiRequest api::network::create([[maybe_unused]] const std::string &n
     return Client;
 }
 
-const api::ApiRequest api::network::connect_container_to_network(const std::string &network_name_string) noexcept {
+const api::ApiRequest api::network::connect_container_to_network(const std::string &network_name_string,
+                                                                 const std::string &container_name_string) noexcept {
     api::ApiRequest Client;
     Client.request_type = "POST";
     Client.url_path = "/networks/" + network_name_string + "/connect";
     Client.content_type = "application/json";
+    nlohmann::json json_object = nlohmann::json::object({{"Container", container_name_string}});
+    Client.data = json_object.dump().c_str();
     return Client;
 }
 

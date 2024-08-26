@@ -1,0 +1,9 @@
+#ifndef TANJA84DK_DOCKERCLIENT_HTTPLIB_LICENSES_MACRO_H
+#define TANJA84DK_DOCKERCLIENT_HTTPLIB_LICENSES_MACRO_H
+
+#define tanja84dk_dockerlib_LICENSE @tanja84dk_dockerlib_LICENSE@
+#define fmt_LICENSE @fmt_LICENSE@
+#define nlohmann_json_LICENSE @nlohmann_json_LICENSE@
+#define cpp_httplib_LICENSE @cpp_httplib_LICENSE@
+
+#endif // TANJA84DK_DOCKERCLIENT_HTTPLIB_LICENSES_MACRO_H

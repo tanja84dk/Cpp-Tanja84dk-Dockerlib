@@ -18,6 +18,8 @@ class ContainerParser {
     std::string state_string = {};
     std::string status_string = {};
     std::string command_string = {};
+
+    void list_images() noexcept;
 };
 }  // namespace parsing
 }  // namespace client

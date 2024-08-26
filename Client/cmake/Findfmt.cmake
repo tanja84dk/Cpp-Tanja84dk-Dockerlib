@@ -1,1 +1,1 @@
-CPMAddPackage("gh:fmtlib/fmt#9.1.0")
+CPMAddPackage("gh:fmtlib/fmt#10.2.1")

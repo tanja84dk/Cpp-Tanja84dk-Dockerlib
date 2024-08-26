@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16.0)
 
 project(tanja84dk_dockerlib VERSION 0.1.0)
-set(CMAKE_CXX_STANDARD 17)
 
-include(CTest)
-enable_testing()
+if (NOT DEFINED CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
 set(POSITION_INDEPENDENT_CODE True)
 
@@ -78,8 +78,8 @@ if (tanja84dk_dockerlib_BUILD_CLIENT STREQUAL ON)
 endif()
 
 tanja84dk_generate_license_manual(tanja84dk_dockerlib ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
-#tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
-tanja84dk_generate_license_manual(fmt ${fmt_SOURCE_DIR}/LICENSE.rst)
+tanja84dk_generate_license_manual(asio ${asio_SOURCE_DIR}/asio/LICENSE_1_0.txt)
+tanja84dk_generate_license_manual(fmt ${fmt_SOURCE_DIR}/LICENSE)
 tanja84dk_generate_license_manual(nlohmann_json ${nlohmann_json_SOURCE_DIR}/LICENSE.MIT)
 tanja84dk_generate_license(tanja84dk_http)
 
@@ -139,7 +139,9 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BU
   add_subdirectory(client_new)
 endif()
 
-if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
+#if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
+if( tanja84dk_dockerlib_BUILD_TEST STREQUAL ON )
+  include(CTest)
   enable_testing()
   add_subdirectory(test)
 endif()

@@ -1,5 +1,5 @@
 #set(${PROJECT_NAME}_LICENSES_MACRO_FILE ${${PROJECT_NAME}_BINARY_DIR}/${PROJECT_NAME}_licenses_macro.h.in)
-set(${PROJECT_NAME}_LICENSES_MACRO_FILE ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}_licenses_macro.h.in)
+set(${PROJECT_NAME}_LICENSES_MACRO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_licenses_macro.h.in)
 
 string(TOUPPER ${PROJECT_NAME} ${PROJECT_NAME}_MACRO_NAME)
 
@@ -11,8 +11,8 @@ function(tanja84dk_generate_license_begin)
     message("test1 ${${PROJECT_NAME}_LICENSES_MACRO_FILE}")
     message("test2 #ifndef ${${PROJECT_NAME}_MACRO_NAME}_LICENCES_MACRO_H\n")
 
-    file(APPEND "${${PROJECT_NAME}_LICENSES_MACRO_FILE}" "#ifndef ${${PROJECT_NAME}_MACRO_NAME}_LICENCES_MACRO_H\n")
-    file(APPEND "${${PROJECT_NAME}_LICENSES_MACRO_FILE}" "#define ${${PROJECT_NAME}_MACRO_NAME}_LICENCES_MACRO_H\n\n")    
+    file(APPEND "${${PROJECT_NAME}_LICENSES_MACRO_FILE}" "#ifndef ${${PROJECT_NAME}_MACRO_NAME}_LICENSES_MACRO_H\n")
+    file(APPEND "${${PROJECT_NAME}_LICENSES_MACRO_FILE}" "#define ${${PROJECT_NAME}_MACRO_NAME}_LICENSES_MACRO_H\n\n")    
 endfunction(tanja84dk_generate_license_begin)
 
 
@@ -52,7 +52,7 @@ endfunction(tanja84dk_generate_license_manual)
 
 function(tanja84dk_generate_license_end)
     file(APPEND "${${PROJECT_NAME}_LICENSES_MACRO_FILE}"
-    "\n#endif // TANJA84DK_DOCKERLIB_LICENCES_MACRO_H\n")
+    "\n#endif // ${${PROJECT_NAME}_MACRO_NAME}_LICENSES_MACRO_H\n")
 endfunction(tanja84dk_generate_license_end)
 
 

@@ -11,8 +11,8 @@
 using namespace Tanja84dk::dockerlib;
 /**
  * @brief Printing the title part of the license
- * 
- * @param title 
+ *
+ * @param title
  */
 void license::print_title_for_licenses(const std::string &title) noexcept {
     fmt::print(
@@ -24,7 +24,7 @@ void license::print_title_for_licenses(const std::string &title) noexcept {
 
 /**
  * @brief Print all licenses
- * 
+ *
  */
 void license::print_all_licenses() noexcept {
     Tanja84dk::dockerlib::license::print_title_for_licenses("tanja84dk_dockerlib/Tanja84dk Docker Client");

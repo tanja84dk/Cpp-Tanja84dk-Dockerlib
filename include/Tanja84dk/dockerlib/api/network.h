@@ -27,7 +27,8 @@ const ApiRequest remove(const std::string &network_name_string, [[maybe_unused]]
 const ApiRequest create([[maybe_unused]] const std::string &network_name_string,
                         [[maybe_unused]] const std::string &data = "") noexcept;
 
-const ApiRequest connect_container_to_network(const std::string &network_name_string) noexcept;
+const ApiRequest connect_container_to_network(const std::string &network_name_string,
+                                              const std::string &container_name_string) noexcept;
 
 const ApiRequest disconnect_container_from_network(const std::string &network_name_string,
                                                    const std::string &container_name_string,

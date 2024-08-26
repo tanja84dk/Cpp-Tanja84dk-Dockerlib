@@ -11,7 +11,17 @@
 
 #include "client_parsing.h"
 #include "client_tools.h"
+#include "license.h"
 #include "menu.h"
+#include "network.h"
+
+void print_all_licenses() noexcept {
+    menus::print_menu_label("tanja84dk_dockerlib/Tanja84dk Docker Client");
+    fmt::print("{}\n\n", Tanja84dk::client::license::dockerlib());
+
+    menus::print_menu_label("fmt/fmtlib");
+    fmt::print("{}\n\n", Tanja84dk::client::license::fmt());
+}
 
 template <typename T>
 void get_and_validate_input(T &input, const std::string &message) noexcept {
@@ -33,11 +43,50 @@ void pretty_print_json(int8_t tabs, const nlohmann::ordered_json &ordered_json_o
     return;
 }
 
+inline std::string get_string_from_name_json_array(const nlohmann::ordered_json &json_array_object,
+                                                   const std::string &search_string) {
+    std::string tmp = json_array_object.at(search_string).dump();
+    size_t pos1 = tmp.find('"');
+    std::string name = tmp.substr(pos1 + 2);
+    size_t pos2 = name.find('"');
+    name = name.substr(0, pos2);
+    return name;
+}
+
+void tanja84dk_test_parse(const nlohmann::ordered_json &json_ordered_object) noexcept {
+    if (!json_ordered_object.empty()) {
+        // fmt::print("\nId\t\tName\n--------------------\n");
+        // std::vector<std::pair<std::string, std::string>> id_name_pairs;
+        menus::print_colum_label("Id\t\tState\tName");
+        for (auto &element : json_ordered_object) {
+            std::string e_Name = get_string_from_name_json_array(element, "Names");
+            std::string e_Id = element.at("Id");
+            std::string e_State = element.at("State");
+            std::string e_Image = element.at("Image");
+
+            // id_name_pairs.push_back(
+            //     std::make_pair(get_string_from_name_json_array(element, "Names"), element.at("Id")));
+
+            fmt::print("{}\t{}\t{}\n", e_Id.substr(0, 12), e_State, e_Name);
+        }
+        // fmt::print("Original Done\n\n");
+
+        // std::sort(id_name_pairs.begin(), id_name_pairs.end(), std::less<std::pair<std::string, std::string>>());
+
+        // for (auto &element : id_name_pairs) {
+        //     fmt::print("{}\t{}\n", element.second.substr(0, 12), element.first);
+        // }
+    }
+}
+
 int main() {
     auto &configuration = Tanja84dk::dockerlib::ConfigClass::get_instance();
+    configuration.set_host("192.168.196.3");
+    configuration.set_port("2375");
     std::string http_path_string = {};
     std::string http_type_string = {};
     std::string http_data_type_string = {};
+    std::string test_for_list = {};
     std::unordered_map<std::string, std::string> containers_local_map = {};
 
     httplib::Headers headers = {{"Content-Type", "application/json"}, {"Accept", "application/json"}};
@@ -114,6 +163,7 @@ int main() {
                 http_path_string = Tanja84dk::dockerlib::api::container::list_all().url_path;
                 containers_local_map.clear();
                 http_data_type_string = Tanja84dk::dockerlib::api::container::list_all().content_type;
+                test_for_list = "container_list";
                 break;
             case 2:
                 get_and_validate_input(container_name_string, "Enter container name or container ID: ");
@@ -200,6 +250,8 @@ int main() {
         sub_menu_choice_int = 0;
     } else if (main_menu_choice_int == menus::main_menu_enum::Networks) {
         std::string network_name_string = {};
+        std::string container_name_string_test = {};
+        std::string data = {};
         fmt::print("\n");
 
         switch (sub_menu_choice_int) {
@@ -222,12 +274,40 @@ int main() {
                 break;
             case 4:
                 // Create Network
+                http_type_string = "POST";
+                http_path_string = "";
+                http_data_type_string = "application/json";
                 break;
             case 5:
                 // Connect a Container to a Network
+                get_and_validate_input(network_name_string, "Enter network name: ");
+                get_and_validate_input(container_name_string_test, "Enter container name or id: ");
+                http_type_string = Tanja84dk::dockerlib::api::network::connect_container_to_network(
+                                       network_name_string, container_name_string_test)
+                                       .request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::connect_container_to_network(
+                                       network_name_string, container_name_string_test)
+                                       .url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::network::connect_container_to_network(
+                                            network_name_string, container_name_string_test)
+                                            .content_type;
                 break;
             case 6:
                 // Disconnect Container from Network
+                get_and_validate_input(network_name_string, "Enter network name: ");
+                get_and_validate_input(container_name_string_test, "Enter container name or id: ");
+                http_type_string = Tanja84dk::dockerlib::api::network::disconnect_container_from_network(
+                                       network_name_string, container_name_string_test)
+                                       .request_type;
+                http_path_string = Tanja84dk::dockerlib::api::network::disconnect_container_from_network(
+                                       network_name_string, container_name_string_test)
+                                       .url_path;
+                http_data_type_string = Tanja84dk::dockerlib::api::network::disconnect_container_from_network(
+                                            network_name_string, container_name_string_test)
+                                            .content_type;
+                data = Tanja84dk::dockerlib::api::network::disconnect_container_from_network(network_name_string,
+                                                                                             container_name_string_test)
+                           .data;
                 break;
             case 99:
                 return EXIT_SUCCESS;
@@ -237,6 +317,17 @@ int main() {
         network_name_string.clear();
         sub_menu_choice_int = 0;
     } else if (main_menu_choice_int == menus::main_menu_enum::About) {
+        switch (sub_menu_choice_int) {
+            case 1:
+                break;
+            case 2:
+                print_all_licenses();
+                break;
+            case 99:
+                return EXIT_SUCCESS;
+            default:
+                return EXIT_FAILURE;
+        }
     }
 
     httplib::Client cli(configuration.get_host(), std::stoi(configuration.get_port()));
@@ -245,12 +336,14 @@ int main() {
         std::cout << "Content-Type: " << res->get_header_value("Content-Type") << '\n';
 
         if (res->get_header_value("Content-Type") == "application/json") {
-            nlohmann::ordered_json json_ordered_object_buffer =
-                Tanja84dk::DockerLib::Client::Tools::get_json(res->body.c_str());
-
-            pretty_print_json(4, json_ordered_object_buffer);
+            if (test_for_list == "container_list") {
+                tanja84dk_test_parse(nlohmann::ordered_json::parse(res->body.c_str()));
+            } else {
+                pretty_print_json(4, Tanja84dk::DockerLib::Client::Tools::get_json(res->body.c_str()));
+            }
         } else {
-            std::cout << "Body: " << res->body << '\n';
+            // std::cout << "Body: " << res->body << '\n';
+            Tanja84dk::client::network::print(res->body.c_str());
         }
     } else {
         std::cerr << "Error: " << res.error() << std::endl;

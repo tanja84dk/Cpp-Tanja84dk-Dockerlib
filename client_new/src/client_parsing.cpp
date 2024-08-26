@@ -18,6 +18,8 @@ std::string get_string_from_name_json_array(nlohmann::ordered_json &json_array_o
 
 ContainerParser::ContainerParser() {}
 
+void ContainerParser::list_images() noexcept { fmt::print("Test"); }
+
 void ContainerParser::parse(nlohmann::ordered_json &json_obj) noexcept {
     this->name_string = internal::get_string_from_name_json_array(json_obj, "Names");
     this->id_string = json_obj.at("Id");
