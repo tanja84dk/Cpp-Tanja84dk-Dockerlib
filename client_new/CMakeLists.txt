@@ -35,8 +35,8 @@ CPMAddPackage(
 CPMAddPackage(
     NAME            cpp-httplib
     GIT_REPOSITORY  https://github.com/yhirose/cpp-httplib
-    VERSION         0.15.3
-    GIT_TAG         v0.15.3
+    VERSION         0.18.7
+    GIT_TAG         v0.18.7
 )
 
 include(cmake/tanja84dk_generate_licenses.cmake)
