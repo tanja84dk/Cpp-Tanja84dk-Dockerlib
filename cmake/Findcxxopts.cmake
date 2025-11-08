@@ -1,7 +1,7 @@
 CPMAddPackage(
     NAME cxxopts
     GIT_REPOSITORY https://github.com/jarro2783/cxxopts
-    VERSION 3.1.1
+    VERSION 3.3.1
     OPTIONS
         "BUILD_TESTING OFF"
         "CXXOPTS_BUILD_EXAMPLES OFF"
